@@ -1,762 +1,670 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MIA — Your AI Clinical Operations Manager | AXIOM</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MIA by AXIOM AI — AI Clinical Operations for Medical Practices | New York</title>
+<meta content="Meet MIA — the AI clinical operations manager by AXIOM AI. 24/7 multilingual phone coverage in real Chinese dialects, automated intake, HIPAA-ready infrastructure. New York." name="description"/>
+<script>
+  function routeLegacyVideoAnchor() {
+    if (location.hash === '#demo' || location.hash === '#founder') {
+      location.replace('#videos');
+    }
+  }
+  routeLegacyVideoAnchor();
+  window.addEventListener('hashchange', routeLegacyVideoAnchor);
+</script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&amp;family=Inter:wght@400;500;600&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
 <style>
-  :root{
-    --navy:#050a16; --navy2:#0a1526; --panel:#0d1a2e; --panel2:#112139;
-    --chrome-hi:#eaf3fb; --chrome-lo:#7f94ac;
-    --blue:#2b8fff; --cyan:#5cc8ff; --glow:rgba(43,143,255,.5);
-    --ink:#dce8f4; --dim:#8ba0b6; --line:rgba(92,200,255,.16);
-    --green:#3ddc84; --amber:#ffc24b;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{background:var(--navy);color:var(--ink);
-       font-family:'Rajdhani','Segoe UI',sans-serif;overflow-x:hidden;position:relative;}
-  body.locked{overflow:hidden;height:100vh;}
-  /* ============ WATER / HORIZON — the real background cropped from the MIA logo art, covering the whole page ============ */
-  body::before{
-    content:'';position:fixed;inset:0;z-index:-1;
-    background:
-      radial-gradient(120% 90% at 50% 40%, rgba(5,10,22,.25), rgba(5,10,22,.7) 85%),
-      url('mia-bg-ambient.jpg') center / cover no-repeat;
-  }
-  .disp{font-family:'Orbitron',sans-serif;}
-  h2.sec{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(1.5rem,3.4vw,2.6rem);
-     letter-spacing:.03em;text-align:center;line-height:1.2;
-     background:linear-gradient(180deg,#fff,#cfe0f0 45%,#6f88a0 60%,#e8f1f8);
-     -webkit-background-clip:text;background-clip:text;color:transparent;}
-  .kicker{text-align:center;color:var(--cyan);letter-spacing:.28em;text-transform:uppercase;
-     font-weight:700;font-size:1.05rem;margin-bottom:.8rem;}
-  .lead{text-align:center;color:var(--dim);max-width:720px;margin:1rem auto 0;
-     font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.6;}
-  section{padding:clamp(3.5rem,8vw,7rem) clamp(1.2rem,5vw,4rem);position:relative;}
-  .wrap{max-width:1180px;margin:0 auto;}
+:root{
+  --bg:#04070f;
+  --bg-2:#0a101d;
+  --panel:rgba(255,255,255,.035);
+  --panel-2:rgba(255,255,255,.06);
+  --line:rgba(148,190,255,.13);
+  --line-strong:rgba(148,190,255,.24);
+  --teal:#2fd6b5;
+  --teal-dim:rgba(47,214,181,.14);
+  --blue:#4f8dff;
+  --ice:#9fd8ff;
+  --ink:#eef3fb;
+  --ink-2:#a7b4c9;
+  --ink-3:#6b7a93;
+  --display:'Michroma','Noto Sans SC',sans-serif;
+  --body:'Inter','Noto Sans SC',sans-serif;
+  --max:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-  /* ============ INTRO OVERLAY (splash -> video -> MIA reveal) ============ */
-  #intro{position:fixed;inset:0;z-index:100;background:var(--navy);
-     display:flex;align-items:center;justify-content:center;transition:opacity 1s ease;}
-  #intro.gone{opacity:0;pointer-events:none;}
+.chrome{
+  font-family:var(--display);
+  background:linear-gradient(180deg,#ffffff 0%,#dfe9f5 22%,#aebfd2 40%,#5d7189 49%,#e8f1fb 54%,#c3d2e2 70%,#f4f9ff 86%,#8fa3ba 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.65)) drop-shadow(0 0 14px rgba(159,216,255,.18));
+  letter-spacing:.06em;
+}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.05em;font-weight:400}
+.eyebrow{font-family:var(--display);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:.6rem}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--teal)}
+.section-title{font-size:clamp(1.5rem,3.4vw,2.45rem);line-height:1.28;margin:1rem 0 1.1rem}
+.section-sub{color:var(--ink-2);max-width:640px;font-size:1.05rem}
 
-  #splash{position:absolute;inset:0;display:flex;flex-direction:column;
-     align-items:center;justify-content:center;cursor:pointer;z-index:3;
-     background:radial-gradient(120% 90% at 50% 40%,#0a1730,#04070f 80%);transition:opacity .8s ease;}
-  #splash.hide{opacity:0;pointer-events:none;}
-  .wordmark{font-family:'Orbitron',sans-serif;font-size:clamp(3rem,9vw,7rem);font-weight:900;
-     letter-spacing:.14em;
-     background:linear-gradient(180deg,#fff 0%,#dbe9f6 30%,#6f88a0 54%,#c7d9ea 62%,#4f6478 80%,#e8f1f8);
-     -webkit-background-clip:text;background-clip:text;color:transparent;
-     filter:drop-shadow(0 2px 16px rgba(43,143,255,.3));}
-  .wordmark .ax{background:linear-gradient(180deg,#bfe4ff,#2b8fff 60%,#9fd6ff);
-     -webkit-background-clip:text;background-clip:text;color:transparent;}
-  .axiom-a-img{width:min(480px,74vw);display:block;margin-bottom:1.1rem;}
-  .axiom-word-img{width:min(400px,64vw);display:block;}
-  #splash small{margin-top:1.1rem;letter-spacing:.35em;font-weight:600;color:#7f94ac;
-     text-transform:uppercase;font-size:1rem;}
-  #splash .go{margin-top:2.8rem;letter-spacing:.28em;font-weight:700;color:var(--cyan);
-     text-transform:uppercase;font-size:1.05rem;animation:pulse 2s ease-in-out infinite;
-     border:1px solid var(--line);padding:.8rem 2rem;border-radius:40px;}
-  @keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+.bg{position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(1000px 700px at 80% -10%, rgba(79,141,255,.13), transparent 60%),
+  radial-gradient(900px 700px at -10% 30%, rgba(47,214,181,.08), transparent 55%),
+  linear-gradient(180deg,#050912 0%,#04070f 45%,#060b16 100%);}
+.bg::after{content:"";position:absolute;inset:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
 
-  #vid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
-     opacity:0;transition:opacity .8s ease;z-index:1;background:#000;}
-  #vid.show{opacity:1;}
-  #skip{position:absolute;bottom:1.6rem;right:1.8rem;z-index:4;color:#9fb6cc;
-     border:1px solid var(--line);background:rgba(8,16,28,.6);border-radius:40px;
-     padding:.55rem 1.4rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
-     font-size:.95rem;cursor:pointer;display:none;backdrop-filter:blur(6px);}
-  #skip.show{display:block;}
-  #skip:hover{color:#fff;border-color:var(--blue);}
+nav{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(4,7,15,.74);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:1.8rem}
+.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.brand img{height:32px;width:auto;display:block;filter:drop-shadow(0 0 10px rgba(159,216,255,.25))}
+.brand .word{height:18px;width:auto;opacity:.95}
+.nav-links{display:flex;gap:1.6rem;align-items:center}
+.nav-links a{color:var(--ink-2);text-decoration:none;font-size:.9rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{display:flex;align-items:center;gap:.9rem}
+.lang-toggle{display:flex;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden}
+.lang-toggle button{background:transparent;border:none;color:var(--ink-3);font-family:var(--body);font-size:.8rem;font-weight:600;padding:.42rem .7rem;cursor:pointer;transition:.2s}
+.lang-toggle button.active{background:var(--teal-dim);color:var(--teal)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--display);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;padding:.85rem 1.5rem;border-radius:10px;text-decoration:none;transition:.22s;cursor:pointer;border:none}
+.btn-primary{background:linear-gradient(135deg,var(--teal),#25b9e6);color:#04231c}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(47,214,181,.28)}
+.btn-ghost{border:1px solid var(--line-strong);color:var(--ink);background:rgba(4,7,15,.35)}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+.btn-sm{padding:.55rem 1rem;font-size:.7rem}
+.menu-btn{display:none;background:none;border:1px solid var(--line-strong);border-radius:8px;color:var(--ink);padding:.45rem .7rem;cursor:pointer;font-size:1.1rem}
+.menu-panel{display:none;position:fixed;top:70px;left:0;right:0;background:rgba(4,7,15,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:1.2rem 1.5rem;z-index:55;flex-direction:column;gap:1rem}
+.menu-panel.open{display:flex}
+.menu-panel a{color:var(--ink-2);text-decoration:none;font-size:1rem;padding:.4rem 0}
+.menu-panel a:hover{color:var(--teal)}
+.banner-hero{position:relative;background:#04070f;overflow:hidden;padding:70px 0 0}
+.banner-hero .banner-wrap{position:relative;min-height:clamp(560px,76svh,900px);max-width:2000px;margin:0 auto;display:flex;align-items:flex-end;background:#04070f url('mia-manhattan-poster.jpg') center/cover no-repeat}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.banner-hero .banner-wrap::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 42%,rgba(4,7,15,.9) 100%);pointer-events:none}
+.hero-message{position:relative;z-index:1;width:min(100%,1180px);margin:0 auto;padding:0 24px clamp(30px,4vw,54px);text-shadow:0 2px 6px #000;animation:hero-enter 1.1s ease-out both}
+.hero-message .hero-kicker{font-family:var(--display);font-size:clamp(.58rem,1vw,.75rem);letter-spacing:.22em;color:#d9eeff;text-transform:uppercase}
+.hero-message h1{font-family:var(--body);font-size:clamp(1.7rem,3vw,2.6rem);font-weight:600;letter-spacing:-.02em;line-height:1.2;max-width:720px;margin:.8rem 0 .55rem}
+.hero-message p{font-size:clamp(.9rem,1.4vw,1.1rem);color:#e1eaf5}
+@keyframes hero-enter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.banner-hero .banner-ctas{position:relative;z-index:3;display:flex;gap:1rem;flex-wrap:wrap;
+  justify-content:center;padding:clamp(16px,2.4vw,30px) 20px clamp(24px,4vw,48px)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-  .btn{font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-     font-size:1rem;color:#eaf3fb;cursor:pointer;border-radius:8px;padding:.9rem 2rem;
-     border:1px solid rgba(92,200,255,.45);background:linear-gradient(165deg,rgba(30,90,150,.5),rgba(15,40,70,.5));
-     transition:all .25s;backdrop-filter:blur(6px);text-decoration:none;display:inline-block;}
-  .btn:hover{border-color:var(--cyan);box-shadow:0 0 22px var(--glow);color:#fff;transform:translateY(-2px);}
-  .btn.primary{background:linear-gradient(165deg,var(--blue),#1657a8);border-color:var(--cyan);}
-  .btn.primary:hover{box-shadow:0 0 30px var(--glow);}
+section{padding:104px 24px;position:relative;overflow:hidden}
+.wrap{max-width:var(--max);margin:0 auto;position:relative;z-index:2}
+.divider{height:1px;max-width:var(--max);margin:0 auto;background:linear-gradient(90deg,transparent,var(--line-strong),transparent)}
 
-  /* ============ NAV ============ */
-  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;
-     gap:1.5rem;padding:.9rem clamp(1.2rem,5vw,4rem);
-     background:rgba(5,10,22,.7);backdrop-filter:blur(12px);
-     border-bottom:1px solid var(--line);transform:translateY(-100%);transition:transform .5s ease;}
-  nav.show{transform:translateY(0);}
-  nav .brand{display:flex;align-items:center;gap:.5rem;}
-  nav .brand img{height:28px;width:auto;display:block;}
-  nav .brand img.a-mark{height:34px;}
-  nav .links{display:flex;gap:1.4rem;margin-left:auto;align-items:center;}
-  nav .links a{color:var(--dim);text-decoration:none;font-weight:600;letter-spacing:.06em;
-     text-transform:uppercase;font-size:.95rem;transition:color .2s;}
-  nav .links a:hover{color:var(--cyan);}
-  nav .links a.cta{color:#fff;background:var(--blue);padding:.5rem 1.1rem;border-radius:6px;}
-  @media(max-width:760px){nav .links a:not(.cta){display:none;}}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:3rem}
+.stat{background:rgba(10,16,29,.85);padding:2rem 1.8rem}
+.stat .num{font-family:var(--display);font-size:2.2rem;
+  background:linear-gradient(120deg,#fff,var(--ice) 55%,var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat p{color:var(--ink-2);font-size:.92rem;margin-top:.5rem}
+.footnote{color:var(--ink-3);font-size:.78rem;margin-top:1.1rem}
 
-  /* ============ HERO ============ */
-  #hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:5.5rem;}
-  #hero .wrap{width:100%;}
-  #hero .hero-mia{width:min(880px,94vw);display:block;margin:0 auto 2.2rem;border-radius:14px;
-     border:1px solid var(--line);box-shadow:0 0 70px rgba(43,143,255,.28);}
-  #hero .hero-caps{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem 1.2rem;max-width:1050px;margin:0 auto 2.2rem;}
-  #hero .hero-caps div{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(1rem,1.6vw,1.25rem);
-     letter-spacing:.06em;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:.7rem .5rem;
-     background:rgba(13,26,46,.55);}
-  #hero .hero-caps div::before{content:'\25B8  ';color:var(--cyan);}
-  @media(max-width:860px){#hero .hero-caps{grid-template-columns:repeat(2,1fr);}}
+.mia-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:3.4rem;align-items:start;margin-top:2.6rem}
+.mia-points{display:flex;flex-direction:column;gap:1.15rem;margin-top:1.8rem}
+.mia-point{display:flex;gap:1rem;align-items:flex-start}
+.mia-point .tick{width:26px;height:26px;border-radius:8px;background:var(--teal-dim);color:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.15rem;font-size:.85rem}
+.mia-point b{display:block;color:var(--ink);font-weight:600}
+.mia-point span{color:var(--ink-2);font-size:.95rem}
+.guardrail{border:1px solid var(--line-strong);border-radius:18px;padding:2rem;background:linear-gradient(160deg,rgba(47,214,181,.07),rgba(79,141,255,.06));position:sticky;top:100px;backdrop-filter:blur(4px)}
+.guardrail .gr-head{display:flex;align-items:center;gap:.7rem;font-family:var(--display);font-size:.85rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;color:var(--teal)}
+.guardrail p{color:var(--ink-2);font-size:.95rem}
+.guardrail p+p{margin-top:.8rem}
+.guardrail .rule{margin-top:1.4rem;padding:1rem 1.2rem;border-radius:12px;background:rgba(4,7,15,.55);border:1px solid var(--line);font-size:.92rem;color:var(--ink)}
 
-  #hero .badge{display:inline-block;color:var(--cyan);border:1px solid var(--line);
-     border-radius:40px;padding:.4rem 1.1rem;letter-spacing:.16em;text-transform:uppercase;
-     font-weight:700;font-size:.92rem;margin-bottom:1.4rem;background:rgba(43,143,255,.08);}
-  #hero h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(2.1rem,5.4vw,4rem);
-     line-height:1.08;letter-spacing:.01em;max-width:16ch;
-     background:linear-gradient(180deg,#fff,#cfe0f0 55%,#8199b0);
-     -webkit-background-clip:text;background-clip:text;color:transparent;}
-  #hero h1 .hl{background:linear-gradient(180deg,#bfe4ff,#2b8fff);-webkit-background-clip:text;
-     background-clip:text;color:transparent;}
-  #hero p.sub{font-size:clamp(1.05rem,1.8vw,1.4rem);color:#c2d4e6;max-width:44ch;margin-top:1.3rem;
-     line-height:1.55;font-weight:500;}
-  #hero .cta-row{margin-top:2.2rem;display:flex;gap:1rem;flex-wrap:wrap;}
+.lang-count{display:flex;flex-wrap:wrap;gap:1rem;margin:2.2rem 0 .6rem}
+.lang-count div{flex:1 1 240px;border:1px solid var(--line-strong);border-radius:16px;padding:1.5rem 1.7rem;background:rgba(10,16,29,.72)}
+.lang-count .n{font-family:var(--display);font-size:clamp(2rem,5vw,3.1rem);line-height:1;color:var(--teal)}
+.lang-count .t{color:var(--ink-2);font-size:.95rem;margin-top:.6rem}
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-top:2.6rem}
+.lang-card{border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem;background:rgba(10,16,29,.72);text-align:center;transition:.25s}
+.lang-card:hover{border-color:var(--teal);transform:translateY(-3px)}
+.lang-card .native{font-size:1.25rem;font-weight:600}
+.lang-card .name{color:var(--ink-3);font-size:.78rem;margin-top:.35rem;letter-spacing:.08em;text-transform:uppercase}
+.lang-note{margin-top:2rem;color:var(--ink-2);font-size:1rem;max-width:680px}
+.lang-note b{color:var(--teal)}
 
-  /* ============ STAT BAR ============ */
-  #stats{background:rgba(10,21,38,.82);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-     padding:2.4rem clamp(1.2rem,5vw,4rem);}
-  #stats .row{max-width:1180px;margin:0 auto;display:grid;
-     grid-template-columns:repeat(4,1fr);gap:1.5rem;text-align:center;}
-  #stats .v{font-family:'Orbitron',sans-serif;font-weight:800;font-size:clamp(1.4rem,3vw,2.3rem);
-     letter-spacing:.06em;
-     background:linear-gradient(180deg,#cfeaff,#2b8fff);-webkit-background-clip:text;background-clip:text;color:transparent;}
-  #stats .k{color:var(--dim);font-size:.94rem;letter-spacing:.1em;text-transform:uppercase;
-     font-weight:600;margin-top:.3rem;}
-  #stats a{color:inherit;text-decoration:none;}
-  @media(max-width:720px){#stats .row{grid-template-columns:repeat(2,1fr);gap:1.8rem;}}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.4rem;margin-top:3rem}
+.why-card{border:1px solid var(--line);border-radius:16px;padding:1.9rem;background:rgba(10,16,29,.72)}
+.why-card .icon{width:40px;height:40px;border-radius:10px;background:rgba(79,141,255,.12);color:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;font-size:1.1rem}
+.why-card h3{font-size:.92rem;margin-bottom:.55rem}
+.why-card p{color:var(--ink-2);font-size:.9rem}
 
-  /* ============ generic cards ============ */
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;margin-top:2.6rem;}
-  .card{background:linear-gradient(165deg,var(--panel),var(--panel2));border:1px solid var(--line);
-     border-radius:14px;padding:1.6rem;box-shadow:0 16px 38px rgba(0,0,0,.35);transition:all .25s;}
-  .card:hover{border-color:rgba(92,200,255,.4);transform:translateY(-4px);box-shadow:0 22px 48px rgba(0,0,0,.45);}
-  .card .ico{font-size:1.5rem;margin-bottom:.7rem;}
-  .card h3{font-size:1.15rem;font-weight:700;color:#dbeaf8;letter-spacing:.02em;margin-bottom:.5rem;}
-  .card p{color:var(--dim);font-size:.94rem;line-height:1.55;}
-  .card ul{list-style:none;margin-top:.6rem;}
-  .card ul li{color:#b6c8da;font-size:.9rem;padding:.2rem 0 .2rem 1.1rem;position:relative;}
-  .card ul li::before{content:'';position:absolute;left:0;top:.6rem;width:.4rem;height:.4rem;
-     background:var(--cyan);border-radius:1px;box-shadow:0 0 6px var(--cyan);}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3rem}
+.step{border:1px solid var(--line);border-radius:16px;padding:2rem;background:rgba(10,16,29,.72)}
+.step .n{font-family:var(--display);font-size:.72rem;letter-spacing:.2em;color:var(--teal);margin-bottom:1rem;display:block}
+.step h3{font-size:.95rem;margin-bottom:.55rem}
+.step p{color:var(--ink-2);font-size:.92rem}
 
-  .alt{background:rgba(10,21,38,.82);}
+.film{margin-top:2.6rem;position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line-strong);background:#060b16;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.film video{width:100%;display:block;aspect-ratio:16/9;background:#060b16}
+.film .film-cover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;cursor:pointer;background:linear-gradient(180deg,rgba(4,7,15,.4),rgba(4,7,15,.75));transition:opacity .4s}
+.film .film-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45;z-index:0}
+.film .play{position:relative;z-index:1;width:84px;height:84px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(4,7,15,.55);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 35px rgba(0,0,0,.35)}
+.film .play svg{width:28px;height:28px;color:#fff;margin-left:3px}
+.film .film-cover.hidden{opacity:0;pointer-events:none}
+.film .film-cover .label{position:relative;z-index:1;font-family:var(--display);font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);opacity:.95}
 
-  /* ops-manager split */
-  .split{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;}
-  @media(max-width:860px){.split{grid-template-columns:1fr;}}
-  .split h2{text-align:left;}
-  .split .kicker{text-align:left;}
-  .monitor{background:linear-gradient(165deg,var(--panel),var(--panel2));border:1px solid var(--line);
-     border-radius:16px;padding:1.6rem;box-shadow:0 20px 44px rgba(0,0,0,.4);}
-  .monitor .row{display:flex;justify-content:space-between;align-items:center;
-     padding:.7rem 0;border-bottom:1px dashed rgba(92,200,255,.12);font-size:.95rem;}
-  .monitor .row:last-child{border-bottom:none;}
-  .monitor .dot{width:.55rem;height:.55rem;border-radius:50%;display:inline-block;margin-right:.5rem;}
-  .g{background:var(--green);box-shadow:0 0 8px var(--green);}
-  .a{background:var(--amber);box-shadow:0 0 8px var(--amber);}
-  .monitor .tag{color:var(--dim);font-size:.95rem;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.4rem;margin-top:2.8rem;align-items:start}
+.field{margin-bottom:1.1rem}
+.field label{display:block;font-size:.82rem;font-weight:600;color:var(--ink-2);margin-bottom:.4rem;letter-spacing:.04em}
+.field input,.field textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line-strong);border-radius:10px;padding:.85rem 1rem;color:var(--ink);font-family:var(--body);font-size:.95rem;transition:border-color .2s}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--teal)}
+.field textarea{min-height:130px;resize:vertical}
+.contact-side{border:1px solid var(--line);border-radius:18px;padding:2.2rem;background:rgba(10,16,29,.72)}
+.contact-side h3{font-size:1rem;margin-bottom:1rem}
+.contact-side p{color:var(--ink-2);font-size:.95rem;margin-bottom:1.4rem}
+.contact-line{display:flex;align-items:center;gap:.8rem;padding:.9rem 0;border-top:1px solid var(--line);color:var(--ink-2);font-size:.95rem}
+.contact-line svg{color:var(--teal);flex-shrink:0}
+.contact-line a{color:var(--ink);text-decoration:none;font-weight:500}
+.contact-line a:hover{color:var(--teal)}
+.form-note{font-size:.82rem;color:var(--ink-3);margin-top:.9rem}
 
-  /* value props */
-  .vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.1rem;margin-top:2.6rem;}
-  .vp{display:flex;gap:1rem;padding:1.3rem;border-radius:12px;background:var(--panel);border:1px solid var(--line);}
-  .vp .n{font-family:'Orbitron',sans-serif;font-weight:800;font-size:1.4rem;color:var(--blue);flex-shrink:0;
-     width:2.4rem;}
-  .vp h4{font-size:1.02rem;color:#dbeaf8;margin-bottom:.25rem;font-weight:700;}
-  .vp p{color:var(--dim);font-size:.9rem;line-height:1.5;}
+footer{border-top:1px solid var(--line);padding:2.5rem 24px;text-align:center;color:var(--ink-3);font-size:.9rem}
+footer a{color:var(--teal);text-decoration:none}
+footer .logo-row{display:flex;justify-content:center;align-items:center;gap:.8rem;margin-bottom:1rem}
+footer .logo-row img{height:28px}
 
-  /* multilingual */
-  #lang{background:linear-gradient(160deg,#081428,#0c1c38);}
-  .chips-lang{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-top:2rem;max-width:820px;
-     margin-left:auto;margin-right:auto;}
-  .chips-lang span{border:1px solid var(--line);border-radius:40px;padding:.5rem 1.1rem;
-     color:#bcd2e8;font-weight:600;font-size:.85rem;letter-spacing:.04em;background:rgba(43,143,255,.06);}
-  .chips-lang span.edge{border-color:var(--cyan);color:#fff;box-shadow:0 0 16px var(--glow);
-     background:rgba(43,143,255,.18);}
-
-  /* FAQ */
-  .faq{max-width:840px;margin:2.6rem auto 0;}
-  details{border:1px solid var(--line);border-radius:12px;margin-bottom:.8rem;background:var(--panel);
-     overflow:hidden;}
-  details[open]{border-color:rgba(92,200,255,.4);}
-  summary{padding:1.1rem 1.4rem;cursor:pointer;font-weight:700;color:#dbeaf8;font-size:1.02rem;
-     list-style:none;display:flex;justify-content:space-between;align-items:center;}
-  summary::-webkit-details-marker{display:none;}
-  summary::after{content:'+';color:var(--cyan);font-size:1.4rem;font-weight:400;transition:transform .2s;}
-  details[open] summary::after{transform:rotate(45deg);}
-  details p{padding:0 1.4rem 1.2rem;color:var(--dim);line-height:1.6;font-size:.96rem;}
-
-  /* final CTA */
-  #cta{background:radial-gradient(120% 120% at 50% 0%,#0e2145,#04070f 75%);text-align:center;}
-  #cta h2{margin-bottom:1rem;}
-  #cta .cta-row{margin-top:2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
-  .compliance-note{max-width:820px;margin:2.4rem auto 0;padding:1.1rem 1.4rem;border-radius:12px;
-     border:1px solid var(--line);background:rgba(10,20,38,.6);color:#8ba0b6;font-size:.95rem;line-height:1.55;}
-
-  footer{background:rgba(5,10,22,.88);border-top:1px solid var(--line);padding:2.4rem clamp(1.2rem,5vw,4rem);
-     text-align:center;color:#5b6f84;font-size:.95rem;letter-spacing:.06em;}
-  footer .fbrand{font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:.14em;
-     font-size:1.05rem;margin-bottom:.6rem;
-     background:linear-gradient(180deg,#eaf3fb,#7f94ac);-webkit-background-clip:text;background-clip:text;color:transparent;}
-  footer .fbrand b{color:var(--blue);-webkit-text-fill-color:var(--blue);}
-
-  /* reveal-on-scroll */
-  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease;}
-  .reveal.in{opacity:1;transform:translateY(0);}
+@media(max-width:900px){
+  .mia-grid,.contact-grid{grid-template-columns:1fr}
+  .guardrail{position:static;margin-top:2rem}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  nav{background:rgba(4,7,15,.9)}
+  .nav-inner{padding:0 16px;height:64px}
+  .nav-links{display:none}
+  .menu-btn{display:inline-flex;align-items:center;justify-content:center}
+  .section-title{font-size:1.7rem}
+  .stats{grid-template-columns:1fr 1fr}
+  .lang-count div{flex-basis:100%}
+  .banner-hero .banner-ctas .btn{width:100%;justify-content:center}
+  .banner-hero{padding-top:64px}
+  .banner-hero .banner-wrap{min-height:70svh;background-position:55% center}
+  .hero-video{object-position:55% center}
+  .hero-message{padding:0 20px 30px}
+  .hero-message h1{font-family:var(--body);font-size:clamp(1.25rem,5vw,1.65rem);font-weight:600;letter-spacing:0;max-width:320px}
+}
+@media(prefers-reduced-motion:reduce){.hero-message{animation:none}}
+@media(max-width:480px){
+  section{padding:84px 16px}
+  .stats{grid-template-columns:1fr}
+  .contact-line{font-size:.9rem}
+}
+</style>
+<style id="embedded-video-gallery">
+#videos{padding:71px 0 0;margin:0;width:100%;height:100dvh;overflow:hidden}
+#videos > iframe{display:block;width:100%;height:100%;border:0}
+body.video-gallery-modal-open{overflow:hidden}
+</style>
+<style id="capabilities-background">
+#capabilities{
+  background-image:url("page4bg.png");
+  background-position:center center;
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+</style>
+<style id="languages-background">
+#why{
+  background-image:linear-gradient(180deg,rgba(3,12,38,.82),rgba(4,20,60,.70) 52%,rgba(2,9,28,.84)),url("page5bg.png");
+  background-position:center center;
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+#languages .eyebrow{color:#70f5e1;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+#languages .section-title.chrome{background-image:linear-gradient(180deg,#fff 0%,#e2efff 40%,#b8d4f5 49%,#f5faff 54%,#c6dffb 100%)}
+#languages .section-sub,#languages .lang-note{color:#edf5ff;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+#languages .lang-count > div,#languages .lang-card{background:rgba(4,15,34,.92)}
+#languages .lang-count .t,#languages .lang-card .name{color:#e2edfc}
+#languages .lang-card .native{color:#fff}
+</style>
+<style id="capabilities-readability-fit">
+#capabilities{
+  padding-top:40px;
+  padding-bottom:40px;
+}
+#capabilities .section-title{margin-top:.5rem;margin-bottom:.7rem}
+#capabilities .section-sub{max-width:760px}
+#capabilities .stats{margin-top:1.5rem}
+#capabilities .stat{padding-top:1.35rem;padding-bottom:1.35rem}
+#capabilities .section-sub,#capabilities .stat p{color:#dce9fa}
+#capabilities .footnote{margin-top:.65rem;color:#f0f7ff;text-shadow:0 1px 3px rgba(0,0,0,.8);background:linear-gradient(90deg,rgba(3,12,30,.86),rgba(3,12,30,.78));border-radius:6px}
+#capabilities .mia-grid{
+  margin-top:1.25rem;
+  padding:1.15rem 1.25rem;
+  border-radius:18px;
+  background:rgba(2,7,18,.78);
+  box-shadow:0 16px 40px rgba(0,0,0,.18);
+}
+#capabilities .mia-points{margin-top:.35rem;gap:.75rem}
+#capabilities .mia-point b{color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.7)}
+#capabilities .mia-point span{color:#f0f7ff;text-shadow:0 1px 2px rgba(0,0,0,.7)}
+#capabilities .guardrail{
+  padding:1.35rem;
+  background:rgba(3,10,26,.90);
+  border-color:rgba(159,216,255,.3);
+  box-shadow:0 14px 34px rgba(0,0,0,.28);
+}
+#capabilities .guardrail .gr-head{color:#82f9ed;text-shadow:0 1px 2px rgba(0,0,0,.7)}
+#capabilities .guardrail p{color:#f0f7ff;text-shadow:0 1px 2px rgba(0,0,0,.7)}
+#capabilities .guardrail .rule{background:rgba(1,5,14,.82);color:#fff}
+@media (min-width:901px) and (max-height:800px){
+  #capabilities{padding-top:20px;padding-bottom:20px}
+  #capabilities .section-title{font-size:clamp(1.5rem,3.1vw,2.15rem);margin-top:.25rem;margin-bottom:.45rem}
+  #capabilities .section-sub{font-size:1rem;max-width:820px}
+  #capabilities .stats{margin-top:1rem}
+  #capabilities .stat{padding-top:1rem;padding-bottom:1rem}
+  #capabilities .footnote{margin-top:.4rem}
+  #capabilities .mia-grid{margin-top:.8rem;padding:.8rem 1rem}
+  #capabilities .mia-points{margin-top:0;gap:.55rem}
+  #capabilities .guardrail{padding:1rem}
+}
 </style>
 </head>
-<body class="locked">
-
-<!-- ============ INTRO: splash -> video -> MIA reveal ============ -->
-<div id="intro">
-  <video id="vid" playsinline preload="auto">
-    <source src="AXIOM-LP4.mp4" type="video/mp4">
-  </video>
-  <button id="skip">Skip &raquo;</button>
-
-  <div id="splash">
-    <img class="axiom-a-img" src="AXIOM-A.png" alt="AXIOM A">
-    <img class="axiom-word-img" src="AXIOM-WORDMARK.png" alt="AXIOM"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
-    <span class="wordmark" style="display:none"><span class="ax">A</span>XIOM</span>
-    <small>AI Infrastructure &middot; Private Practice</small>
-    <div class="go">Click to Begin</div>
-  </div>
+<body>
+<div aria-hidden="true" class="bg"></div>
+<nav>
+<div class="nav-inner">
+<a class="brand" href="#top">
+<img alt="AXIOM" src="AXIOM-A.png"/>
+<img alt="AXIOM" class="word" src="AXIOM-WORDMARK.png"/>
+</a>
+<div class="nav-links">
+<a href="#data-stats">Stats</a>
+<a href="#videos">See MIA in Action</a>
+<a href="#capabilities">Capabilities</a>
+<a href="#languages">Languages</a>
+<a href="#why">Why Now</a>
+<a href="#contact">Contact</a>
 </div>
-
-<!-- ============ NAV ============ -->
-<nav id="nav">
-  <span class="brand"><img class="a-mark" src="AXIOM-A.png" alt=""><img src="AXIOM-WORDMARK.png" alt="AXIOM"></span>
-  <div class="links">
-    <a href="#capabilities">Capabilities</a>
-    <a href="#ops">Office Manager</a>
-    <a href="#why">Why Now</a>
-    <a href="#lang">Languages</a>
-    <a href="#faq">FAQ</a>
-    <a href="#contact">Contact</a>
-    <a class="cta" href="#contact">Start Your Pilot</a>
-  </div>
+<div class="nav-cta">
+<div aria-label="Language" class="lang-toggle" role="group">
+<button class="active" data-lang="en" onclick="window.location.href='/zh/'" type="button">中文</button>
+<button data-lang="zh" type="button">中文</button>
+</div>
+<button aria-label="Menu" class="menu-btn" id="menuBtn" type="button">☰</button>
+</div>
+</div>
 </nav>
-
-<!-- ============ HERO ============ -->
-<header id="hero">
-  <div class="wrap" style="text-align:center">
-    <img class="hero-mia" src="MIA-LOGO.png" alt="MIA — Medical Intelligence Architect">
-    <div style="max-width:820px;margin:0 auto 2.4rem;">
-      <p style="font-family:'Orbitron',sans-serif;font-weight:800;letter-spacing:.01em;
-         font-size:clamp(1.4rem,3.6vw,2.1rem);line-height:1.35;
-         background:linear-gradient(180deg,#fff,#cfeaff 45%,#2b8fff);-webkit-background-clip:text;
-         background-clip:text;color:transparent;margin-bottom:1rem;">
-        The only AI Clinical Operations Manager that speaks 100+ languages and 22+ Chinese dialects.
-        The only one backed by a $1M liability policy.
-      </p>
-      <p style="font-size:clamp(1.05rem,1.8vw,1.3rem);color:#c2d4e6;line-height:1.55;">
-        That's why we spend the extra time making sure she never hallucinates &mdash; and always speaks honestly.
-      </p>
-    </div>
-    <div class="cta-row" style="justify-content:center">
-      <a class="btn primary" href="#contact">Start Your Pilot</a>
-      <button class="btn" id="hearMia" type="button">&#9654; Hear MIA</button>
-      <a class="btn" href="#capabilities">See What MIA Does</a>
-    </div>
-    <audio id="miaAudio" src="MIA-CALL.mp3" preload="none"></audio>
-    <script>
-    (function(){
-      const a=document.getElementById('miaAudio');
-      const buttons=[document.getElementById('hearMia'), document.getElementById('hearMia2')].filter(Boolean);
-      buttons.forEach(b=>{
-        b.addEventListener('click',()=>{
-          if(a.paused){a.play();buttons.forEach(x=>x.innerHTML='&#9646;&#9646; Playing&hellip;');}
-          else{a.pause();a.currentTime=0;buttons.forEach(x=>x.innerHTML='&#9654; Hear MIA');}
-        });
-      });
-      a.addEventListener('ended',()=>{buttons.forEach(x=>x.innerHTML='&#9654; Hear MIA');});
-    })();
-    </script>
-  </div>
-</header>
-
-<!-- ============ STAT BAR ============ -->
-<div id="stats">
-  <div class="row">
-    <div><div class="v">24/7</div><div class="k">Always Working the Desk</div></div>
-    <div>
-      <a href="https://www.ama-assn.org/practice-management/digital-health/more-80-physicians-use-ai-professionally-ama-survey" target="_blank" rel="noopener">
-        <div class="v">81%</div><div class="k">Physicians Use AI &middot; AMA 2026</div></a>
-    </div>
-    <div><div class="v">100+</div><div class="k">Languages &middot; 22+ Chinese Dialects</div></div>
-    <div><div class="v">$1M</div><div class="k">Liability Policy Backing</div></div>
-  </div>
+<div class="menu-panel" id="menuPanel">
+<a href="#data-stats">Stats</a>
+<a href="#videos">See MIA in Action</a>
+<a href="#capabilities">Capabilities</a>
+<a href="#languages">Languages</a>
+<a href="#why">Why Now</a>
+<a href="#contact">Contact</a>
 </div>
-
-<!-- ============ $1M CALLOUT — impossible to miss ============ -->
-<section class="reveal" style="padding:clamp(2.4rem,5vw,3.5rem) clamp(1.2rem,5vw,4rem);">
-  <div class="wrap" style="max-width:900px;">
-    <div style="border:2px solid var(--cyan);border-radius:18px;padding:clamp(1.6rem,4vw,2.6rem);
-       background:linear-gradient(165deg,rgba(43,143,255,.14),rgba(13,26,46,.75));
-       box-shadow:0 0 50px rgba(43,143,255,.28);text-align:center;">
-      <div style="font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:.02em;
-         font-size:clamp(2.2rem,6vw,3.4rem);line-height:1.05;
-         background:linear-gradient(180deg,#fff,#cfeaff 40%,#2b8fff);-webkit-background-clip:text;
-         background-clip:text;color:transparent;margin-bottom:.6rem;">
-        AXIOM Backs MIA With a $1M Liability Policy
-      </div>
-      <p style="font-size:clamp(1.05rem,2vw,1.3rem);color:#dbeaf8;max-width:640px;margin:0 auto;line-height:1.55;">
-        No answering service. No other AI receptionist in this space. Nobody else stands behind their AI with real coverage &mdash; AXIOM does.
-      </p>
-    </div>
-  </div>
+<header class="banner-hero" id="top">
+<div class="banner-wrap">
+<video class="hero-video" id="heroVideo" muted loop playsinline preload="none" poster="mia-manhattan-poster.jpg" aria-hidden="true">
+<source src="mia-manhattan-mobile.mp4" type="video/mp4" media="(max-width:700px)"/>
+<source src="mia-manhattan-desktop.mp4" type="video/mp4"/>
+</video>
+<div class="hero-message">
+<div class="hero-kicker">MIA by AXIOM AI</div>
+<h1>Every patient call. Answered.</h1>
+<p>Around the clock for physician practices.</p>
+</div>
+</div>
+</header>
+<script>
+  const heroVideo = document.getElementById('heroVideo');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function syncHeroMotion() {
+    if (reducedMotion.matches) heroVideo.pause();
+    else heroVideo.play().catch(() => {}); // ponytail: browser autoplay limits; poster remains if playback is blocked.
+  }
+  syncHeroMotion();
+  reducedMotion.addEventListener('change', syncHeroMotion);
+</script>
+<style id="page2-readable">
+#data-stats{padding:0;scroll-margin-top:70px;background:radial-gradient(ellipse at 50% 35%,#102f50,#061527 75%);display:flex;justify-content:center}
+#data-stats .statpg-stage{position:relative;width:100%;max-width:1241px;aspect-ratio:1241/833;margin:0;container-type:inline-size}
+#data-stats .statpg-art{display:block;width:100%;height:auto}
+#data-stats .statpg-copy{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:auto;min-height:var(--h);background:#040e1e;padding:0 2px;overflow:visible}
+#data-stats .statpg-copy h3{font-family:Arial,sans-serif;font-size:clamp(11px,1.13cqw,14px);font-weight:500;line-height:1.15;letter-spacing:0;color:#9ab6d7;margin:0 0 4px}
+#data-stats .statpg-copy p{font-family:Arial,sans-serif;font-size:clamp(12px,1.21cqw,15px);font-weight:400;line-height:1.23;letter-spacing:0;color:#ecf3ff;margin:0}
+#data-stats .statpg-value,#data-stats .statpg-mobile-title,#data-stats .statpg-icon{display:none}
+#data-stats .statpg-source-mask{position:absolute;left:4%;width:94%;height:2.7%;background:#040e1e}
+#data-stats .statpg-source-mask.row-two{top:65%}
+#data-stats .statpg-source-mask.row-three{top:86.8%}
+#data-stats .statpg-footnote{position:absolute;left:13%;top:95.5%;width:80%;height:2.8%;margin:0;background:#030b19;color:#9ab6d7;font:clamp(9px,.88cqw,11px)/1.4 Arial,sans-serif;text-align:center}
+@media(min-width:901px){
+#data-stats .statpg-stage{width:min(100%,calc((100svh - 71px) * 1241 / 833))}
+}
+@media(max-width:900px){
+#data-stats{padding:20px 14px;scroll-margin-top:70px}
+#data-stats .statpg-stage{aspect-ratio:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#24435f;border:1px solid #24435f}
+#data-stats .statpg-art,#data-stats .statpg-source-mask{display:none}
+#data-stats .statpg-mobile-title{display:block;grid-column:1/-1;background:#061527;color:#e7f3ff;margin:0;padding:20px 12px;text-align:center;font:600 25px/1.2 Arial,sans-serif}
+#data-stats .statpg-mobile-title small{display:block;font-size:12px;margin-top:8px;color:#a4c9ee}
+#data-stats .statpg-copy{position:static;width:auto;height:auto;padding:16px 12px;background:#040e1e}
+#data-stats .statpg-icon{display:block;width:46px;height:46px;background-image:url(statpg.png);background-size:806.65px 541.45px;margin-bottom:8px}
+#data-stats .statpg-value{display:block;font:600 clamp(21px,5vw,36px)/1.2 Arial,sans-serif;color:#e7f3ff;margin-bottom:10px}
+#data-stats .statpg-copy h3{font-size:13px;line-height:1.25}
+#data-stats .statpg-copy p{font-size:14px;line-height:1.45}
+#data-stats .statpg-footnote{position:static;grid-column:1/-1;width:auto;height:auto;padding:12px;font-size:11px}
+}
+</style>
+<section id="data-stats" aria-label="We love data — real numbers, real results">
+<div class="statpg-stage">
+<img class="statpg-art" src="statpg.png" alt="WE LOVE DATA. REAL NUMBERS. REAL RESULTS. AXIOM statistics artwork."/>
+<h2 class="statpg-mobile-title">WE LOVE DATA<small>REAL NUMBERS. REAL RESULTS.</small></h2>
+<div class="statpg-source-mask row-two" aria-hidden="true"></div>
+<div class="statpg-source-mask row-three" aria-hidden="true"></div>
+<div class="statpg-copy" style="--x:7.010475423045931%;--y:38.17527010804322%;--w:14.746172441579372%;--h:8.883553421368548%"><span class="statpg-icon" aria-hidden="true" style="background-position:-11.05px -202.15px"></span><span class="statpg-value">24/7 · 365</span><h3>MIA NEVER SLEEPS.</h3><p>Always available. Every call. Every time.</p></div>
+<div class="statpg-copy" style="--x:29.411764705882355%;--y:38.17527010804322%;--w:10.394842868654312%;--h:8.883553421368548%"><span class="statpg-icon" aria-hidden="true" style="background-position:-185.9px -199.55px"></span><span class="statpg-value">100+</span><h3>LANGUAGES</h3><p>Communicate seamlessly.</p></div>
+<div class="statpg-copy" style="--x:42.38517324738114%;--y:38.17527010804322%;--w:15.63255439161966%;--h:8.883553421368548%"><span class="statpg-icon" aria-hidden="true" style="background-position:-408.2px -154.05px"></span><span class="statpg-value">22</span><h3>CHINESE DIALECTS</h3><p>She speaks your patient’s language.</p></div>
+<div class="statpg-copy" style="--x:64.70588235294117%;--y:38.17527010804322%;--w:11.68412570507655%;--h:8.883553421368548%"><span class="statpg-icon" aria-hidden="true" style="background-position:-475.8px -202.15px"></span><span class="statpg-value">$0</span><h3>YOU PAY</h3><p>If we don’t meet your expectations.</p></div>
+<div class="statpg-copy" style="--x:83.80338436744562%;--y:37.935174069627855%;--w:14.182111200644643%;--h:9.243697478991598%"><span class="statpg-icon" aria-hidden="true" style="background-position:-625.95px -202.15px"></span><span class="statpg-value">$1,000,000</span><h3>LIABILITY INSURANCE</h3><p>Axiom provides $1 million in liability coverage.</p></div>
+<div class="statpg-copy" style="--x:6.768734891216761%;--y:56.78271308523409%;--w:14.987912973408541%;--h:8.16326530612245%"><span class="statpg-icon" aria-hidden="true" style="background-position:-9.75px -304.85px"></span><span class="statpg-value">15,791</span><h3>HOURS RECLAIMED</h3><p>Physician documentation time saved.</p></div>
+<div class="statpg-copy" style="--x:28.444802578565675%;--y:56.30252100840336%;--w:11.120064464141821%;--h:8.763505402160865%"><span class="statpg-icon" aria-hidden="true" style="background-position:-185.25px -304.85px"></span><span class="statpg-value">80%</span><h3>DOCTORS NOW USING AI</h3><p>In some way in their practice.</p></div>
+<div class="statpg-copy" style="--x:46.494762288477034%;--y:56.182472989195674%;--w:11.603545527800161%;--h:9.003601440576231%"><span class="statpg-icon" aria-hidden="true" style="background-position:-329.55px -302.90000000000003px"></span><span class="statpg-value">8</span><h3>EXTRA PATIENTS EACH WEEK</h3><p>Increase capacity and practice growth.</p></div>
+<div class="statpg-copy" style="--x:63.65834004834811%;--y:56.78271308523409%;--w:12.731668009669622%;--h:8.403361344537815%"><span class="statpg-icon" aria-hidden="true" style="background-position:-473.85px -306.15000000000003px"></span><span class="statpg-value">95%+</span><h3>FIRST-PASS ACCEPTANCE</h3><p>Clean claim rate with AI RCM.</p></div>
+<div class="statpg-copy" style="--x:83.80338436744562%;--y:56.542617046818734%;--w:14.182111200644643%;--h:8.763505402160865%"><span class="statpg-icon" aria-hidden="true" style="background-position:-627.9px -305.5px"></span><span class="statpg-value">25–50%</span><h3>FEWER DENIALS</h3><p>Denial rates reduced across the revenue cycle with AI.</p></div>
+<div class="statpg-copy" style="--x:7.574536663980661%;--y:76.5906362545018%;--w:14.26269137792103%;--h:10.204081632653061%"><span class="statpg-icon" aria-hidden="true" style="background-position:-11.05px -416.65000000000003px"></span><span class="statpg-value">60%</span><h3>FASTER CLAIMS PROCESSING</h3><p>Claims processed significantly faster with AI.</p></div>
+<div class="statpg-copy" style="--x:28.52538275584206%;--y:76.83073229291718%;--w:11.281224818694602%;--h:9.963985594237695%"><span class="statpg-icon" aria-hidden="true" style="background-position:-185.9px -419.25px"></span><span class="statpg-value">15–25</span><h3>DAYS FASTER PAYMENT</h3><p>Fewer days in A/R. Get paid 2–3 weeks faster on average.</p></div>
+<div class="statpg-copy" style="--x:46.494762288477034%;--y:76.83073229291718%;--w:11.603545527800161%;--h:9.963985594237695%"><span class="statpg-icon" aria-hidden="true" style="background-position:-328.90000000000003px -415.35px"></span><span class="statpg-value">94–98%</span><h3>CLEAN CLAIM RATES</h3><p>With AI, clean claim rates jump to 94–98%.</p></div>
+<div class="statpg-copy" style="--x:63.65834004834811%;--y:76.83073229291718%;--w:12.651087832393232%;--h:9.963985594237695%"><span class="statpg-icon" aria-hidden="true" style="background-position:-476.45px -415.35px"></span><span class="statpg-value">85–92%</span><h3>DENIAL PREDICTION ACCURACY</h3><p>AI flags potential denials with high accuracy.</p></div>
+<div class="statpg-copy" style="--x:85.4149879129734%;--y:74.54981992797119%;--w:12.570507655116842%;--h:12.48499399759904%"><span class="statpg-icon" aria-hidden="true" style="background-position:-641.5500000000001px -419.25px"></span><span class="statpg-value">1/3</span><h3>PRACTICES USING AI</h3><p>About one-third of medical practices use AI for coding and charge review.</p></div>
+<p class="statpg-footnote">Sources include AMA, NEJM Catalyst, TPMG, and published healthcare AI &amp; RCM studies. Sources available upon request.</p>
+</div>
 </section>
-
-<!-- ============ THE PROBLEM ============ -->
-<section class="reveal">
-  <div class="wrap">
-    <div class="kicker">The Problem</div>
-    <h2 class="sec">Every Missed Call Is a Patient Walking<br>Into Someone Else's Office</h2>
-    <p class="lead">Patients don't compare you to the practice down the street. They compare you to Amazon, Uber, and Apple. Call, get voicemail, and many simply dial the next name on the list. Meanwhile your front desk is interrupted every 60&ndash;90 seconds and you're charting until 8 PM. MIA fixes all three.</p>
-  </div>
+<section id="videos" aria-label="See MIA in Action video gallery">
+<iframe id="videoGalleryFrame" src="videos.html" title="See MIA in Action — video gallery" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
 </section>
-
-<!-- ============ CAPABILITIES ============ -->
-<section id="capabilities" class="alt reveal">
-  <div class="wrap">
-    <div class="kicker">What MIA Does</div>
-    <h2 class="sec">One Intelligent Assistant.<br>The Whole Front Office.</h2>
-    <div class="cards">
-      <div class="card">
-        <div class="ico">📞</div><h3>AI Receptionist</h3>
-        <p>Human-like voice conversations, 24/7 &mdash; no hold, no voicemail.</p>
-        <ul><li>Answers every inbound call</li><li>Live call transfer &amp; messages</li><li>After-hours, lunch &amp; sick-day coverage</li><li>Missed-call recovery</li></ul>
-      </div>
-      <div class="card">
-        <div class="ico">📅</div><h3>Intelligent Scheduling</h3>
-        <p>Books, reschedules, and fills gaps against real provider availability.</p>
-        <ul><li>Double-booking prevention</li><li>Automatic confirmations &amp; reminders</li><li>Waitlist auto-fill on cancellations</li><li>Recall &amp; follow-up scheduling</li></ul>
-      </div>
-      <div class="card">
-        <div class="ico">📝</div><h3>AI Clinical Scribe</h3>
-        <p>Ambient documentation drafted for provider review &mdash; you approve, MIA never finalizes.</p>
-        <ul><li>SOAP notes &amp; visit summaries</li><li>Patient history summaries</li><li>ICD / CPT code assistance</li><li>Chart summaries</li></ul>
-      </div>
-      <div class="card">
-        <div class="ico">💬</div><h3>Patient Communication</h3>
-        <p>Voice, SMS, email, and web chat &mdash; consistent every time.</p>
-        <ul><li>New patient intake</li><li>FAQ &amp; office policy answers</li><li>Insurance &amp; billing questions</li><li>Draft portal replies for review</li></ul>
-      </div>
-      <div class="card">
-        <div class="ico">⚙️</div><h3>Administrative Automation</h3>
-        <p>The paperwork that eats your staff's day, handled.</p>
-        <ul><li>Insurance verification</li><li>Prior authorizations</li><li>Referral management</li><li>Intake forms &amp; consent collection</li></ul>
-      </div>
-      <div class="card">
-        <div class="ico">🔁</div><h3>Follow-Up &amp; Retention</h3>
-        <p>Keeps chairs full and patients coming back.</p>
-        <ul><li>Reminders &amp; recall campaigns</li><li>Post-op &amp; wellness follow-ups</li><li>Missed-appointment recovery</li><li>Satisfaction surveys</li></ul>
-      </div>
-      <div class="card">
-        <div class="ico">🌐</div><h3>Multilingual Support</h3>
-        <p>100+ languages and 22+ Chinese dialects, in real time.</p>
-        <ul><li>Mandarin, Cantonese, Shanghainese</li><li>Fujianese, Teochew, Korean, Spanish</li><li>Real-time voice &amp; text translation</li><li>Dialect recognition</li></ul>
-      </div>
-      <div class="card">
-        <div class="ico">🔗</div><h3>Integrations</h3>
-        <p>Fits the systems you already run.</p>
-        <ul><li>EHR-ready workflows</li><li>Phone &amp; calendar systems</li><li>SMS &amp; email platforms</li><li>Secure document export</li></ul>
-      </div>
-    </div>
-  </div>
+<section id="capabilities">
+<div class="wrap">
+<p class="eyebrow" data-lang="en">Capabilities</p>
+<p class="eyebrow" data-lang="zh" style="display:none">核心能力</p>
+<h2 class="section-title chrome" data-lang="en">The only agentic AI that does it all</h2>
+<h2 class="section-title chrome" data-lang="zh" style="display:none">唯一全能智能体 AI</h2>
+<p class="section-sub" data-lang="en">MIA is your AI clinical operations manager — phones, intake, scheduling, documentation, and multilingual support in one system built for medical practices.</p>
+<p class="section-sub" data-lang="zh" style="display:none">MIA 是您的 AI 临床运营经理——电话、接诊、排班、文档与多语言支持，专为医疗机构打造的一体化系统。</p>
+<div class="stats">
+<div class="stat">
+<div class="num">$1M</div>
+<p data-lang="en">Liability policy behind the AI</p>
+<p data-lang="zh" style="display:none">AI 背后的责任保险</p>
+</div>
+<div class="stat">
+<div class="num">100+</div>
+<p data-lang="en">Languages spoken &amp; transcribed</p>
+<p data-lang="zh" style="display:none">支持口语与转写的语言</p>
+</div>
+<div class="stat">
+<div class="num">22</div>
+<p data-lang="en">Chinese dialects (real fluency)</p>
+<p data-lang="zh" style="display:none">中文方言（真正流利）</p>
+</div>
+<div class="stat">
+<div class="num">24/7</div>
+<p data-lang="en">Coverage — never miss a call</p>
+<p data-lang="zh" style="display:none">全天候接听，不错过任何来电</p>
+</div>
+</div>
+<p class="footnote" data-lang="en">Backed by a $1,000,000 liability policy. Built with accuracy checks and HIPAA-ready workflows.</p>
+<p class="footnote" data-lang="zh" style="display:none">由 100 万美元责任保险支持。内置准确性校验与 HIPAA 就绪流程。</p>
+<div class="mia-grid">
+<div>
+<div class="mia-points">
+<div class="mia-point">
+<div class="tick">✓</div>
+<div>
+<b data-lang="en">Answers every call in your practice’s voice</b>
+<b data-lang="zh" style="display:none">以您诊所的声音接听每一通电话</b>
+<span data-lang="en">Books, reschedules, answers insurance and hours questions — day and night.</span>
+<span data-lang="zh" style="display:none">预约、改期、解答保险与营业时间——全天候。</span>
+</div>
+</div>
+<div class="mia-point">
+<div class="tick">✓</div>
+<div>
+<b data-lang="en">Doctor’s personal scribe</b>
+<b data-lang="zh" style="display:none">医生的私人书记员</b>
+<span data-lang="en">Captures the encounter cleanly so you spend less time in the chart and more time with patients.</span>
+<span data-lang="zh" style="display:none">清晰记录就诊过程，让您少花时间写病历，多花时间陪患者。</span>
+</div>
+</div>
+<div class="mia-point">
+<div class="tick">✓</div>
+<div>
+<b data-lang="en">Intake, data entry &amp; accuracy checks</b>
+<b data-lang="zh" style="display:none">接诊、数据录入与准确性校验</b>
+<span data-lang="en">Handles the whole front-office process with built-in checks — not just a chatbot.</span>
+<span data-lang="zh" style="display:none">处理完整前台流程并内置校验——不只是聊天机器人。</span>
+</div>
+</div>
+<div class="mia-point">
+<div class="tick">✓</div>
+<div>
+<b data-lang="en">True Chinese dialect support</b>
+<b data-lang="zh" style="display:none">真正的中文方言支持</b>
+<span data-lang="en">Patients can speak Mandarin, Cantonese, and 20+ other Chinese dialects — MIA replies in kind.</span>
+<span data-lang="zh" style="display:none">患者可用普通话、粤语及 20 多种中文方言交流——MIA 以同样语言回应。</span>
+</div>
+</div>
+</div>
+</div>
+<div class="guardrail">
+<div class="gr-head">Guardrails</div>
+<p data-lang="en">MIA is designed for clinical operations — not autonomous diagnosis. She escalates medical questions to your team and keeps a clear audit trail.</p>
+<p data-lang="zh" style="display:none">MIA 专为临床运营设计——不进行自主诊断。她会将医疗问题升级给您的团队，并保留清晰审计轨迹。</p>
+<div class="rule" data-lang="en">$1M liability policy · Accuracy checks · Practice-controlled voice &amp; rules</div>
+<div class="rule" data-lang="zh" style="display:none">100 万美元责任险 · 准确性校验 · 诊所可控的语音与规则</div>
+</div>
+</div>
+</div>
 </section>
+<div class="divider"></div>
 
-<!-- ============ HEAR IT IN ACTION — read the quotes, don't need audio ============ -->
-<section id="action" class="alt reveal">
-  <style>
-    #action .qa-tabs{display:flex;justify-content:center;gap:.6rem;margin-bottom:2rem;flex-wrap:wrap;}
-    #action .qa-tabs button{font-family:'Rajdhani',sans-serif;font-weight:700;border:1px solid var(--line);
-       background:rgba(13,26,46,.6);color:var(--ink);border-radius:40px;padding:.6rem 1.4rem;cursor:pointer;
-       font-size:1rem;letter-spacing:.03em;transition:.2s;}
-    #action .qa-tabs button.active{background:linear-gradient(165deg,var(--blue),#1657a8);border-color:var(--cyan);color:#fff;
-       box-shadow:0 0 18px var(--glow);}
-    #action .qa-panel{display:none;max-width:720px;margin:0 auto;}
-    #action .qa-panel.active{display:block;}
-    #action .qa-row{display:flex;margin-bottom:1rem;}
-    #action .qa-row.them{justify-content:flex-start;}
-    #action .qa-row.mia{justify-content:flex-end;}
-    #action .qa-bubble{max-width:80%;padding:1rem 1.3rem;border-radius:16px;font-size:1.05rem;line-height:1.55;}
-    #action .qa-bubble .who{display:block;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
-       margin-bottom:.35rem;color:var(--cyan);}
-    #action .qa-row.them .qa-bubble{background:var(--panel);border:1px solid var(--line);border-bottom-left-radius:4px;color:var(--ink);}
-    #action .qa-row.mia .qa-bubble{background:linear-gradient(165deg,var(--blue),#1657a8);border-bottom-right-radius:4px;color:#fff;}
-    #action .qa-row.mia .qa-bubble .who{color:#cfe6ff;}
-  </style>
-  <div class="wrap">
-    <div class="kicker">Read It For Yourself</div>
-    <h2 class="sec">What She'd Actually Say</h2>
-    <p class="lead">No audio needed &mdash; here's exactly how a call goes, in three situations.</p>
-    <div class="qa-tabs">
-      <button class="active" data-qatab="doctor">Doctor</button>
-      <button data-qatab="patient">Patient</button>
-      <button data-qatab="staff">Staff</button>
-    </div>
-
-    <div class="qa-panel active" id="qa-doctor">
-      <div class="qa-row them"><div class="qa-bubble"><span class="who">Doctor</span>Mia, do I have a conflict if I add a 2:15 for Mrs. Alvarez?</div></div>
-      <div class="qa-row mia"><div class="qa-bubble"><span class="who">Mia</span>Yes &mdash; you're booked 2:00 to 2:30 with Mr. Chen. Next open slot is 2:45, or I can move Mr. Chen to 3:00 if that works better.</div></div>
-      <div class="qa-row them"><div class="qa-bubble"><span class="who">Doctor</span>Move him to 3.</div></div>
-      <div class="qa-row mia"><div class="qa-bubble"><span class="who">Mia</span>Done &mdash; Mrs. Alvarez is in at 2:15, Mr. Chen's moved to 3:00, and I've texted both confirmations.</div></div>
-    </div>
-
-    <div class="qa-panel" id="qa-patient">
-      <div class="qa-row them"><div class="qa-bubble"><span class="who">Patient</span>Hi, does my insurance cover a follow-up visit this month?</div></div>
-      <div class="qa-row mia"><div class="qa-bubble"><span class="who">Mia</span>You're on Blue Cross PPO, and yes &mdash; follow-ups within 30 days of a procedure are covered under your plan. Want me to book that now?</div></div>
-      <div class="qa-row them"><div class="qa-bubble"><span class="who">Patient</span>Yes please.</div></div>
-      <div class="qa-row mia"><div class="qa-bubble"><span class="who">Mia</span>You're set for Thursday at 10:30. I'll send a confirmation text.</div></div>
-    </div>
-
-    <div class="qa-panel" id="qa-staff">
-      <div class="qa-row them"><div class="qa-bubble"><span class="who">Front Desk</span>Mia, has the Rodriguez insurance verification come back yet?</div></div>
-      <div class="qa-row mia"><div class="qa-bubble"><span class="who">Mia</span>Came back this morning &mdash; approved, no prior auth needed. I've attached it to his chart and flagged it for Dr. Kim's review before Friday's appointment.</div></div>
-    </div>
-  </div>
-  <script>
-  (function(){
-    document.querySelectorAll('#action .qa-tabs button').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        document.querySelectorAll('#action .qa-tabs button').forEach(b=>b.classList.remove('active'));
-        document.querySelectorAll('#action .qa-panel').forEach(p=>p.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('qa-'+btn.dataset.qatab).classList.add('active');
-      });
-    });
-  })();
-  </script>
+<div class="divider"></div>
+<section id="why">
+<span id="languages" aria-hidden="true" style="position:absolute;top:0;left:0"></span>
+<div class="wrap">
+<p class="eyebrow" data-lang="en">Why now</p>
+<p class="eyebrow" data-lang="zh" style="display:none">为何现在</p>
+<h2 class="section-title chrome" data-lang="en">Stop the bleeding. Start the healing.</h2>
+<h2 class="section-title chrome" data-lang="zh" style="display:none">止血。开始疗愈。</h2>
+<p class="section-sub" data-lang="en">AI won’t replace your job — the doctor who already has AI will. Every month you wait, you fall further behind.</p>
+<p class="section-sub" data-lang="zh" style="display:none">AI 不会取代您的工作——已经拥有 AI 的医生会。您每多等一个月，就会落后更多。</p>
+<div class="why-grid">
+<div class="why-card">
+<div class="icon">⏱</div>
+<h3 data-lang="en">Hours back in your day</h3>
+<h3 data-lang="zh" style="display:none">把时间还给您</h3>
+<p data-lang="en">Less phone tag, less charting after hours. MIA handles the grind so you can practice medicine.</p>
+<p data-lang="zh" style="display:none">更少电话来回、更少下班后写病历。MIA 处理琐事，让您专注行医。</p>
+</div>
+<div class="why-card">
+<div class="icon">📞</div>
+<h3 data-lang="en">No more missed patients</h3>
+<h3 data-lang="zh" style="display:none">不再错过患者</h3>
+<p data-lang="en">24/7 answer in the languages your community actually uses — including real Chinese dialects.</p>
+<p data-lang="zh" style="display:none">全天候以社区真正使用的语言接听——包括真实中文方言。</p>
+</div>
+<div class="why-card">
+<div class="icon">◆</div>
+<h3 data-lang="en">Pays for itself</h3>
+<h3 data-lang="zh" style="display:none">自我回本</h3>
+<p data-lang="en">Typically recovers cost inside the first 30 days through retained patients and reclaimed staff time.</p>
+<p data-lang="zh" style="display:none">通常通过留住患者与节省人力，在前 30 天内收回成本。</p>
+</div>
+<div class="why-card">
+<div class="icon">🛡</div>
+<h3 data-lang="en">Confidence you can stand behind</h3>
+<h3 data-lang="zh" style="display:none">可以站得住脚的信心</h3>
+<p data-lang="en">$1M liability policy. Built-in accuracy checks. We put skin in the game because we trust the system.</p>
+<p data-lang="zh" style="display:none">100 万美元责任险。内置准确性校验。我们敢担保，因为我们信任这套系统。</p>
+</div>
+</div>
+<div class="steps">
+<div class="step">
+<span class="n">01</span>
+<h3 data-lang="en">Pilot</h3>
+<h3 data-lang="zh" style="display:none">试点</h3>
+<p data-lang="en">Start with a small retainer. See MIA live on your phones and workflows.</p>
+<p data-lang="zh" style="display:none">以小额预付启动。在您的电话与流程中真实运行 MIA。</p>
+</div>
+<div class="step">
+<span class="n">02</span>
+<h3 data-lang="en">Tune</h3>
+<h3 data-lang="zh" style="display:none">调优</h3>
+<p data-lang="en">We match voice, rules, insurance lists, and hours to your practice.</p>
+<p data-lang="zh" style="display:none">我们按您的诊所匹配语音、规则、保险列表与营业时间。</p>
+</div>
+<div class="step">
+<span class="n">03</span>
+<h3 data-lang="en">Scale</h3>
+<h3 data-lang="zh" style="display:none">扩展</h3>
+<p data-lang="en">Expand to full coverage, scribe, and multi-location when you’re ready.</p>
+<p data-lang="zh" style="display:none">准备好后扩展至全覆盖、书记与多地点。</p>
+</div>
+</div>
+</div>
 </section>
-
-<!-- ============ OPS MANAGER ANGLE ============ -->
-<section id="ops" class="reveal">
-  <div class="wrap split">
-    <div>
-      <div class="kicker">More Than a Receptionist</div>
-      <h2 class="sec" style="text-align:left">MIA Runs the Office,<br>Not Just the Phone</h2>
-      <p class="lead" style="text-align:left;margin-left:0">Most AI answers calls and stops there. MIA works like an operations manager &mdash; watching the whole practice, flagging what's slipping, and reporting to you every day. One AI the patient talks to; a whole back office working behind her.</p>
-      <div class="cta-row" style="margin-top:2rem"><button class="btn primary" id="hearMia2" type="button">&#9654; Hear MIA</button></div>
-    </div>
-    <div class="monitor">
-      <div class="row"><span><span class="dot g"></span>Calls handled today</span><span class="tag">32 &middot; 21 booked</span></div>
-      <div class="row"><span><span class="dot g"></span>No-show chases sent</span><span class="tag">4 &middot; 2 rebooked</span></div>
-      <div class="row"><span><span class="dot a"></span>Scheduling conflict flagged</span><span class="tag">routed to staff</span></div>
-      <div class="row"><span><span class="dot g"></span>Follow-ups completed</span><span class="tag">18 / 20</span></div>
-      <div class="row"><span><span class="dot g"></span>Documentation drafts</span><span class="tag">awaiting provider review</span></div>
-      <div class="row"><span><span class="dot a"></span>1 message needs a human</span><span class="tag">escalated</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ WHY NOW / VALUE ============ -->
-<section id="why" class="alt reveal">
-  <div class="wrap">
-    <div class="kicker">Why Now</div>
-    <h2 class="sec">What It's Worth to Your Practice</h2>
-    <div class="vgrid">
-      <div class="vp"><div class="n">01</div><div><h4>Never miss a new patient</h4><p>Every call answered on the spot &mdash; after-hours, lunch, vacation, sick days.</p></div></div>
-      <div class="vp"><div class="n">02</div><div><h4>Front desk stops drowning</h4><p>MIA takes the calls and FAQs so staff do the work they were hired for.</p></div></div>
-      <div class="vp"><div class="n">03</div><div><h4>Get your evenings back</h4><p>Documentation drafted for quick review &mdash; less charting after clinic.</p></div></div>
-      <div class="vp"><div class="n">04</div><div><h4>Fewer no-shows</h4><p>Automatic confirmations, reminders, and waitlist fill for empty chairs.</p></div></div>
-      <div class="vp"><div class="n">05</div><div><h4>An employee who never calls in sick</h4><p>Nights, weekends, holidays, snow days &mdash; uninterrupted.</p></div></div>
-      <div class="vp"><div class="n">06</div><div><h4>Multilingual patients feel welcome</h4><p>Care and scheduling in the patient's own language &mdash; less friction.</p></div></div>
-      <div class="vp"><div class="n">07</div><div><h4>Consistent service, every call</h4><p>People have bad days. AI doesn't. Same professional experience each time.</p></div></div>
-      <div class="vp"><div class="n">08</div><div><h4>Scales with you</h4><p>One provider or ten locations &mdash; no new phone staff for routine volume.</p></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ LANGUAGES ============ -->
-<section id="lang" class="reveal">
-  <div class="wrap">
-    <div class="kicker">The AXIOM Edge</div>
-    <h2 class="sec">Speak Every Patient's Language</h2>
-    <p class="lead">Real dialect-level voice AI &mdash; not translation software. A differentiator no local competitor can match, built for diverse communities.</p>
-    <div class="chips-lang">
-      <span class="edge">Mandarin</span><span class="edge">Cantonese</span><span class="edge">Shanghainese</span>
-      <span class="edge">Fujianese</span><span class="edge">Teochew</span>
-      <span>Korean</span><span>Spanish</span><span>Vietnamese</span><span>Russian</span>
-      <span>Arabic</span><span>Hindi</span><span>+ 100 more</span>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SECURITY ============ -->
-<section class="alt reveal">
-  <div class="wrap">
-    <div class="kicker">Built for Healthcare</div>
-    <h2 class="sec">Secure. Compliant. Provider-Controlled.</h2>
-    <div class="cards">
-      <div class="card"><div class="ico">🔒</div><h3>HIPAA-Compliant Workflows</h3><p>Built on Google infrastructure with encryption in transit and at rest.</p></div>
-      <div class="card"><div class="ico">📋</div><h3>Full Audit Logging</h3><p>Every action traceable &mdash; who, what, and when.</p></div>
-      <div class="card"><div class="ico">👤</div><h3>Provider Oversight</h3><p>All clinical documentation is draft-only. The physician always approves.</p></div>
-      <div class="card"><div class="ico">🛡️</div><h3>$1M Liability Policy</h3><p>AXIOM stands behind the work &mdash; the risk cover others don't offer.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FAQ / OBJECTIONS ============ -->
-<section id="faq" class="reveal">
-  <div class="wrap">
-    <div class="kicker">Straight Answers</div>
-    <h2 class="sec">Questions Doctors Ask</h2>
-    <div class="faq">
-      <details><summary>Can AI really handle my patients?</summary><p>MIA handles logistics, not medicine &mdash; booking, intake, reminders, and communication. Anything clinical is drafted for your review or routed to your staff. You stay in control of every medical decision.</p></details>
-      <details><summary>Will it sound like a robot?</summary><p>MIA holds natural, human-like voice conversations in your practice's own voice and tone. Book a demo and hear it for yourself &mdash; that's the fastest way to judge.</p></details>
-      <details><summary>What about HIPAA and liability?</summary><p>MIA runs HIPAA-compliant workflows on Google infrastructure, encrypted and audit-logged &mdash; and AXIOM carries a $1M liability policy covering AI-related issues.</p></details>
-      <details><summary>Isn't this expensive?</summary><p>Think in ROI. One recovered new patient a month, or a handful of filled no-show slots, typically covers the cost. The real question is what missed calls and empty chairs cost you today.</p></details>
-      <details><summary>Will my staff feel replaced?</summary><p>MIA removes the repetitive overload &mdash; the 300th "what are your hours" call &mdash; so your team does higher-value work with less burnout. It's leverage for your people, not a replacement.</p></details>
-      <details><summary>We already have an answering service.</summary><p>An answering service takes a message. MIA books the appointment, files the intake, sends the reminder, and reports back &mdash; during the call.</p></details>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FINAL CTA ============ -->
-<section id="cta" class="reveal">
-  <div class="wrap">
-    <div class="kicker">Start Now</div>
-    <h2 class="sec">Start Earning Your ROI<br>&mdash; Not Booking a Demo</h2>
-    <p class="lead">Skip the demo. A small retainer gets MIA live in your practice, and the math is simple: the time and patients she recovers typically cover her own cost inside the first 30 days. After that, it's straight return.</p>
-    <div class="cta-row">
-      <a class="btn primary" href="#contact">Start Your Pilot</a>
-      <a class="btn" href="tel:+19173986697">Call AXIOM &middot; (917) 398-6697</a>
-    </div>
-    <div class="compliance-note">
-      <b>Note:</b> Feature availability (EHR integration, insurance verification) is confirmed per deployment. Clinical documentation is provided as drafts for physician review; final clinical decisions remain with the treating provider. "HIPAA-compliant" applies to qualifying deployments.
-    </div>
-  </div>
-</section>
-
-<!-- ============ AXIOM CAROUSEL (from axiomvoice.org) ============ -->
-<section id="axiom-carousel" class="alt reveal">
-  <style>
-    #axiom-carousel .caro-shell{position:relative;max-width:960px;margin:34px auto 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#000;box-shadow:0 0 60px rgba(43,143,255,.18)}
-    #axiom-carousel .caro-track{position:relative;width:100%;aspect-ratio:16/9}
-    #axiom-carousel .caro-slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;pointer-events:none}
-    #axiom-carousel .caro-slide.active{opacity:1;pointer-events:auto}
-    #axiom-carousel .caro-slide img,#axiom-carousel .caro-slide video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
-    #axiom-carousel .caro-label{position:absolute;left:0;right:0;bottom:0;padding:14px 20px 12px;background:linear-gradient(transparent,rgba(5,10,22,.92));font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:3px;color:var(--cyan);text-transform:uppercase}
-    #axiom-carousel .caro-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(5,10,22,.65);color:var(--cyan);font-size:20px;line-height:1;cursor:pointer;transition:.25s}
-    #axiom-carousel .caro-arrow:hover{background:rgba(43,143,255,.35);box-shadow:0 0 18px var(--glow)}
-    #axiom-carousel .caro-prev{left:12px}
-    #axiom-carousel .caro-next{right:12px}
-    #axiom-carousel .caro-dots{display:flex;justify-content:center;gap:10px;padding:16px 0 4px}
-    #axiom-carousel .caro-dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--cyan);background:transparent;cursor:pointer;padding:0;transition:.25s}
-    #axiom-carousel .caro-dot.active{background:var(--cyan);box-shadow:0 0 10px var(--glow)}
-  </style>
-  <div class="wrap">
-    <div class="kicker">AXIOM AI</div>
-    <h2 class="sec">The Four Pillars of AI Domination</h2>
-    <div class="caro-shell">
-      <div class="caro-track" id="caroTrack">
-        <div class="caro-slide active"><video src="https://axiomvoice.org/CAROSEL/home_video.mp4" muted playsinline preload="metadata"></video><div class="caro-label">AXIOM AI</div></div>
-        <div class="caro-slide"><img src="https://axiomvoice.org/CAROSEL/cover.png" alt="Cover — Your Personal AI Intelligence" loading="lazy"><div class="caro-label">Your Personal AI Intelligence</div></div>
-        <div class="caro-slide"><img src="https://axiomvoice.org/CAROSEL/pillar1.png" alt="Pillar One — First Contact" loading="lazy"><div class="caro-label">01 &middot; First Contact</div></div>
-        <div class="caro-slide"><img src="https://axiomvoice.org/CAROSEL/pillar2.png" alt="Pillar Two — Retain and Gain" loading="lazy"><div class="caro-label">02 &middot; Retain &amp; Gain</div></div>
-        <div class="caro-slide"><img src="https://axiomvoice.org/CAROSEL/pillar3.png" alt="Pillar Three — Optimized Operations" loading="lazy"><div class="caro-label">03 &middot; Optimized Operations</div></div>
-        <div class="caro-slide"><img src="https://axiomvoice.org/CAROSEL/pillar4.png" alt="Pillar Four — Security" loading="lazy"><div class="caro-label">04 &middot; Security</div></div>
-      </div>
-      <button class="caro-arrow caro-prev" aria-label="Previous slide">&#10094;</button>
-      <button class="caro-arrow caro-next" aria-label="Next slide">&#10095;</button>
-    </div>
-    <div class="caro-dots" id="caroDots"></div>
-
-    <!-- ============ 5-STEP ANTI-HALLUCINATION PROCESS ============ -->
-    <div style="max-width:900px;margin:3rem auto 0;border:1px solid rgba(255,194,75,.35);border-radius:16px;
-       padding:clamp(1.6rem,4vw,2.4rem);background:rgba(255,194,75,.05);">
-      <div style="text-align:center;color:var(--amber);letter-spacing:.28em;text-transform:uppercase;
-         font-weight:700;font-size:1rem;margin-bottom:.6rem;">How We Keep Her Honest</div>
-      <h3 style="text-align:center;font-family:'Orbitron',sans-serif;font-weight:800;
-         font-size:clamp(1.3rem,3vw,1.9rem);color:var(--amber);margin-bottom:1.8rem;">
-        Five Steps So MIA Never Hallucinates
-      </h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;">
-        <div>
-          <div style="font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.6rem;color:var(--amber);">01</div>
-          <b style="display:block;color:#eaf3fb;margin:.3rem 0;">Human Checkpoint</b>
-          <p style="color:var(--dim);font-size:.95rem;line-height:1.5;">Anything clinical is draft-only. A real provider approves it before it's ever final.</p>
-        </div>
-        <div>
-          <div style="font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.6rem;color:var(--amber);">02</div>
-          <b style="display:block;color:#eaf3fb;margin:.3rem 0;">Confidence Thresholds</b>
-          <p style="color:var(--dim);font-size:.95rem;line-height:1.5;">If she isn't certain, she doesn't guess. Low-confidence answers get flagged, not spoken as fact.</p>
-        </div>
-        <div>
-          <div style="font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.6rem;color:var(--amber);">03</div>
-          <b style="display:block;color:#eaf3fb;margin:.3rem 0;">Escalation on Uncertainty</b>
-          <p style="color:var(--dim);font-size:.95rem;line-height:1.5;">Unclear or out-of-scope requests route straight to your staff &mdash; never improvised.</p>
-        </div>
-        <div>
-          <div style="font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.6rem;color:var(--amber);">04</div>
-          <b style="display:block;color:#eaf3fb;margin:.3rem 0;">Circuit Breakers</b>
-          <p style="color:var(--dim);font-size:.95rem;line-height:1.5;">Scheduling, billing, and notes each run in their own isolated lane, so one glitch can't cascade into another.</p>
-        </div>
-        <div>
-          <div style="font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.6rem;color:var(--amber);">05</div>
-          <b style="display:block;color:#eaf3fb;margin:.3rem 0;">Full Audit Logging</b>
-          <p style="color:var(--dim);font-size:.95rem;line-height:1.5;">Every input, decision, and action is logged and traceable &mdash; anything can be checked in seconds.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script>
-  (function(){
-    const slides=[...document.querySelectorAll('#axiom-carousel .caro-slide')];
-    const dotsBox=document.getElementById('caroDots');
-    let cur=0,timer=null;
-    slides.forEach((s,i)=>{
-      const d=document.createElement('button');
-      d.className='caro-dot'+(i===0?' active':'');
-      d.setAttribute('aria-label','Slide '+(i+1));
-      d.addEventListener('click',()=>{go(i);restart();});
-      dotsBox.appendChild(d);
-    });
-    const dots=[...dotsBox.children];
-    function go(i){
-      slides[cur].classList.remove('active');dots[cur].classList.remove('active');
-      const oldV=slides[cur].querySelector('video');if(oldV)oldV.pause();
-      cur=(i+slides.length)%slides.length;
-      slides[cur].classList.add('active');dots[cur].classList.add('active');
-      const v=slides[cur].querySelector('video');
-      if(v){v.currentTime=0;v.play().catch(()=>{});}
-    }
-    function next(){go(cur+1);}
-    function restart(){clearInterval(timer);timer=setInterval(next,6000);}
-    document.querySelector('#axiom-carousel .caro-next').addEventListener('click',()=>{next();restart();});
-    document.querySelector('#axiom-carousel .caro-prev').addEventListener('click',()=>{go(cur-1);restart();});
-    const shell=document.querySelector('#axiom-carousel .caro-shell');
-    shell.addEventListener('mouseenter',()=>clearInterval(timer));
-    shell.addEventListener('mouseleave',restart);
-    /* start rotating (and play the video) only when the carousel scrolls into view */
-    new IntersectionObserver((e,obs)=>{
-      if(e[0].isIntersecting){
-        const v=slides[0].querySelector('video');if(v)v.play().catch(()=>{});
-        restart();obs.disconnect();
-      }
-    },{threshold:.3}).observe(shell);
-    /* when the video slide's video ends, move on */
-    slides.forEach(s=>{const v=s.querySelector('video');if(v)v.addEventListener('ended',()=>{next();restart();});});
-
-    /* real touch-swipe support — left = next, right = prev */
-    let touchStartX=0, touchStartY=0, touching=false;
-    shell.addEventListener('touchstart',(e)=>{
-      touchStartX=e.touches[0].clientX; touchStartY=e.touches[0].clientY; touching=true;
-      clearInterval(timer);
-    },{passive:true});
-    shell.addEventListener('touchmove',(e)=>{
-      if(!touching) return;
-      /* if the swipe is more horizontal than vertical, stop the page from scrolling while dragging the carousel */
-      const dx=e.touches[0].clientX-touchStartX, dy=e.touches[0].clientY-touchStartY;
-      if(Math.abs(dx)>Math.abs(dy)) e.preventDefault();
-    },{passive:false});
-    shell.addEventListener('touchend',(e)=>{
-      if(!touching) return;
-      touching=false;
-      const dx=e.changedTouches[0].clientX-touchStartX;
-      const SWIPE_THRESHOLD=40;
-      if(dx<=-SWIPE_THRESHOLD){ next(); }
-      else if(dx>=SWIPE_THRESHOLD){ go(cur-1); }
-      restart();
-    });
-  })();
-  </script>
-</section>
-
-
-<!-- ============ CONTACT ============ -->
-<section id="contact" class="alt reveal">
-  <style>
-    #contact .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;max-width:1000px;margin:2.2rem auto 0;align-items:start;}
-    @media(max-width:860px){#contact .cgrid{grid-template-columns:1fr;}}
-    #contact .cinfo{border:1px solid var(--line);border-radius:14px;padding:1.8rem;background:rgba(13,26,46,.55);}
-    #contact .cinfo h3{font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:.06em;margin-bottom:1rem;color:#eaf3fb;}
-    #contact .cinfo p{margin:.55rem 0;color:var(--ink);font-size:1.05rem;}
-    #contact .cinfo a{color:var(--cyan);text-decoration:none;}
-    #contact .cinfo .lbl{color:var(--dim);letter-spacing:.1em;text-transform:uppercase;font-size:.9rem;font-weight:700;display:block;}
-    #contact form{border:1px solid var(--line);border-radius:14px;padding:1.8rem;background:rgba(13,26,46,.55);display:flex;flex-direction:column;gap:.9rem;}
-    #contact input,#contact textarea{background:rgba(5,10,22,.8);border:1px solid var(--line);border-radius:8px;
-       padding:.8rem 1rem;color:var(--ink);font-family:'Rajdhani',sans-serif;font-size:1rem;}
-    #contact input:focus,#contact textarea:focus{outline:none;border-color:var(--cyan);}
-    #contact textarea{min-height:110px;resize:vertical;}
-  </style>
-  <div class="wrap">
-    <div class="kicker">Contact</div>
-    <h2 class="sec">Talk to AXIOM</h2>
-    <p class="lead">Every inquiry answered within 24 hours.</p>
-    <div class="cgrid">
-      <div class="cinfo">
-        <h3>AXIOM AI</h3>
-        <p><span class="lbl">Founder</span>Paul Zwick</p>
-        <p><span class="lbl">Email</span><a href="mailto:paul@axiomvoice.org">paul@axiomvoice.org</a></p>
-        <p><span class="lbl">Phone</span><a href="tel:+19173986697">(917) 398-6697</a></p>
-        <p><span class="lbl">Web</span><a href="https://axiomvoice.org">axiomvoice.org</a></p>
-      </div>
-      <form name="contact" method="POST" data-netlify="true">
-        <input type="hidden" name="form-name" value="contact">
-        <input type="text" name="name" placeholder="Name" required>
-        <input type="text" name="practice" placeholder="Practice / Company">
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="tel" name="phone" placeholder="Phone">
-        <textarea name="message" placeholder="What does your office need?"></textarea>
-        <button class="btn primary" type="submit">Send Message</button>
-      </form>
-    </div>
-  </div>
+<div class="divider"></div>
+<section id="contact">
+<div class="wrap">
+<p class="eyebrow" data-lang="en">Contact</p>
+<p class="eyebrow" data-lang="zh" style="display:none">联系</p>
+<h2 class="section-title chrome" data-lang="en">Start your pilot</h2>
+<h2 class="section-title chrome" data-lang="zh" style="display:none">开启试点</h2>
+<p class="section-sub" data-lang="en">Tell us about your practice. We’ll follow up personally — no automated sales sequence.</p>
+<p class="section-sub" data-lang="zh" style="display:none">告诉我们您的诊所情况。我们将亲自跟进——没有自动销售序列。</p>
+<div class="contact-grid">
+<form action="mailto:paul@axiomvoice.org" enctype="text/plain" id="contactForm" method="post">
+<div class="field">
+<label for="name">Name</label>
+<input id="name" name="name" placeholder="Dr. Lee" required="" type="text"/>
+</div>
+<div class="field">
+<label for="practice">Practice / specialty</label>
+<input id="practice" name="practice" placeholder="Internal medicine, NYC" type="text"/>
+</div>
+<div class="field">
+<label for="email">Email</label>
+<input id="email" name="email" placeholder="you@practice.com" required="" type="email"/>
+</div>
+<div class="field">
+<label for="phone">Phone (optional)</label>
+<input id="phone" name="phone" placeholder="+1 …" type="tel"/>
+</div>
+<div class="field">
+<label for="message">What do you need help with?</label>
+<textarea id="message" name="message" placeholder="Phone coverage, Chinese dialects, scribe…"></textarea>
+</div>
+<button class="btn btn-primary" type="submit">Send message</button>
+<p class="form-note">Or email directly: <a href="mailto:paul@axiomvoice.org" style="color:var(--teal)">paul@axiomvoice.org</a></p>
+</form>
+<div class="contact-side">
+<h3 data-lang="en">Contact AXIOM</h3>
+<h3 data-lang="zh" style="display:none">联系 AXIOM</h3>
+<div class="contact-line">
+<svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+<a href="mailto:paul@axiomvoice.org">paul@axiomvoice.org</a>
+</div>
+<div class="contact-line">
+<svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+<span>New York</span>
+</div>
+</div>
+</div>
+</div>
 </section>
 <footer>
-  <div class="fbrand"><b>A</b>XIOM</div>
-  Premium AI infrastructure for private practice &middot; MIA — Medical Intelligence Architect<br>
-  Paul Zwick &middot; <a href="mailto:paul@axiomvoice.org" style="color:#5cc8ff;text-decoration:none">paul@axiomvoice.org</a> &middot; <a href="https://axiomvoice.org" style="color:#5cc8ff;text-decoration:none">axiomvoice.org</a><br>
-  &copy; 2026 AXIOM AI
+<div class="logo-row">
+<img alt="" src="AXIOM-A.png"/>
+<img alt="AXIOM" src="AXIOM-WORDMARK.png" style="height:16px"/>
+</div>
+<p>AXIOM AI · Paul Zwick · <a href="mailto:paul@axiomvoice.org">paul@axiomvoice.org</a></p>
+<p style="margin-top:.5rem;font-size:.8rem">© 2026 AXIOM. All rights reserved.</p>
 </footer>
-
 <script>
-const vid = document.getElementById('vid');
-const splash = document.getElementById('splash');
-const skip = document.getElementById('skip');
-const intro = document.getElementById('intro');
+document.addEventListener('DOMContentLoaded', function () {
+  /* Mobile menu */
+  var menuBtn = document.getElementById('menuBtn');
+  var menuPanel = document.getElementById('menuPanel');
+  if (menuBtn && menuPanel) {
+    menuBtn.addEventListener('click', function () {
+      menuPanel.classList.toggle('open');
+    });
+    menuPanel.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        menuPanel.classList.remove('open');
+      });
+    });
+  }
 
-function startVideo(){
-  splash.classList.add('hide');
-  vid.classList.add('show');
-  skip.classList.add('show');
-  vid.currentTime = 0;
-  vid.play().catch(()=>{ enterSite(); });   // if autoplay blocked, skip straight to the site
-}
-function enterSite(){
-  vid.pause();
-  vid.classList.remove('show');
-  skip.classList.remove('show');
-  intro.classList.add('gone');
-  document.body.classList.remove('locked');
-  document.getElementById('nav').classList.add('show');
-  setTimeout(()=>{ intro.style.display='none'; }, 1100);
-}
-splash.addEventListener('click', startVideo);
-skip.addEventListener('click', enterSite);
-vid.addEventListener('ended', enterSite);
+  /* Keep the approved standalone gallery isolated inside the third section. */
+  var videoSection = document.getElementById('videos');
+  var videoFrame = document.getElementById('videoGalleryFrame');
+  var primaryNav = document.querySelector('body > nav');
+  var videoModalObserver;
 
-/* nav appears after you enter; also on scroll safety */
-window.addEventListener('scroll', ()=>{
-  if(!document.body.classList.contains('locked')) document.getElementById('nav').classList.add('show');
+  function syncVideoNavigation() {
+    var bounds = videoSection.getBoundingClientRect();
+    var navHeight = primaryNav.getBoundingClientRect().height;
+    document.body.classList.toggle('video-gallery-active', bounds.top <= navHeight && bounds.bottom > 1);
+  }
+
+  function connectVideoModal() {
+    if (videoModalObserver) videoModalObserver.disconnect();
+    var frameBody = videoFrame.contentDocument && videoFrame.contentDocument.body;
+    if (!frameBody || frameBody.nodeType !== 1) return;
+    function syncVideoModal() {
+      var open = frameBody.classList.contains('modal-open');
+      if (open && !document.body.classList.contains('video-gallery-modal-open')) {
+        videoSection.scrollIntoView({block: 'start', behavior: 'instant'});
+      }
+      document.body.classList.toggle('video-gallery-modal-open', open);
+      syncVideoNavigation();
+    }
+    videoModalObserver = new MutationObserver(syncVideoModal);
+    videoModalObserver.observe(frameBody, {attributes: true, attributeFilter: ['class']});
+    syncVideoModal();
+  }
+
+  videoFrame.addEventListener('load', connectVideoModal);
+  window.addEventListener('scroll', syncVideoNavigation, {passive: true});
+  window.addEventListener('resize', syncVideoNavigation);
+  connectVideoModal();
+  syncVideoNavigation();
+
+  /* Language toggle */
+  var langButtons = document.querySelectorAll('.lang-toggle button');
+  var content = document.querySelectorAll('[data-lang]');
+
+  function setLanguage(lang) {
+    content.forEach(function (el) {
+      el.style.display = el.getAttribute('data-lang') === lang ? '' : 'none';
+    });
+    langButtons.forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+  }
+
+  var savedLang = localStorage.getItem('preferred-language') || 'en';
+  if (content.length) setLanguage(savedLang);
+
+  langButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var lang = btn.dataset.lang;
+      localStorage.setItem('preferred-language', lang);
+      if (content.length) setLanguage(lang);
+    });
+  });
+
 });
-
-/* reveal-on-scroll */
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
-},{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>

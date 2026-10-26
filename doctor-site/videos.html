@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>See MIA in Action | AXIOM AI</title>
+<meta name="description" content="Watch short demonstrations of MIA handling medical-practice calls, improving operational workflows, and supporting better patient care.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&amp;family=Inter:wght@400;500;600&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04070f;--bg-2:#0a101d;--panel:rgba(255,255,255,.035);--line:rgba(148,190,255,.13);--line-strong:rgba(148,190,255,.24);--teal:#2fd6b5;--teal-dim:rgba(47,214,181,.14);--ice:#9fd8ff;--ink:#eef3fb;--ink-2:#a7b4c9;--ink-3:#6b7a93;--display:'Michroma','Noto Sans SC',sans-serif;--body:'Inter','Noto Sans SC',sans-serif;--max:1180px}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg) url("video-page-bg.png") center center / cover no-repeat fixed;color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.modal-open{overflow:hidden}
+.skip-link{position:fixed;top:8px;left:8px;z-index:100;transform:translateY(-150%);background:var(--teal);color:#04231c;padding:.65rem 1rem;border-radius:8px;font-weight:600}
+.skip-link:focus{transform:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(4,7,15,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:1.8rem}
+.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}.brand img{height:32px;width:auto;display:block;filter:drop-shadow(0 0 10px rgba(159,216,255,.25))}.brand .word{height:18px;width:auto;opacity:.95}
+.nav-links{display:flex;gap:1.6rem;align-items:center}.nav-links a,.menu-panel a{color:var(--ink-2);text-decoration:none;font-size:.9rem;font-weight:500;transition:color .2s}.nav-links a:hover,.nav-links a[aria-current="page"],.menu-panel a:hover{color:var(--teal)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--display);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;padding:.55rem 1rem;border-radius:10px;text-decoration:none;transition:.22s}.btn-primary{background:linear-gradient(135deg,var(--teal),#25b9e6);color:#04231c}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(47,214,181,.28)}
+.menu-btn{display:none;background:none;border:1px solid var(--line-strong);border-radius:8px;color:var(--ink);padding:.45rem .7rem;cursor:pointer;font-size:1.1rem}.menu-panel{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(4,7,15,.97);border-bottom:1px solid var(--line);padding:1.2rem 1.5rem;z-index:55;flex-direction:column;gap:1rem}.menu-panel.open{display:flex}
+main{min-height:100dvh;padding:0 24px;display:flow-root}.wrap{max-width:var(--max);margin:0 auto}.eyebrow{font-family:var(--display);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:.6rem}.eyebrow::before{content:"";width:26px;height:1px;background:var(--teal)}
+h1,h2{font-family:var(--display);text-transform:uppercase;font-weight:400}.chrome, .video-card > .card-copy > h2{background:linear-gradient(180deg,#fff 0%,#dfe9f5 22%,#aebfd2 40%,#5d7189 49%,#e8f1fb 54%,#c3d2e2 70%,#f4f9ff 86%,#8fa3ba 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 2px rgba(0,0,0,.65)) drop-shadow(0 0 14px rgba(159,216,255,.18))}.chrome{letter-spacing:.045em}
+h1{font-size:clamp(2rem,5vw,3.65rem);line-height:1.18;margin:1rem 0 1.15rem;text-wrap:balance}.intro{color:var(--ink-2);font-size:1.05rem;max-width:640px;text-wrap:pretty}
+.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.35rem;margin-top:3.5rem}
+.video-card{appearance:none;width:100%;padding:0;text-align:left;color:inherit;text-decoration:none;font:inherit;background:rgba(10,16,29,.76);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}.video-card:hover{transform:translateY(-4px);border-color:var(--line-strong);box-shadow:0 18px 50px rgba(0,0,0,.32)}.video-card:active{transform:translateY(-1px)}.video-card:focus-visible,.menu-btn:focus-visible,.btn:focus-visible,.modal-close:focus-visible{outline:3px solid var(--ice);outline-offset:4px}
+.thumb{position:relative;aspect-ratio:16/9;overflow:hidden;background:#060b16}.thumb img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .35s ease}.video-card:hover .thumb img{transform:scale(1.025)}.thumb.portrait img{object-position:center 24%}.thumb::after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,rgba(4,7,15,.66))}
+.play{position:absolute;left:50%;top:50%;z-index:2;width:58px;height:58px;display:grid;place-items:center;transform:translate(-50%,-50%);border-radius:50%;background:rgba(4,7,15,.76);border:1px solid rgba(255,255,255,.64);box-shadow:0 10px 30px rgba(0,0,0,.35);transition:background .2s,transform .2s}.play svg{width:21px;height:21px;margin-left:3px}.video-card:hover .play{background:var(--teal);color:#04231c;transform:translate(-50%,-50%) scale(1.06)}
+.runtime{position:absolute;right:12px;bottom:12px;z-index:2;background:rgba(4,7,15,.88);border:1px solid var(--line-strong);border-radius:6px;padding:.22rem .5rem;color:#fff;font:600 .75rem/1.3 var(--body);font-variant-numeric:tabular-nums}
+.card-copy{padding:1.25rem 1.35rem 1.45rem}.card-copy h2{font-size:.9rem;line-height:1.45;letter-spacing:.035em;margin-bottom:.55rem}.card-copy p,.gallery > .video-item > .video-description{font-size:.91rem;line-height:1.55;color:var(--ink-2);text-wrap:pretty}
+footer{border-top:1px solid var(--line);padding:2.5rem 24px;text-align:center;color:var(--ink-3);font-size:.9rem}footer a{color:var(--teal);text-decoration:none}.logo-row{display:flex;justify-content:center;align-items:center;gap:.8rem;margin-bottom:1rem}.logo-row img{height:28px}.logo-row .word{height:16px}
+.modal{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:clamp(1rem,4vw,3rem);background:rgba(2,5,12,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s}.modal.open{opacity:1;visibility:visible}.modal-dialog{width:min(100%,1040px);position:relative}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.75rem}.modal-title{font-family:var(--display);font-size:clamp(.78rem,2vw,1rem);letter-spacing:.06em;text-transform:uppercase}.modal-close{width:44px;height:44px;flex:0 0 auto;border:1px solid var(--line-strong);border-radius:10px;background:rgba(10,16,29,.9);color:#fff;font-size:1.7rem;line-height:1;cursor:pointer}.modal-close:hover{border-color:var(--teal);color:var(--teal)}.modal video{width:100%;max-height:calc(100dvh - 8rem);display:block;background:#000;border:1px solid var(--line-strong);border-radius:14px;box-shadow:0 30px 90px rgba(0,0,0,.7)}
+@media(max-width:760px){nav{background:rgba(4,7,15,.92)}.nav-inner{height:64px;padding:0 16px}.nav-links,.nav-inner>.btn{display:none}.menu-btn{display:inline-flex;align-items:center;justify-content:center}main{padding:0 16px}.gallery{grid-template-columns:1fr;gap:1.1rem;margin-top:2.5rem}.card-copy{padding:1.1rem 1.2rem 1.3rem}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+</style>
+
+<style id="final-video-card-layout">
+main{padding:18px 24px 24px}
+main > .wrap > h1{font-size:clamp(30px,3.4vw,46px);margin:6px 0 10px;line-height:1.2}
+main > .wrap > .intro{max-width:820px;font-size:16px}
+.gallery{display:grid;grid-template-columns:repeat(4,240px);justify-content:space-between;gap:0;max-width:1180px;margin:20px auto 0;padding-bottom:128px;align-items:start}
+.gallery > .video-item{display:flex;flex-direction:column;gap:12px;align-items:stretch;min-width:0;width:240px}
+.video-card{width:240px;max-width:240px;min-height:0;height:auto;padding:0;overflow:hidden;border-radius:14px;background:rgba(8,15,28,.96);border:1px solid rgba(130,160,200,.22);display:block}
+.video-card > .thumb,.video-card > video{width:100%;height:auto;aspect-ratio:16/9;display:block;object-fit:cover}
+.video-card > .card-copy{padding:14px 16px}
+.video-card > .card-copy > h2{font-size:15px;line-height:1.35;letter-spacing:.035em;margin:0}
+.gallery > .video-item > .video-description{width:auto;margin:0;padding:12px;background:rgba(4,10,22,.52);border-radius:8px;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);font-size:15px;line-height:1.5}
+@media(min-width:1001px){
+.gallery > .video-item{grid-row:1}
+.gallery > .video-item:nth-child(1){grid-column:1;transform:translateY(22px)}
+.gallery > .video-item:nth-child(2){grid-column:4;transform:translateY(-120px)}
+.gallery > .video-item:nth-child(3){grid-column:2;transform:translate(18px,90px)}
+.gallery > .video-item:nth-child(4){grid-column:3;transform:translate(24px,128px)}
+}
+@media(max-width:1000px){
+.gallery{grid-template-columns:repeat(2,minmax(0,280px));justify-content:center;gap:28px;margin-top:24px;padding-bottom:0}
+.gallery > .video-item{display:flex;flex-direction:column;gap:12px;align-items:stretch;width:auto}
+.video-card{width:100%;max-width:none}
+}
+@media(max-width:600px){
+main{padding:18px 16px 28px}
+main > .wrap > h1{font-size:clamp(25px,7vw,34px)}
+.gallery{grid-template-columns:minmax(0,340px)}
+}
+</style>
+
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to videos</a>
+<main id="main">
+  <div class="wrap">
+    <p class="eyebrow">Video gallery</p>
+    <h1 class="chrome">See MIA in Action</h1>
+    <p class="intro">See how MIA supports patients, streamlines practice operations, and gives clinical teams more time to focus on care.</p>
+    <div class="gallery">
+      <div class="video-item">
+        <a class="video-card" href="bbbbbb (1).mp4" data-video="bbbbbb (1).mp4" data-title="See MIA in Action" aria-label="Play See MIA in Action, 9 seconds">
+          <span class="thumb"><img src="mia-voice-demo-thumbnail.jpg" alt="MIA assisting a doctor beside an appointment calendar"><span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span class="runtime">0:09</span></span>
+          <div class="card-copy"><h2>See MIA in Action</h2></div>
+        </a>
+        <p class="video-description">See MIA answer, assist, and keep the appointment workflow moving around the clock.</p>
+      </div>
+      <div class="video-item">
+        <a class="video-card" href="cccccc.mp4" data-video="cccccc.mp4" data-title="Must See Stats" aria-label="Play Must See Stats, 17 seconds">
+          <span class="thumb"><img src="mia-workflow-thumbnail.jpg" alt="Clinical operations metrics visualized in a digital interface"><span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span class="runtime">0:17</span></span>
+          <div class="card-copy"><h2>Must See Stats</h2></div>
+        </a>
+        <p class="video-description">See how AI strengthens accuracy, reduces rework, and helps practices capture more revenue.</p>
+      </div>
+      <div class="video-item">
+        <a class="video-card" href="founder-message.mp4" data-video="founder-message.mp4" data-title="A Message from the Founder" aria-label="Play A Message from the Founder, 1 minute 12 seconds">
+          <span class="thumb portrait"><img src="founder-message-thumbnail.jpg" alt="AXIOM founder Paul Zwick speaking to camera"><span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span class="runtime">1:12</span></span>
+          <div class="card-copy"><h2>A Message from the Founder</h2></div>
+        </a>
+        <p class="video-description">Hear the founder explain the mission, safeguards, and accountability built into MIA.</p>
+      </div>
+
+      <div class="video-item">
+        <a class="video-card" href="mia-demo.mp4" data-video="mia-demo.mp4" data-title="FEATURED FACTS">
+          <video src="mia-demo.mp4" muted playsinline preload="metadata"></video>
+          <div class="card-copy"><h2>FEATURED FACTS</h2></div>
+        </a>
+        <p class="video-description">A fast look at the facts, capabilities, and real-world value behind MIA.</p>
+      </div>
+    </div>
+  </div>
+</main>
+<div class="modal" id="videoModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-head"><h2 class="modal-title" id="modalTitle"></h2><button class="modal-close" type="button" aria-label="Close video">×</button></div>
+    <video id="modalVideo" controls playsinline preload="metadata"><track kind="captions" src="founder-message.vtt" srclang="en" label="English"></video>
+  </div>
+</div>
+<script>
+(function(){
+  var modal=document.getElementById('videoModal');var video=document.getElementById('modalVideo');var title=document.getElementById('modalTitle');var closeButton=modal.querySelector('.modal-close');var trigger=null;
+  function openModal(card){trigger=card;video.src=card.dataset.video;title.textContent=card.dataset.title;modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');closeButton.focus()}
+  function closeModal(){if(!modal.classList.contains('open'))return;video.pause();video.removeAttribute('src');video.load();modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.classList.remove('modal-open');if(trigger)trigger.focus()}
+  document.querySelectorAll('.video-card').forEach(function(card){card.addEventListener('click',function(event){event.preventDefault();openModal(card)})});
+  closeButton.addEventListener('click',closeModal);modal.addEventListener('click',function(event){if(event.target===modal)closeModal()});
+  document.addEventListener('keydown',function(event){if(!modal.classList.contains('open'))return;if(event.key==='Escape'){event.preventDefault();closeModal()}if(event.key==='Tab'){event.preventDefault();if(document.activeElement===closeButton)video.focus();else closeButton.focus()}});
+})();
+</script>
+</body>
+</html>

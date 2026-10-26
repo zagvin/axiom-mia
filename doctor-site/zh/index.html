@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MIA by AXIOM AI — 面向医疗机构的 AI 临床运营 | 纽约</title>
+<meta content="了解 MIA——AXIOM AI 的 AI 临床运营经理。全天候多语言电话服务，支持真实中文方言、自动接诊与符合 HIPAA 要求的基础设施。纽约。" name="description"/>
+<script>
+  if (location.hash === '#demo' || location.hash === '#founder') {
+    location.replace('videos.html');
+  }
+</script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&amp;family=Inter:wght@400;500;600&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#04070f;
+  --bg-2:#0a101d;
+  --panel:rgba(255,255,255,.035);
+  --panel-2:rgba(255,255,255,.06);
+  --line:rgba(148,190,255,.13);
+  --line-strong:rgba(148,190,255,.24);
+  --teal:#2fd6b5;
+  --teal-dim:rgba(47,214,181,.14);
+  --blue:#4f8dff;
+  --ice:#9fd8ff;
+  --ink:#eef3fb;
+  --ink-2:#a7b4c9;
+  --ink-3:#6b7a93;
+  --display:'Michroma','Noto Sans SC',sans-serif;
+  --body:'Inter','Noto Sans SC',sans-serif;
+  --max:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+.chrome{
+  font-family:var(--display);
+  background:linear-gradient(180deg,#ffffff 0%,#dfe9f5 22%,#aebfd2 40%,#5d7189 49%,#e8f1fb 54%,#c3d2e2 70%,#f4f9ff 86%,#8fa3ba 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.65)) drop-shadow(0 0 14px rgba(159,216,255,.18));
+  letter-spacing:.06em;
+}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.05em;font-weight:400}
+.eyebrow{font-family:var(--display);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:.6rem}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--teal)}
+.section-title{font-size:clamp(1.5rem,3.4vw,2.45rem);line-height:1.28;margin:1rem 0 1.1rem}
+.section-sub{color:var(--ink-2);max-width:640px;font-size:1.05rem}
+
+.bg{position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(1000px 700px at 80% -10%, rgba(79,141,255,.13), transparent 60%),
+  radial-gradient(900px 700px at -10% 30%, rgba(47,214,181,.08), transparent 55%),
+  linear-gradient(180deg,#050912 0%,#04070f 45%,#060b16 100%);}
+.bg::after{content:"";position:absolute;inset:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(4,7,15,.74);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:1.8rem}
+.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.brand img{height:32px;width:auto;display:block;filter:drop-shadow(0 0 10px rgba(159,216,255,.25))}
+.brand .word{height:18px;width:auto;opacity:.95}
+.nav-links{display:flex;gap:1.6rem;align-items:center}
+.nav-links a{color:var(--ink-2);text-decoration:none;font-size:.9rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{display:flex;align-items:center;gap:.9rem}
+.lang-toggle{display:flex;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden}
+.lang-toggle button{background:transparent;border:none;color:var(--ink-3);font-family:var(--body);font-size:.8rem;font-weight:600;padding:.42rem .7rem;cursor:pointer;transition:.2s}
+.lang-toggle button.active{background:var(--teal-dim);color:var(--teal)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--display);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;padding:.85rem 1.5rem;border-radius:10px;text-decoration:none;transition:.22s;cursor:pointer;border:none}
+.btn-primary{background:linear-gradient(135deg,var(--teal),#25b9e6);color:#04231c}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(47,214,181,.28)}
+.btn-ghost{border:1px solid var(--line-strong);color:var(--ink);background:rgba(4,7,15,.35)}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+.btn-sm{padding:.55rem 1rem;font-size:.7rem}
+.menu-btn{display:none;background:none;border:1px solid var(--line-strong);border-radius:8px;color:var(--ink);padding:.45rem .7rem;cursor:pointer;font-size:1.1rem}
+.menu-panel{display:none;position:fixed;top:70px;left:0;right:0;background:rgba(4,7,15,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:1.2rem 1.5rem;z-index:55;flex-direction:column;gap:1rem}
+.menu-panel.open{display:flex}
+.menu-panel a{color:var(--ink-2);text-decoration:none;font-size:1rem;padding:.4rem 0}
+.menu-panel a:hover{color:var(--teal)}
+.banner-hero{position:relative;background:#04070f;text-align:center;overflow:hidden;padding:70px 0 0}
+.banner-hero .banner-wrap{position:relative;line-height:0;margin:0 auto;max-width:2000px}
+.banner-hero img.banner{width:100%;height:auto;display:block}
+.banner-hero .banner-ctas{position:relative;z-index:3;display:flex;gap:1rem;flex-wrap:wrap;
+  justify-content:center;padding:clamp(16px,2.4vw,30px) 20px clamp(24px,4vw,48px)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+section{padding:104px 24px;position:relative;overflow:hidden}
+.wrap{max-width:var(--max);margin:0 auto;position:relative;z-index:2}
+.divider{height:1px;max-width:var(--max);margin:0 auto;background:linear-gradient(90deg,transparent,var(--line-strong),transparent)}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:3rem}
+.stat{background:rgba(10,16,29,.85);padding:2rem 1.8rem}
+.stat .num{font-family:var(--display);font-size:2.2rem;
+  background:linear-gradient(120deg,#fff,var(--ice) 55%,var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat p{color:var(--ink-2);font-size:.92rem;margin-top:.5rem}
+.footnote{color:var(--ink-3);font-size:.78rem;margin-top:1.1rem}
+
+.mia-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:3.4rem;align-items:start;margin-top:2.6rem}
+.mia-points{display:flex;flex-direction:column;gap:1.15rem;margin-top:1.8rem}
+.mia-point{display:flex;gap:1rem;align-items:flex-start}
+.mia-point .tick{width:26px;height:26px;border-radius:8px;background:var(--teal-dim);color:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.15rem;font-size:.85rem}
+.mia-point b{display:block;color:var(--ink);font-weight:600}
+.mia-point span{color:var(--ink-2);font-size:.95rem}
+.guardrail{border:1px solid var(--line-strong);border-radius:18px;padding:2rem;background:linear-gradient(160deg,rgba(47,214,181,.07),rgba(79,141,255,.06));position:sticky;top:100px;backdrop-filter:blur(4px)}
+.guardrail .gr-head{display:flex;align-items:center;gap:.7rem;font-family:var(--display);font-size:.85rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;color:var(--teal)}
+.guardrail p{color:var(--ink-2);font-size:.95rem}
+.guardrail p+p{margin-top:.8rem}
+.guardrail .rule{margin-top:1.4rem;padding:1rem 1.2rem;border-radius:12px;background:rgba(4,7,15,.55);border:1px solid var(--line);font-size:.92rem;color:var(--ink)}
+
+.lang-count{display:flex;flex-wrap:wrap;gap:1rem;margin:2.2rem 0 .6rem}
+.lang-count div{flex:1 1 240px;border:1px solid var(--line-strong);border-radius:16px;padding:1.5rem 1.7rem;background:rgba(10,16,29,.72)}
+.lang-count .n{font-family:var(--display);font-size:clamp(2rem,5vw,3.1rem);line-height:1;color:var(--teal)}
+.lang-count .t{color:var(--ink-2);font-size:.95rem;margin-top:.6rem}
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-top:2.6rem}
+.lang-card{border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem;background:rgba(10,16,29,.72);text-align:center;transition:.25s}
+.lang-card:hover{border-color:var(--teal);transform:translateY(-3px)}
+.lang-card .native{font-size:1.25rem;font-weight:600}
+.lang-card .name{color:var(--ink-3);font-size:.78rem;margin-top:.35rem;letter-spacing:.08em;text-transform:uppercase}
+.lang-note{margin-top:2rem;color:var(--ink-2);font-size:1rem;max-width:680px}
+.lang-note b{color:var(--teal)}
+
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.4rem;margin-top:3rem}
+.why-card{border:1px solid var(--line);border-radius:16px;padding:1.9rem;background:rgba(10,16,29,.72)}
+.why-card .icon{width:40px;height:40px;border-radius:10px;background:rgba(79,141,255,.12);color:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;font-size:1.1rem}
+.why-card h3{font-size:.92rem;margin-bottom:.55rem}
+.why-card p{color:var(--ink-2);font-size:.9rem}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3rem}
+.step{border:1px solid var(--line);border-radius:16px;padding:2rem;background:rgba(10,16,29,.72)}
+.step .n{font-family:var(--display);font-size:.72rem;letter-spacing:.2em;color:var(--teal);margin-bottom:1rem;display:block}
+.step h3{font-size:.95rem;margin-bottom:.55rem}
+.step p{color:var(--ink-2);font-size:.92rem}
+
+.film{margin-top:2.6rem;position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line-strong);background:#060b16;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.film video{width:100%;display:block;aspect-ratio:16/9;background:#060b16}
+.film .film-cover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;cursor:pointer;background:linear-gradient(180deg,rgba(4,7,15,.4),rgba(4,7,15,.75));transition:opacity .4s}
+.film .film-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45;z-index:0}
+.film .play{position:relative;z-index:1;width:84px;height:84px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(4,7,15,.55);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 35px rgba(0,0,0,.35)}
+.film .play svg{width:28px;height:28px;color:#fff;margin-left:3px}
+.film .film-cover.hidden{opacity:0;pointer-events:none}
+.film .film-cover .label{position:relative;z-index:1;font-family:var(--display);font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);opacity:.95}
+
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.4rem;margin-top:2.8rem;align-items:start}
+.field{margin-bottom:1.1rem}
+.field label{display:block;font-size:.82rem;font-weight:600;color:var(--ink-2);margin-bottom:.4rem;letter-spacing:.04em}
+.field input,.field textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line-strong);border-radius:10px;padding:.85rem 1rem;color:var(--ink);font-family:var(--body);font-size:.95rem;transition:border-color .2s}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--teal)}
+.field textarea{min-height:130px;resize:vertical}
+.contact-side{border:1px solid var(--line);border-radius:18px;padding:2.2rem;background:rgba(10,16,29,.72)}
+.contact-side h3{font-size:1rem;margin-bottom:1rem}
+.contact-side p{color:var(--ink-2);font-size:.95rem;margin-bottom:1.4rem}
+.contact-line{display:flex;align-items:center;gap:.8rem;padding:.9rem 0;border-top:1px solid var(--line);color:var(--ink-2);font-size:.95rem}
+.contact-line svg{color:var(--teal);flex-shrink:0}
+.contact-line a{color:var(--ink);text-decoration:none;font-weight:500}
+.contact-line a:hover{color:var(--teal)}
+.form-note{font-size:.82rem;color:var(--ink-3);margin-top:.9rem}
+
+footer{border-top:1px solid var(--line);padding:2.5rem 24px;text-align:center;color:var(--ink-3);font-size:.9rem}
+footer a{color:var(--teal);text-decoration:none}
+footer .logo-row{display:flex;justify-content:center;align-items:center;gap:.8rem;margin-bottom:1rem}
+footer .logo-row img{height:28px}
+
+@media(max-width:900px){
+  .mia-grid,.contact-grid{grid-template-columns:1fr}
+  .guardrail{position:static;margin-top:2rem}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  nav{background:rgba(4,7,15,.9)}
+  .nav-inner{padding:0 16px;height:64px}
+  .nav-links{display:none}
+  .menu-btn{display:inline-flex;align-items:center;justify-content:center}
+  .section-title{font-size:1.7rem}
+  .stats{grid-template-columns:1fr 1fr}
+  .lang-count div{flex-basis:100%}
+  .banner-hero .banner-ctas .btn{width:100%;justify-content:center}
+}
+@media(max-width:480px){
+  section{padding:84px 16px}
+  .stats{grid-template-columns:1fr}
+  .contact-line{font-size:.9rem}
+}
+</style>
+</head>
+<body>
+<div aria-hidden="true" class="bg"></div>
+<nav>
+<div class="nav-inner">
+<a class="brand" href="#top">
+<img alt="AXIOM" src="../AXIOM-A.png"/>
+<img alt="AXIOM" class="word" src="../AXIOM-WORDMARK.png"/>
+</a>
+<div class="nav-links">
+<a href="#capabilities">功能</a>
+<a href="#metrics">指标</a>
+<a href='/videos'>视频</a>
+<a href="#languages">语言</a>
+<a href="#why">为何现在</a>
+<a href="#contact">联系我们</a>
+</div>
+<div class="nav-cta">
+<div aria-label="Language" class="lang-toggle" role="group">
+<button class="active" onclick="window.location.href='/'" type="button">EN</button>
+<button data-lang="zh" style="display:none" type="button">中文</button>
+</div>
+<button aria-label="Menu" class="menu-btn" id="menuBtn" type="button">☰</button>
+</div>
+</div>
+</nav>
+<div class="menu-panel" id="menuPanel">
+<a href="#capabilities">功能</a>
+<a href="#metrics">指标</a>
+<a href='/videos'>视频</a>
+<a href="#languages">语言</a>
+<a href="#why">为何现在</a>
+<a href="#contact">联系我们</a>
+</div>
+<header class="banner-hero" id="top">
+<div class="banner-wrap">
+<img alt="MIA — AXIOM AI 医疗智能架构师" class="banner" src="../mia-banner.jpg"/>
+<h1 class="sr-only">MIA by AXIOM AI — 医疗智能架构师</h1>
+</div>
+</header>
+<!-- WE LOVE DATA SECTION -->
+<style>
+  #data-stats img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+</style>
+<section id="data-stats" style="width: 100% !important; background: #030712 !important; padding: 40px 20px !important; box-sizing: border-box !important; display: block !important;">
+<div style="max-width: 1200px !important; width: 100% !important; margin: 0 auto !important; text-align: center !important;">
+<img alt="AXIOM AI 数据" src="../we-love-data.jpg" style="border-radius: 16px; border: 1px solid rgba(0, 163, 255, 0.2); box-shadow: 0 12px 40px rgba(0, 163, 255, 0.15);"/>
+</div>
+</section>
+<!-- WE LOVE DATA SECTION -->
+<!-- WE LOVE DATA SECTION -->
+<style>
+  #data-stats {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    background: #030712 !important;
+    padding: 40px 20px !important;
+    box-sizing: border-box !important;
+    display: block !important;
+  }
+  #data-stats .data-container {
+    max-width: 1200px !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 auto !important;
+  }
+  #data-stats img.full-data-img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 163, 255, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 163, 255, 0.15);
+  }
+</style>
+<!-- WE LOVE DATA SECTION -->
+<style>
+  #data-stats {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    background: #030712 !important;
+    padding: 40px 20px !important;
+    box-sizing: border-box !important;
+    display: block !important;
+  }
+  #data-stats .data-container {
+    max-width: 1200px !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 auto !important;
+  }
+  #data-stats img.full-data-img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 163, 255, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 163, 255, 0.15);
+  }
+</style>
+<!-- WE LOVE DATA SECTION -->
+<!-- WE LOVE DATA SECTION -->
+<!-- WE LOVE DATA SECTION -->
+<!-- WE LOVE DATA SECTION -->
+<section id="capabilities">
+<div class="wrap">
+<p class="eyebrow" data-lang="en">Capabilities</p>
+<p class="eyebrow" data-lang="zh" style="display:none">核心能力</p>
+<h2 class="section-title chrome" data-lang="en">The only agentic AI that does it all</h2>
+<h2 class="section-title chrome" data-lang="zh" style="display:none">唯一全能智能体 AI</h2>
+<p class="section-sub" data-lang="en">MIA is your AI clinical operations manager — phones, intake, scheduling, documentation, and multilingual support in one system built for medical practices.</p>
+<p class="section-sub" data-lang="zh" style="display:none">MIA 是您的 AI 临床运营经理——电话、接诊、排班、文档与多语言支持，专为医疗机构打造的一体化系统。</p>
+<div class="stats">
+<div class="stat">
+<div class="num">$1M</div>
+<p data-lang="en">Liability policy behind the AI</p>
+<p data-lang="zh" style="display:none">AI 背后的责任保险</p>
+</div>
+<div class="stat">
+<div class="num">100+</div>
+<p data-lang="en">Languages spoken &amp; transcribed</p>
+<p data-lang="zh" style="display:none">支持口语与转写的语言</p>
+</div>
+<div class="stat">
+<div class="num">22</div>
+<p data-lang="en">Chinese dialects (real fluency)</p>
+<p data-lang="zh" style="display:none">中文方言（真正流利）</p>
+</div>
+<div class="stat">
+<div class="num">24/7</div>
+<p data-lang="en">Coverage — never miss a call</p>
+<p data-lang="zh" style="display:none">全天候接听，不错过任何来电</p>
+</div>
+</div>
+<p class="footnote" data-lang="en">Backed by a $1,000,000 liability policy. Built with accuracy checks and HIPAA-ready workflows.</p>
+<p class="footnote" data-lang="zh" style="display:none">由 100 万美元责任保险支持。内置准确性校验与 HIPAA 就绪流程。</p>
+<div class="mia-grid">
+<div>
+<div class="mia-points">
+<div class="mia-point">
+<div class="tick">✓</div>
+<div>
+<b data-lang="en">Answers every call in your practice’s voice</b>
+<b data-lang="zh" style="display:none">以您诊所的声音接听每一通电话</b>
+<span data-lang="en">Books, reschedules, answers insurance and hours questions — day and night.</span>
+<span data-lang="zh" style="display:none">预约、改期、解答保险与营业时间——全天候。</span>
+</div>
+</div>
+<div class="mia-point">
+<div class="tick">✓</div>
+<div>
+<b data-lang="en">Doctor’s personal scribe</b>
+<b data-lang="zh" style="display:none">医生的私人书记员</b>
+<span data-lang="en">Captures the encounter cleanly so you spend less time in the chart and more time with patients.</span>
+<span data-lang="zh" style="display:none">清晰记录就诊过程，让您少花时间写病历，多花时间陪患者。</span>
+</div>
+</div>
+<div class="mia-point">
+<div class="tick">✓</div>
+<div>
+<b data-lang="en">Intake, data entry &amp; accuracy checks</b>
+<b data-lang="zh" style="display:none">接诊、数据录入与准确性校验</b>
+<span data-lang="en">Handles the whole front-office process with built-in checks — not just a chatbot.</span>
+<span data-lang="zh" style="display:none">处理完整前台流程并内置校验——不只是聊天机器人。</span>
+</div>
+</div>
+<div class="mia-point">
+<div class="tick">✓</div>
+<div>
+<b data-lang="en">True Chinese dialect support</b>
+<b data-lang="zh" style="display:none">真正的中文方言支持</b>
+<span data-lang="en">Patients can speak Mandarin, Cantonese, and 20+ other Chinese dialects — MIA replies in kind.</span>
+<span data-lang="zh" style="display:none">患者可用普通话、粤语及 20 多种中文方言交流——MIA 以同样语言回应。</span>
+</div>
+</div>
+</div>
+</div>
+<div class="guardrail">
+<div class="gr-head">安全护栏</div>
+<p data-lang="en">MIA is designed for clinical operations — not autonomous diagnosis. She escalates medical questions to your team and keeps a clear audit trail.</p>
+<p data-lang="zh" style="display:none">MIA 专为临床运营设计——不进行自主诊断。她会将医疗问题升级给您的团队，并保留清晰审计轨迹。</p>
+<div class="rule" data-lang="en">$1M liability policy · Accuracy checks · Practice-controlled voice &amp; rules</div>
+<div class="rule" data-lang="zh" style="display:none">100 万美元责任险 · 准确性校验 · 诊所可控的语音与规则</div>
+</div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+
+<div class="divider"></div>
+<section id="languages">
+<div class="wrap">
+<p class="eyebrow" data-lang="en">Languages</p>
+<p class="eyebrow" data-lang="zh" style="display:none">语言</p>
+<h2 class="section-title chrome" data-lang="en">Speak the way your patients speak</h2>
+<h2 class="section-title chrome" data-lang="zh" style="display:none">用患者的语言沟通</h2>
+<p class="section-sub" data-lang="en">Fluent conversation and transcription across 100+ languages — including 22 Chinese dialects that matter in real communities.</p>
+<p class="section-sub" data-lang="zh" style="display:none">支持 100 多种语言的流利对话与转写——包括在真实社区中至关重要的 22 种中文方言。</p>
+<div class="lang-count">
+<div>
+<div class="n">100+</div>
+<div class="t" data-lang="en">Languages for speech &amp; transcription</div>
+<div class="t" data-lang="zh" style="display:none">口语与转写语言</div>
+</div>
+<div>
+<div class="n">22</div>
+<div class="t" data-lang="en">Chinese dialects with real fluency</div>
+<div class="t" data-lang="zh" style="display:none">真正流利的中文方言</div>
+</div>
+</div>
+<div class="lang-grid">
+<div class="lang-card"><div class="native">普通话</div><div class="name">普通话</div></div>
+<div class="lang-card"><div class="native">粤语</div><div class="name">粤语</div></div>
+<div class="lang-card"><div class="native">上海话</div><div class="name">上海话</div></div>
+<div class="lang-card"><div class="native">闽南语</div><div class="name">闽南语</div></div>
+<div class="lang-card"><div class="native">英语</div><div class="name">英语</div></div>
+<div class="lang-card"><div class="native">西班牙语</div><div class="name">西班牙语</div></div>
+<div class="lang-card"><div class="native">韩语</div><div class="name">韩语</div></div>
+<div class="lang-card"><div class="native">+ 更多</div><div class="name">更多语言</div></div>
+</div>
+<p class="lang-note" data-lang="en">No other option gives you this combination of dialect depth, liability coverage, and end-to-end operations handling.</p>
+<p class="lang-note" data-lang="zh" style="display:none">没有其他方案能同时提供如此深度的方言支持、责任保障与端到端运营处理。</p>
+</div>
+</section>
+<div class="divider"></div>
+<section id="why">
+<div class="wrap">
+<p class="eyebrow" data-lang="en">Why now</p>
+<p class="eyebrow" data-lang="zh" style="display:none">为何现在</p>
+<h2 class="section-title chrome" data-lang="en">Stop the bleeding. Start the healing.</h2>
+<h2 class="section-title chrome" data-lang="zh" style="display:none">止血。开始疗愈。</h2>
+<p class="section-sub" data-lang="en">AI won’t replace your job — the doctor who already has AI will. Every month you wait, you fall further behind.</p>
+<p class="section-sub" data-lang="zh" style="display:none">AI 不会取代您的工作——已经拥有 AI 的医生会。您每多等一个月，就会落后更多。</p>
+<div class="why-grid">
+<div class="why-card">
+<div class="icon">⏱</div>
+<h3 data-lang="en">Hours back in your day</h3>
+<h3 data-lang="zh" style="display:none">把时间还给您</h3>
+<p data-lang="en">Less phone tag, less charting after hours. MIA handles the grind so you can practice medicine.</p>
+<p data-lang="zh" style="display:none">更少电话来回、更少下班后写病历。MIA 处理琐事，让您专注行医。</p>
+</div>
+<div class="why-card">
+<div class="icon">📞</div>
+<h3 data-lang="en">No more missed patients</h3>
+<h3 data-lang="zh" style="display:none">不再错过患者</h3>
+<p data-lang="en">24/7 answer in the languages your community actually uses — including real Chinese dialects.</p>
+<p data-lang="zh" style="display:none">全天候以社区真正使用的语言接听——包括真实中文方言。</p>
+</div>
+<div class="why-card">
+<div class="icon">◆</div>
+<h3 data-lang="en">Pays for itself</h3>
+<h3 data-lang="zh" style="display:none">自我回本</h3>
+<p data-lang="en">Typically recovers cost inside the first 30 days through retained patients and reclaimed staff time.</p>
+<p data-lang="zh" style="display:none">通常通过留住患者与节省人力，在前 30 天内收回成本。</p>
+</div>
+<div class="why-card">
+<div class="icon">🛡</div>
+<h3 data-lang="en">Confidence you can stand behind</h3>
+<h3 data-lang="zh" style="display:none">可以站得住脚的信心</h3>
+<p data-lang="en">$1M liability policy. Built-in accuracy checks. We put skin in the game because we trust the system.</p>
+<p data-lang="zh" style="display:none">100 万美元责任险。内置准确性校验。我们敢担保，因为我们信任这套系统。</p>
+</div>
+</div>
+<div class="steps">
+<div class="step">
+<span class="n">01</span>
+<h3 data-lang="en">Pilot</h3>
+<h3 data-lang="zh" style="display:none">试点</h3>
+<p data-lang="en">Start with a small retainer. See MIA live on your phones and workflows.</p>
+<p data-lang="zh" style="display:none">以小额预付启动。在您的电话与流程中真实运行 MIA。</p>
+</div>
+<div class="step">
+<span class="n">02</span>
+<h3 data-lang="en">Tune</h3>
+<h3 data-lang="zh" style="display:none">调优</h3>
+<p data-lang="en">We match voice, rules, insurance lists, and hours to your practice.</p>
+<p data-lang="zh" style="display:none">我们按您的诊所匹配语音、规则、保险列表与营业时间。</p>
+</div>
+<div class="step">
+<span class="n">03</span>
+<h3 data-lang="en">Scale</h3>
+<h3 data-lang="zh" style="display:none">扩展</h3>
+<p data-lang="en">Expand to full coverage, scribe, and multi-location when you’re ready.</p>
+<p data-lang="zh" style="display:none">准备好后扩展至全覆盖、书记与多地点。</p>
+</div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+<section id="contact">
+<div class="wrap">
+<p class="eyebrow" data-lang="en">Contact</p>
+<p class="eyebrow" data-lang="zh" style="display:none">联系</p>
+<h2 class="section-title chrome" data-lang="en">Start your pilot</h2>
+<h2 class="section-title chrome" data-lang="zh" style="display:none">开启试点</h2>
+<p class="section-sub" data-lang="en">Tell us about your practice. We’ll follow up personally — no automated sales sequence.</p>
+<p class="section-sub" data-lang="zh" style="display:none">告诉我们您的诊所情况。我们将亲自跟进——没有自动销售序列。</p>
+<div class="contact-grid">
+<form action="mailto:paul@axiomvoice.org" enctype="text/plain" id="contactForm" method="post">
+<div class="field">
+<label for="name">姓名</label>
+<input id="name" name="name" placeholder="李医生" required="" type="text"/>
+</div>
+<div class="field">
+<label for="practice">诊所 / 专科</label>
+<input id="practice" name="practice" placeholder="纽约内科诊所" type="text"/>
+</div>
+<div class="field">
+<label for="email">电子邮箱</label>
+<input id="email" name="email" placeholder="您@诊所.com" required="" type="email"/>
+</div>
+<div class="field">
+<label for="phone">电话（可选）</label>
+<input id="phone" name="phone" placeholder="+1 …" type="tel"/>
+</div>
+<div class="field">
+<label for="message">您需要哪些帮助？</label>
+<textarea id="message" name="message" placeholder="电话接听、中文方言、医疗记录……"></textarea>
+</div>
+<button class="btn btn-primary" type="submit">发送消息</button>
+<p class="form-note">或直接发邮件：<a href="mailto:paul@axiomvoice.org" style="color:var(--teal)">paul@axiomvoice.org</a></p>
+</form>
+<div class="contact-side">
+<h3 data-lang="en">Contact AXIOM</h3>
+<h3 data-lang="zh" style="display:none">联系 AXIOM</h3>
+<div class="contact-line">
+<svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+<a href="mailto:paul@axiomvoice.org">paul@axiomvoice.org</a>
+</div>
+<div class="contact-line">
+<svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+<span>纽约</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer>
+<div class="logo-row">
+<img alt="" src="../AXIOM-A.png"/>
+<img alt="AXIOM" src="../AXIOM-WORDMARK.png" style="height:16px"/>
+</div>
+<p>AXIOM AI · Paul Zwick · <a href="mailto:paul@axiomvoice.org">paul@axiomvoice.org</a></p>
+<p style="margin-top:.5rem;font-size:.8rem">© 2026 AXIOM。保留所有权利。</p>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  /* Mobile menu */
+  var menuBtn = document.getElementById('menuBtn');
+  var menuPanel = document.getElementById('menuPanel');
+  if (menuBtn && menuPanel) {
+    menuBtn.addEventListener('click', function () {
+      menuPanel.classList.toggle('open');
+    });
+    menuPanel.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        menuPanel.classList.remove('open');
+      });
+    });
+  }
+
+  /* Language toggle */
+  var langButtons = document.querySelectorAll('.lang-toggle button');
+  var content = document.querySelectorAll('[data-lang]');
+
+  function setLanguage(lang) {
+    content.forEach(function (el) {
+      el.style.display = el.getAttribute('data-lang') === lang ? '' : 'none';
+    });
+    langButtons.forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+  }
+
+  var savedLang = 'zh';
+  if (content.length) setLanguage(savedLang);
+
+  langButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var lang = btn.dataset.lang;
+      localStorage.setItem('preferred-language', lang);
+      if (content.length) setLanguage(lang);
+    });
+  });
+
+});
+</script>
+</body>
+</html>
