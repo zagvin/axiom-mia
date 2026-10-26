@@ -280,7 +280,7 @@ nav.is-scrolled{background:rgba(249,251,253,.94);border-bottom:1px solid var(--l
 .nav-links{gap:clamp(14px,2vw,30px)}.nav-links a{font-size:13px;color:rgba(255,255,255,.88);white-space:nowrap}.nav-links a:hover{color:#fff}nav.is-scrolled .nav-links a{color:#405668}nav.is-scrolled .nav-links a:hover{color:#087b55}
 .nav-cta{gap:14px}.locale-control{display:flex;align-items:center;gap:3px}.locale-control button,.mobile-menu-button{border:0;background:transparent;color:#fff;padding:8px 7px;font:600 12px var(--body);cursor:pointer}.locale-control button[aria-pressed="true"]{text-decoration:underline;text-underline-offset:5px}nav.is-scrolled .locale-control button{color:#405668}
 .nav-cta>.btn{border-radius:999px;background:#087550;color:#fff;font:600 12px var(--body);letter-spacing:0;text-transform:none;padding:11px 17px}.nav-cta>.btn:hover{background:#075e42;transform:translateY(-1px)}
-.mobile-menu-button{display:none}.menu-panel{top:76px;background:rgba(246,249,252,.97);border-bottom:1px solid var(--line);padding:20px 28px;gap:10px;max-height:calc(100svh - 76px);overflow:auto}.menu-panel.open{display:flex}.menu-panel a{color:#405668;padding:10px 4px;border-bottom:1px solid var(--line)}
+.mobile-menu-button{display:none}.menu-panel{top:76px;background:rgba(246,249,252,.97);border-bottom:1px solid var(--line);padding:20px 28px;gap:10px;max-height:calc(100svh - 76px);overflow:auto}.menu-panel.open{display:flex}.menu-panel .locale-control{display:flex}.menu-panel .locale-control button{color:#405668}.menu-panel a{color:#405668;padding:10px 4px;border-bottom:1px solid var(--line)}
 .banner-hero{padding:0;min-height:100svh;background:#10283b}.banner-hero .banner-wrap{width:100%;max-width:none;min-height:100svh;align-items:flex-end;isolation:isolate;background:#16344a}.hero-scene{position:absolute;inset:0;z-index:-1;overflow:hidden;opacity:0;transition:opacity 2.1s cubic-bezier(.2,.65,.25,1)}.hero-scene.is-active{opacity:1}.hero-scene img{width:100%;height:100%;display:block;object-fit:cover;animation:scene-drift 26s ease-in-out both}.hero-scene[data-scene="clinic"] img{object-position:58% 54%;filter:saturate(.72) hue-rotate(4deg) brightness(.86)}.hero-scene[data-scene="mia"] img{object-position:center 42%;filter:saturate(.8) hue-rotate(3deg) brightness(.75)}.hero-scene[data-scene="city"] img{object-position:center 48%;filter:saturate(.78) hue-rotate(7deg) brightness(.8)}
 @keyframes scene-drift{from{transform:scale(1)}to{transform:scale(1.08)}}
 .banner-hero .banner-wrap::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(6,22,34,.46),rgba(7,22,34,.04) 37%,rgba(7,22,34,.18) 62%,rgba(5,18,28,.78));pointer-events:none}
@@ -296,7 +296,6 @@ nav.is-scrolled{background:rgba(249,251,253,.94);border-bottom:1px solid var(--l
 .editorial-split{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:9vw}.editorial-split figure{margin:0;min-height:570px;overflow:hidden;background:#e5ebef}.editorial-split figure img{width:100%;height:100%;min-height:570px;display:block;object-fit:cover;object-position:center 54%;filter:saturate(.72) hue-rotate(5deg)}.editorial-split .editorial-copy{font-size:16px}.photo-credit{margin-top:18px;color:#718394;font-size:10px;line-height:1.5}.photo-credit a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .demo-section{background:#eaf0f4}.demo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:44px}.demo-card{background:#fff;border:1px solid #dce5eb;min-width:0}.demo-card video{width:100%;display:block;aspect-ratio:16/10;object-fit:cover;background:#dbe4eb}.demo-card-copy{padding:18px}.demo-card h3{font:600 16px var(--body);text-transform:none;letter-spacing:0;color:#203b52;margin-bottom:7px}.demo-card p{font-size:13px;color:#607487;line-height:1.6}
 .founder-section{background:#fff}.founder-layout{display:grid;grid-template-columns:.8fr 1.2fr;align-items:center;gap:8vw}.founder-copy .editorial-heading{font-size:38px}.founder-film{position:relative;overflow:hidden;background:#152c40}.founder-film video{width:100%;display:block;max-height:620px;object-fit:cover;aspect-ratio:16/10}.founder-film .founder-caption{position:absolute;left:18px;bottom:18px;color:white;font-size:12px;text-shadow:0 1px 5px #000;pointer-events:none}
-#data-stats,#videos,#capabilities,#why,.divider{display:none!important}
 #contact{scroll-margin-top:75px;background:#eef3f6;padding:104px 40px!important;border-top:1px solid var(--line)}#contact .wrap{max-width:1240px}#contact .section-title{font:500 42px/1.15 var(--body);letter-spacing:0;text-transform:none;color:#162e43;margin:14px 0}#contact .section-sub{font-size:16px;color:#5e7284}#contact .contact-grid{gap:7vw;align-items:start}#contact form{max-width:620px}#contact .field label{color:#3f566b;letter-spacing:0;font-size:13px}#contact .field input,#contact .field textarea{border-radius:3px;background:#fff;border-color:#c8d4dd;color:#142b3f}#contact .field input:focus,#contact .field textarea:focus{border-color:#14825a;box-shadow:0 0 0 3px rgba(20,130,90,.1)}#contact .btn-primary{background:#087550;color:#fff;border-radius:999px;font:600 14px var(--body);letter-spacing:0;text-transform:none}#contact .form-note{color:#617589}#contact .contact-side{border:0;border-left:1px solid #cbd7df;border-radius:0;background:transparent;padding:8px 0 8px 30px}#contact .contact-side h3{font:500 20px var(--body);text-transform:none;letter-spacing:0;color:#1e394f}#contact .contact-line{border-color:#cbd7df;color:#3f566b}#contact .contact-line a{color:#173b56}
 footer{background:#f5f8fb;border-color:var(--line);color:#617589;padding:34px 24px 24px}footer a{color:#087550}.footer-slogan{max-width:600px;margin:16px auto;color:#435b70;font-size:12px}.media-credits{max-width:1000px;margin:12px auto 0;color:#718394;font-size:10px;line-height:1.6}.media-credits a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .btn:focus-visible,.chapter-button:focus-visible,.hero-pause:focus-visible,.locale-control button:focus-visible,.mobile-menu-button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #1688dd;outline-offset:3px}
@@ -357,214 +356,6 @@ footer{background:#f5f8fb;border-color:var(--line);color:#617589;padding:34px 24
 <section class="editorial-split" id="care-setting"><figure><img src="clinic-interior.jpg" alt="Bright glass-walled treatment rooms in a cosmetic clinic" loading="lazy"/><figcaption class="photo-credit">Clinic photo: <a href="https://commons.wikimedia.org/wiki/File:Interior_of_Snow_Clinic_Ansan_branch_in_March_2026.jpg" target="_blank" rel="noreferrer">Interior of Snow Clinic Ansan branch in March 2026</a>, ELIZABETH_XIONG, CC BY 4.0.</figcaption></figure><div><p class="eyebrow" data-copy-en="Care is personal" data-copy-zh="医疗关乎每个人">Care is personal</p><h2 class="editorial-heading" data-copy-en="Give the details their due. Keep people in charge." data-copy-zh="认真对待每个细节，让团队始终掌握主动。">Give the details their due. Keep people in charge.</h2><p class="editorial-copy" data-copy-en="MIA is designed for clinical operations, not autonomous diagnosis. Your team sets the rules, reviews the work, and steps in when a patient needs a person." data-copy-zh="MIA 专注于临床运营，而非自主诊断。团队制定规则、审核工作，并在患者需要时及时介入。">MIA is designed for clinical operations, not autonomous diagnosis. Your team sets the rules, reviews the work, and steps in when a patient needs a person.</p><p class="photo-credit" data-copy-en="The clinic image is illustrative and does not represent an AXIOM customer." data-copy-zh="诊所图片仅作示意，不代表 AXIOM 客户。">The clinic image is illustrative and does not represent an AXIOM customer.</p></div></section>
 <section class="demo-section" id="demos"><div class="experience-inner"><p class="eyebrow" data-copy-en="Meet MIA" data-copy-zh="认识 MIA">Meet MIA</p><h2 class="editorial-heading" data-copy-en="A closer look at the work." data-copy-zh="深入了解日常工作。">A closer look at the work.</h2><div class="demo-grid"><article class="demo-card"><video controls playsinline preload="none" poster="mia-voice-demo-thumbnail.jpg"><source src="bbbbbb%20(1).mp4" type="video/mp4"/></video><div class="demo-card-copy"><h3 data-copy-en="MIA in a practice" data-copy-zh="MIA 与诊所">MIA in a practice</h3><p data-copy-en="A short look at the patient and practice experience." data-copy-zh="了解患者与诊所的使用体验。">A short look at the patient and practice experience.</p></div></article><article class="demo-card"><video controls playsinline preload="none" poster="statpg.png"><source src="cccccc.mp4" type="video/mp4"/></video><div class="demo-card-copy"><h3 data-copy-en="Practice workflows" data-copy-zh="诊所工作流程">Practice workflows</h3><p data-copy-en="A visual walkthrough of MIA's operational workflow." data-copy-zh="通过画面了解 MIA 的运营工作流程。">A visual walkthrough of MIA's operational workflow.</p></div></article><article class="demo-card"><video controls playsinline preload="none" poster="founder-message-poster.jpg"><source src="founder-message.mp4" type="video/mp4"/><track kind="captions" src="founder-message.vtt" srclang="en" label="English captions"/></video><div class="demo-card-copy"><h3 data-copy-en="A message from the founder" data-copy-zh="创始人寄语">A message from the founder</h3><p data-copy-en="Hear the thinking behind AXIOM and MIA." data-copy-zh="聆听 AXIOM 与 MIA 背后的理念。">Hear the thinking behind AXIOM and MIA.</p></div></article></div></div></section>
 <section class="founder-section" id="founder"><div class="experience-inner founder-layout"><div class="founder-copy"><p class="eyebrow" data-copy-en="From AXIOM" data-copy-zh="来自 AXIOM">From AXIOM</p><h2 class="editorial-heading" data-copy-en="Built with care for the people who provide it." data-copy-zh="为提供医疗服务的人倾心打造。">Built with care for the people who provide it.</h2><p class="editorial-copy" data-copy-en="A note from AXIOM's founder on the work, the responsibility, and the people behind MIA." data-copy-zh="AXIOM 创始人分享 MIA 背后的工作、责任与团队。">A note from AXIOM's founder on the work, the responsibility, and the people behind MIA.</p></div><figure class="founder-film"><video controls playsinline preload="none" poster="founder-message-poster.jpg"><source src="founder-message.mp4" type="video/mp4"/><track kind="captions" src="founder-message.vtt" srclang="en" label="English captions"/></video><figcaption class="founder-caption">Paul Zwick · AXIOM</figcaption></figure></div></section>
-</main>
-<style id="page2-readable">
-#data-stats{padding:0;scroll-margin-top:70px;background:radial-gradient(ellipse at 50% 35%,#102f50,#061527 75%);display:flex;justify-content:center}
-#data-stats .statpg-stage{position:relative;width:100%;max-width:1241px;aspect-ratio:1241/833;margin:0;container-type:inline-size}
-#data-stats .statpg-art{display:block;width:100%;height:auto}
-#data-stats .statpg-copy{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:auto;min-height:var(--h);background:#040e1e;padding:0 2px;overflow:visible}
-#data-stats .statpg-copy h3{font-family:Arial,sans-serif;font-size:clamp(11px,1.13cqw,14px);font-weight:500;line-height:1.15;letter-spacing:0;color:#9ab6d7;margin:0 0 4px}
-#data-stats .statpg-copy p{font-family:Arial,sans-serif;font-size:clamp(12px,1.21cqw,15px);font-weight:400;line-height:1.23;letter-spacing:0;color:#ecf3ff;margin:0}
-#data-stats .statpg-value,#data-stats .statpg-mobile-title,#data-stats .statpg-icon{display:none}
-#data-stats .statpg-source-mask{position:absolute;left:4%;width:94%;height:2.7%;background:#040e1e}
-#data-stats .statpg-source-mask.row-two{top:65%}
-#data-stats .statpg-source-mask.row-three{top:86.8%}
-#data-stats .statpg-footnote{position:absolute;left:13%;top:95.5%;width:80%;height:2.8%;margin:0;background:#030b19;color:#9ab6d7;font:clamp(9px,.88cqw,11px)/1.4 Arial,sans-serif;text-align:center}
-@media(min-width:901px){
-#data-stats .statpg-stage{width:min(100%,calc((100svh - 71px) * 1241 / 833))}
-}
-@media(max-width:900px){
-#data-stats{padding:20px 14px;scroll-margin-top:70px}
-#data-stats .statpg-stage{aspect-ratio:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#24435f;border:1px solid #24435f}
-#data-stats .statpg-art,#data-stats .statpg-source-mask{display:none}
-#data-stats .statpg-mobile-title{display:block;grid-column:1/-1;background:#061527;color:#e7f3ff;margin:0;padding:20px 12px;text-align:center;font:600 25px/1.2 Arial,sans-serif}
-#data-stats .statpg-mobile-title small{display:block;font-size:12px;margin-top:8px;color:#a4c9ee}
-#data-stats .statpg-copy{position:static;width:auto;height:auto;padding:16px 12px;background:#040e1e}
-#data-stats .statpg-icon{display:block;width:46px;height:46px;background-image:url(statpg.png);background-size:806.65px 541.45px;margin-bottom:8px}
-#data-stats .statpg-value{display:block;font:600 clamp(21px,5vw,36px)/1.2 Arial,sans-serif;color:#e7f3ff;margin-bottom:10px}
-#data-stats .statpg-copy h3{font-size:13px;line-height:1.25}
-#data-stats .statpg-copy p{font-size:14px;line-height:1.45}
-#data-stats .statpg-footnote{position:static;grid-column:1/-1;width:auto;height:auto;padding:12px;font-size:11px}
-}
-</style>
-<section id="data-stats" aria-label="We love data — real numbers, real results">
-<div class="statpg-stage">
-<img class="statpg-art" src="statpg.png" alt="WE LOVE DATA. REAL NUMBERS. REAL RESULTS. AXIOM statistics artwork."/>
-<h2 class="statpg-mobile-title">WE LOVE DATA<small>REAL NUMBERS. REAL RESULTS.</small></h2>
-<div class="statpg-source-mask row-two" aria-hidden="true"></div>
-<div class="statpg-source-mask row-three" aria-hidden="true"></div>
-<div class="statpg-copy" style="--x:7.010475423045931%;--y:38.17527010804322%;--w:14.746172441579372%;--h:8.883553421368548%"><span class="statpg-icon" aria-hidden="true" style="background-position:-11.05px -202.15px"></span><span class="statpg-value">24/7 · 365</span><h3>MIA NEVER SLEEPS.</h3><p>Always available. Every call. Every time.</p></div>
-<div class="statpg-copy" style="--x:29.411764705882355%;--y:38.17527010804322%;--w:10.394842868654312%;--h:8.883553421368548%"><span class="statpg-icon" aria-hidden="true" style="background-position:-185.9px -199.55px"></span><span class="statpg-value">100+</span><h3>LANGUAGES</h3><p>Communicate seamlessly.</p></div>
-<div class="statpg-copy" style="--x:42.38517324738114%;--y:38.17527010804322%;--w:15.63255439161966%;--h:8.883553421368548%"><span class="statpg-icon" aria-hidden="true" style="background-position:-408.2px -154.05px"></span><span class="statpg-value">22</span><h3>CHINESE DIALECTS</h3><p>She speaks your patient’s language.</p></div>
-<div class="statpg-copy" style="--x:64.70588235294117%;--y:38.17527010804322%;--w:11.68412570507655%;--h:8.883553421368548%"><span class="statpg-icon" aria-hidden="true" style="background-position:-475.8px -202.15px"></span><span class="statpg-value">$0</span><h3>YOU PAY</h3><p>If we don’t meet your expectations.</p></div>
-<div class="statpg-copy" style="--x:83.80338436744562%;--y:37.935174069627855%;--w:14.182111200644643%;--h:9.243697478991598%"><span class="statpg-icon" aria-hidden="true" style="background-position:-625.95px -202.15px"></span><span class="statpg-value">$1,000,000</span><h3>LIABILITY INSURANCE</h3><p>Axiom provides $1 million in liability coverage.</p></div>
-<div class="statpg-copy" style="--x:6.768734891216761%;--y:56.78271308523409%;--w:14.987912973408541%;--h:8.16326530612245%"><span class="statpg-icon" aria-hidden="true" style="background-position:-9.75px -304.85px"></span><span class="statpg-value">15,791</span><h3>HOURS RECLAIMED</h3><p>Physician documentation time saved.</p></div>
-<div class="statpg-copy" style="--x:28.444802578565675%;--y:56.30252100840336%;--w:11.120064464141821%;--h:8.763505402160865%"><span class="statpg-icon" aria-hidden="true" style="background-position:-185.25px -304.85px"></span><span class="statpg-value">80%</span><h3>DOCTORS NOW USING AI</h3><p>In some way in their practice.</p></div>
-<div class="statpg-copy" style="--x:46.494762288477034%;--y:56.182472989195674%;--w:11.603545527800161%;--h:9.003601440576231%"><span class="statpg-icon" aria-hidden="true" style="background-position:-329.55px -302.90000000000003px"></span><span class="statpg-value">8</span><h3>EXTRA PATIENTS EACH WEEK</h3><p>Increase capacity and practice growth.</p></div>
-<div class="statpg-copy" style="--x:63.65834004834811%;--y:56.78271308523409%;--w:12.731668009669622%;--h:8.403361344537815%"><span class="statpg-icon" aria-hidden="true" style="background-position:-473.85px -306.15000000000003px"></span><span class="statpg-value">95%+</span><h3>FIRST-PASS ACCEPTANCE</h3><p>Clean claim rate with AI RCM.</p></div>
-<div class="statpg-copy" style="--x:83.80338436744562%;--y:56.542617046818734%;--w:14.182111200644643%;--h:8.763505402160865%"><span class="statpg-icon" aria-hidden="true" style="background-position:-627.9px -305.5px"></span><span class="statpg-value">25–50%</span><h3>FEWER DENIALS</h3><p>Denial rates reduced across the revenue cycle with AI.</p></div>
-<div class="statpg-copy" style="--x:7.574536663980661%;--y:76.5906362545018%;--w:14.26269137792103%;--h:10.204081632653061%"><span class="statpg-icon" aria-hidden="true" style="background-position:-11.05px -416.65000000000003px"></span><span class="statpg-value">60%</span><h3>FASTER CLAIMS PROCESSING</h3><p>Claims processed significantly faster with AI.</p></div>
-<div class="statpg-copy" style="--x:28.52538275584206%;--y:76.83073229291718%;--w:11.281224818694602%;--h:9.963985594237695%"><span class="statpg-icon" aria-hidden="true" style="background-position:-185.9px -419.25px"></span><span class="statpg-value">15–25</span><h3>DAYS FASTER PAYMENT</h3><p>Fewer days in A/R. Get paid 2–3 weeks faster on average.</p></div>
-<div class="statpg-copy" style="--x:46.494762288477034%;--y:76.83073229291718%;--w:11.603545527800161%;--h:9.963985594237695%"><span class="statpg-icon" aria-hidden="true" style="background-position:-328.90000000000003px -415.35px"></span><span class="statpg-value">94–98%</span><h3>CLEAN CLAIM RATES</h3><p>With AI, clean claim rates jump to 94–98%.</p></div>
-<div class="statpg-copy" style="--x:63.65834004834811%;--y:76.83073229291718%;--w:12.651087832393232%;--h:9.963985594237695%"><span class="statpg-icon" aria-hidden="true" style="background-position:-476.45px -415.35px"></span><span class="statpg-value">85–92%</span><h3>DENIAL PREDICTION ACCURACY</h3><p>AI flags potential denials with high accuracy.</p></div>
-<div class="statpg-copy" style="--x:85.4149879129734%;--y:74.54981992797119%;--w:12.570507655116842%;--h:12.48499399759904%"><span class="statpg-icon" aria-hidden="true" style="background-position:-641.5500000000001px -419.25px"></span><span class="statpg-value">1/3</span><h3>PRACTICES USING AI</h3><p>About one-third of medical practices use AI for coding and charge review.</p></div>
-<p class="statpg-footnote">Sources include AMA, NEJM Catalyst, TPMG, and published healthcare AI &amp; RCM studies. Sources available upon request.</p>
-</div>
-</section>
-<section id="videos" aria-label="See MIA in Action video gallery">
-<iframe id="videoGalleryFrame" src="videos.html" title="See MIA in Action — video gallery" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
-</section>
-<section id="capabilities">
-<div class="wrap">
-<p class="eyebrow" data-lang="en">Capabilities</p>
-<p class="eyebrow" data-lang="zh" style="display:none">核心能力</p>
-<h2 class="section-title chrome" data-lang="en">The only agentic AI that does it all</h2>
-<h2 class="section-title chrome" data-lang="zh" style="display:none">唯一全能智能体 AI</h2>
-<p class="section-sub" data-lang="en">MIA is your AI clinical operations manager — phones, intake, scheduling, documentation, and multilingual support in one system built for medical practices.</p>
-<p class="section-sub" data-lang="zh" style="display:none">MIA 是您的 AI 临床运营经理——电话、接诊、排班、文档与多语言支持，专为医疗机构打造的一体化系统。</p>
-<div class="stats">
-<div class="stat">
-<div class="num">$1M</div>
-<p data-lang="en">Liability policy behind the AI</p>
-<p data-lang="zh" style="display:none">AI 背后的责任保险</p>
-</div>
-<div class="stat">
-<div class="num">100+</div>
-<p data-lang="en">Languages spoken &amp; transcribed</p>
-<p data-lang="zh" style="display:none">支持口语与转写的语言</p>
-</div>
-<div class="stat">
-<div class="num">22</div>
-<p data-lang="en">Chinese dialects (real fluency)</p>
-<p data-lang="zh" style="display:none">中文方言（真正流利）</p>
-</div>
-<div class="stat">
-<div class="num">24/7</div>
-<p data-lang="en">Coverage — never miss a call</p>
-<p data-lang="zh" style="display:none">全天候接听，不错过任何来电</p>
-</div>
-</div>
-<p class="footnote" data-lang="en">Backed by a $1,000,000 liability policy. Built with accuracy checks and HIPAA-ready workflows.</p>
-<p class="footnote" data-lang="zh" style="display:none">由 100 万美元责任保险支持。内置准确性校验与 HIPAA 就绪流程。</p>
-<div class="mia-grid">
-<div>
-<div class="mia-points">
-<div class="mia-point">
-<div class="tick">✓</div>
-<div>
-<b data-lang="en">Answers every call in your practice’s voice</b>
-<b data-lang="zh" style="display:none">以您诊所的声音接听每一通电话</b>
-<span data-lang="en">Books, reschedules, answers insurance and hours questions — day and night.</span>
-<span data-lang="zh" style="display:none">预约、改期、解答保险与营业时间——全天候。</span>
-</div>
-</div>
-<div class="mia-point">
-<div class="tick">✓</div>
-<div>
-<b data-lang="en">Doctor’s personal scribe</b>
-<b data-lang="zh" style="display:none">医生的私人书记员</b>
-<span data-lang="en">Captures the encounter cleanly so you spend less time in the chart and more time with patients.</span>
-<span data-lang="zh" style="display:none">清晰记录就诊过程，让您少花时间写病历，多花时间陪患者。</span>
-</div>
-</div>
-<div class="mia-point">
-<div class="tick">✓</div>
-<div>
-<b data-lang="en">Intake, data entry &amp; accuracy checks</b>
-<b data-lang="zh" style="display:none">接诊、数据录入与准确性校验</b>
-<span data-lang="en">Handles the whole front-office process with built-in checks — not just a chatbot.</span>
-<span data-lang="zh" style="display:none">处理完整前台流程并内置校验——不只是聊天机器人。</span>
-</div>
-</div>
-<div class="mia-point">
-<div class="tick">✓</div>
-<div>
-<b data-lang="en">True Chinese dialect support</b>
-<b data-lang="zh" style="display:none">真正的中文方言支持</b>
-<span data-lang="en">Patients can speak Mandarin, Cantonese, and 20+ other Chinese dialects — MIA replies in kind.</span>
-<span data-lang="zh" style="display:none">患者可用普通话、粤语及 20 多种中文方言交流——MIA 以同样语言回应。</span>
-</div>
-</div>
-</div>
-</div>
-<div class="guardrail">
-<div class="gr-head">Guardrails</div>
-<p data-lang="en">MIA is designed for clinical operations — not autonomous diagnosis. She escalates medical questions to your team and keeps a clear audit trail.</p>
-<p data-lang="zh" style="display:none">MIA 专为临床运营设计——不进行自主诊断。她会将医疗问题升级给您的团队，并保留清晰审计轨迹。</p>
-<div class="rule" data-lang="en">$1M liability policy · Accuracy checks · Practice-controlled voice &amp; rules</div>
-<div class="rule" data-lang="zh" style="display:none">100 万美元责任险 · 准确性校验 · 诊所可控的语音与规则</div>
-</div>
-</div>
-</div>
-</section>
-<div class="divider"></div>
-
-<div class="divider"></div>
-<section id="why">
-<span id="languages" aria-hidden="true" style="position:absolute;top:0;left:0"></span>
-<div class="wrap">
-<p class="eyebrow" data-lang="en">Why now</p>
-<p class="eyebrow" data-lang="zh" style="display:none">为何现在</p>
-<h2 class="section-title chrome" data-lang="en">Stop the bleeding. Start the healing.</h2>
-<h2 class="section-title chrome" data-lang="zh" style="display:none">止血。开始疗愈。</h2>
-<p class="section-sub" data-lang="en">AI won’t replace your job — the doctor who already has AI will. Every month you wait, you fall further behind.</p>
-<p class="section-sub" data-lang="zh" style="display:none">AI 不会取代您的工作——已经拥有 AI 的医生会。您每多等一个月，就会落后更多。</p>
-<div class="why-grid">
-<div class="why-card">
-<div class="icon">⏱</div>
-<h3 data-lang="en">Hours back in your day</h3>
-<h3 data-lang="zh" style="display:none">把时间还给您</h3>
-<p data-lang="en">Less phone tag, less charting after hours. MIA handles the grind so you can practice medicine.</p>
-<p data-lang="zh" style="display:none">更少电话来回、更少下班后写病历。MIA 处理琐事，让您专注行医。</p>
-</div>
-<div class="why-card">
-<div class="icon">📞</div>
-<h3 data-lang="en">No more missed patients</h3>
-<h3 data-lang="zh" style="display:none">不再错过患者</h3>
-<p data-lang="en">24/7 answer in the languages your community actually uses — including real Chinese dialects.</p>
-<p data-lang="zh" style="display:none">全天候以社区真正使用的语言接听——包括真实中文方言。</p>
-</div>
-<div class="why-card">
-<div class="icon">◆</div>
-<h3 data-lang="en">Pays for itself</h3>
-<h3 data-lang="zh" style="display:none">自我回本</h3>
-<p data-lang="en">Typically recovers cost inside the first 30 days through retained patients and reclaimed staff time.</p>
-<p data-lang="zh" style="display:none">通常通过留住患者与节省人力，在前 30 天内收回成本。</p>
-</div>
-<div class="why-card">
-<div class="icon">🛡</div>
-<h3 data-lang="en">Confidence you can stand behind</h3>
-<h3 data-lang="zh" style="display:none">可以站得住脚的信心</h3>
-<p data-lang="en">$1M liability policy. Built-in accuracy checks. We put skin in the game because we trust the system.</p>
-<p data-lang="zh" style="display:none">100 万美元责任险。内置准确性校验。我们敢担保，因为我们信任这套系统。</p>
-</div>
-</div>
-<div class="steps">
-<div class="step">
-<span class="n">01</span>
-<h3 data-lang="en">Pilot</h3>
-<h3 data-lang="zh" style="display:none">试点</h3>
-<p data-lang="en">Start with a small retainer. See MIA live on your phones and workflows.</p>
-<p data-lang="zh" style="display:none">以小额预付启动。在您的电话与流程中真实运行 MIA。</p>
-</div>
-<div class="step">
-<span class="n">02</span>
-<h3 data-lang="en">Tune</h3>
-<h3 data-lang="zh" style="display:none">调优</h3>
-<p data-lang="en">We match voice, rules, insurance lists, and hours to your practice.</p>
-<p data-lang="zh" style="display:none">我们按您的诊所匹配语音、规则、保险列表与营业时间。</p>
-</div>
-<div class="step">
-<span class="n">03</span>
-<h3 data-lang="en">Scale</h3>
-<h3 data-lang="zh" style="display:none">扩展</h3>
-<p data-lang="en">Expand to full coverage, scribe, and multi-location when you’re ready.</p>
-<p data-lang="zh" style="display:none">准备好后扩展至全覆盖、书记与多地点。</p>
-</div>
-</div>
-</div>
-</section>
-<div class="divider"></div>
 <section id="contact">
 <div class="wrap">
 <p class="eyebrow" data-lang="en">Contact</p>
@@ -613,6 +404,7 @@ footer{background:#f5f8fb;border-color:var(--line);color:#617589;padding:34px 24
 </div>
 </div>
 </section>
+</main>
 <footer>
 <div class="logo-row">
 <img alt="" src="AXIOM-A.png"/>
@@ -622,80 +414,131 @@ footer{background:#f5f8fb;border-color:var(--line);color:#617589;padding:34px 24
 <p style="margin-top:.5rem;font-size:.8rem">© 2026 AXIOM. All rights reserved.</p>
 </footer>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  /* Mobile menu */
-  var menuBtn = document.getElementById('menuBtn');
-  var menuPanel = document.getElementById('menuPanel');
-  if (menuBtn && menuPanel) {
-    menuBtn.addEventListener('click', function () {
-      menuPanel.classList.toggle('open');
+document.addEventListener('DOMContentLoaded', () => {
+  const nav = document.querySelector('body > nav');
+  const menuButton = document.getElementById('mobileMenuButton');
+  const menu = document.getElementById('menuPanel');
+  const scenes = [...document.querySelectorAll('.hero-scene')];
+  const pauseButton = document.getElementById('heroPause');
+  const progress = document.getElementById('heroProgress');
+  const chapters = [...document.querySelectorAll('.chapter-button')];
+  const track = document.getElementById('system');
+  const visual = document.getElementById('systemVisual');
+  const caption = document.getElementById('systemCaption');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const chapterImages = ['clinic-interior.jpg', 'clinic-interior.jpg', 'mia-voice-demo-thumbnail.jpg', 'page4bg.png', 'page5bg.png', 'clinic-interior.jpg'];
+  let scene = 0;
+  let sceneTimer;
+  let paused = false;
+  let activeChapter = -1;
+  let language = 'en';
+
+  function setChapter(index) {
+    if (index === activeChapter) return;
+    activeChapter = index;
+    chapters.forEach((button, i) => {
+      button.classList.toggle('is-active', i === index);
+      button.setAttribute('aria-pressed', String(i === index));
     });
-    menuPanel.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        menuPanel.classList.remove('open');
-      });
-    });
+    visual.src = chapterImages[index];
+    visual.alt = 'Illustrative image for ' + chapters[index].querySelector('[data-copy-en]').textContent;
+    caption.textContent = chapters[index].querySelector('[data-copy-en]').textContent;
   }
 
-  /* Keep the approved standalone gallery isolated inside the third section. */
-  var videoSection = document.getElementById('videos');
-  var videoFrame = document.getElementById('videoGalleryFrame');
-  var primaryNav = document.querySelector('body > nav');
-  var videoModalObserver;
-
-  function syncVideoNavigation() {
-    var bounds = videoSection.getBoundingClientRect();
-    var navHeight = primaryNav.getBoundingClientRect().height;
-    document.body.classList.toggle('video-gallery-active', bounds.top <= navHeight && bounds.bottom > 1);
-  }
-
-  function connectVideoModal() {
-    if (videoModalObserver) videoModalObserver.disconnect();
-    var frameBody = videoFrame.contentDocument && videoFrame.contentDocument.body;
-    if (!frameBody || frameBody.nodeType !== 1) return;
-    function syncVideoModal() {
-      var open = frameBody.classList.contains('modal-open');
-      if (open && !document.body.classList.contains('video-gallery-modal-open')) {
-        videoSection.scrollIntoView({block: 'start', behavior: 'instant'});
-      }
-      document.body.classList.toggle('video-gallery-modal-open', open);
-      syncVideoNavigation();
+  function updateScroll() {
+    nav.classList.toggle('is-scrolled', window.scrollY > 32);
+    const range = Math.max(1, track.getBoundingClientRect().height - window.innerHeight);
+    const top = track.getBoundingClientRect().top + window.scrollY;
+    const fraction = Math.min(.9999, Math.max(0, (window.scrollY - top) / range));
+    if (window.scrollY >= top && window.scrollY <= top + range) {
+      setChapter(Math.floor(fraction * chapters.length));
     }
-    videoModalObserver = new MutationObserver(syncVideoModal);
-    videoModalObserver.observe(frameBody, {attributes: true, attributeFilter: ['class']});
-    syncVideoModal();
   }
 
-  videoFrame.addEventListener('load', connectVideoModal);
-  window.addEventListener('scroll', syncVideoNavigation, {passive: true});
-  window.addEventListener('resize', syncVideoNavigation);
-  connectVideoModal();
-  syncVideoNavigation();
+  chapters.forEach((button, index) => button.addEventListener('click', () => {
+    const range = Math.max(0, track.getBoundingClientRect().height - window.innerHeight);
+    const top = track.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({top: top + range * index / (chapters.length - 1), behavior: reducedMotion ? 'instant' : 'smooth'});
+    setChapter(index);
+  }));
+  window.addEventListener('scroll', updateScroll, {passive: true});
+  window.addEventListener('resize', updateScroll);
+  updateScroll();
 
-  /* Language toggle */
-  var langButtons = document.querySelectorAll('.lang-toggle button');
-  var content = document.querySelectorAll('[data-lang]');
-
-  function setLanguage(lang) {
-    content.forEach(function (el) {
-      el.style.display = el.getAttribute('data-lang') === lang ? '' : 'none';
-    });
-    langButtons.forEach(function (btn) {
-      btn.classList.toggle('active', btn.dataset.lang === lang);
-    });
+  function closeMenu() {
+    menu.classList.remove('open');
+    menuButton.setAttribute('aria-expanded', 'false');
   }
-
-  var savedLang = localStorage.getItem('preferred-language') || 'en';
-  if (content.length) setLanguage(savedLang);
-
-  langButtons.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var lang = btn.dataset.lang;
-      localStorage.setItem('preferred-language', lang);
-      if (content.length) setLanguage(lang);
-    });
+  menuButton.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    menuButton.setAttribute('aria-expanded', String(open));
+  });
+  menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeMenu();
   });
 
+  function setLanguage(next) {
+    language = next === 'zh' ? 'zh' : 'en';
+    document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+    document.querySelectorAll('[data-copy-en]').forEach(el => {
+      el.textContent = el.dataset[language === 'zh' ? 'copyZh' : 'copyEn'];
+    });
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.style.display = el.dataset.lang === language ? '' : 'none';
+    });
+    document.querySelectorAll('[data-language]').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.language === language));
+    });
+    caption.textContent = chapters[activeChapter < 0 ? 0 : activeChapter].querySelector('[data-copy-en]').textContent;
+    pauseButton.setAttribute('aria-label', language === 'zh' ? (paused ? '播放背景画面' : '暂停背景画面') : (paused ? 'Play background scenes' : 'Pause background scenes'));
+    try { localStorage.setItem('preferred-language', language); } catch (_) {}
+  }
+  document.querySelectorAll('[data-language]').forEach(button => button.addEventListener('click', () => setLanguage(button.dataset.language)));
+  try { language = localStorage.getItem('preferred-language') || 'en'; } catch (_) {}
+  setLanguage(language);
+
+  function restartProgress() {
+    progress.style.transition = 'none';
+    progress.style.width = '0';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (!paused) {
+        progress.style.transition = 'width 18s linear';
+        progress.style.width = '100%';
+      }
+    }));
+  }
+  if (reducedMotion) {
+    pauseButton.hidden = true;
+    progress.parentElement.hidden = true;
+  } else {
+    restartProgress();
+    sceneTimer = setInterval(() => {
+      scenes[scene].classList.remove('is-active');
+      scene = (scene + 1) % scenes.length;
+      scenes[scene].classList.add('is-active');
+      restartProgress();
+    }, 18000);
+    pauseButton.addEventListener('click', () => {
+      paused = !paused;
+      pauseButton.setAttribute('aria-pressed', String(paused));
+      if (paused) {
+        clearInterval(sceneTimer);
+        const width = getComputedStyle(progress).width;
+        progress.style.transition = 'none';
+        progress.style.width = width;
+      } else {
+        restartProgress();
+        sceneTimer = setInterval(() => {
+          scenes[scene].classList.remove('is-active');
+          scene = (scene + 1) % scenes.length;
+          scenes[scene].classList.add('is-active');
+          restartProgress();
+        }, 18000);
+      }
+      setLanguage(language);
+    });
+  }
 });
 </script>
 </body>
