@@ -1,0 +1,26 @@
+name: Website visual regression
+on:
+  pull_request:
+    paths:
+      - 'doctor-site/**'
+      - '.github/workflows/website-visual.yml'
+  workflow_dispatch:
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install
+        working-directory: doctor-site
+      - run: npx playwright install --with-deps chromium
+        working-directory: doctor-site
+      - run: npm run test:visual
+        working-directory: doctor-site
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: visual-regression-failures
+          path: doctor-site/test-results/
