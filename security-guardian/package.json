@@ -1,0 +1,17 @@
+{
+  "name": "@axiom/mia-security-guardian",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "exports": {
+    ".": "./guardian.mjs",
+    "./middleware": "./middleware.mjs"
+  },
+  "scripts": {
+    "test": "node --test *.test.mjs",
+    "check": "node --check guardian.mjs && node --check middleware.mjs"
+  }
+}
