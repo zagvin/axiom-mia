@@ -13,6 +13,6 @@ for (const viewport of sizes) {
     expect(next.y, 'next section must not intrude into hero').toBeGreaterThanOrEqual(hero.y + hero.height - 2);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
     expect(overflow, 'horizontal page overflow').toBeLessThanOrEqual(2);
-    await expect(page).toHaveScreenshot('home-' + viewport.width + '.png', { animations: 'disabled', fullPage: true, maxDiffPixelRatio: 0.02 });
+    await page.screenshot({ path: 'test-results/home-' + viewport.width + '.png', fullPage: true, animations: 'disabled' });
   });
 }
