@@ -8,10 +8,11 @@
   },
   "exports": {
     ".": "./guardian.mjs",
-    "./middleware": "./middleware.mjs"
+    "./middleware": "./middleware.mjs",
+    "./route-handler": "./route-handler.mjs"
   },
   "scripts": {
     "test": "node --test *.test.mjs",
-    "check": "node --check guardian.mjs && node --check middleware.mjs"
+    "check": "node --check guardian.mjs && node --check middleware.mjs && node --check route-handler.mjs"
   }
 }

@@ -1,0 +1,17 @@
+import {test,expect} from 'vitest';
+import {GET} from '../../app/api/visits/[id]/route';
+import {listVisits} from '../visit-store';
+// Temporary external integration probe; not installed into the application.
+import {SecurityGuardian} from '../../../security-guardian/guardian.mjs';
+import {guardRoute} from '../../../security-guardian/route-handler.mjs';
+const options={getIdentity:()=>({actorId:'fixture-doctor',role:'physician'}),resolveResourceOwner:()=> 'fixture-doctor',action:'read_patient'};
+test('adapter runs actual Next.js visit route with synthetic identity and storage',async()=>{
+ const id=listVisits()[0].id; const events:unknown[]=[];
+ const wrapped=guardRoute(new SecurityGuardian({audit:(e:unknown)=>events.push(e)}),options,GET);
+ const res=await wrapped(new Request('http://localhost:3030/api/visits/'+id),{params:Promise.resolve({id})});
+ expect(res.status).toBe(200);expect((await res.json()).id).toBe(id);expect(events).toHaveLength(1);
+});
+for(const [name,overrides,status] of [['missing identity',{getIdentity:()=>null},401],['foreign owner',{resolveResourceOwner:()=> 'other'},403]] as const)test(name+' blocks actual handler',async()=>{
+ let calls=0;const wrapped=guardRoute(new SecurityGuardian({audit:()=>{}}),{...options,...overrides},(...args:Parameters<typeof GET>)=>{calls++;return GET(...args)});
+ const res=await wrapped(new Request('http://localhost:3030/api/visits/example'),{params:Promise.resolve({id:'example'})});expect(res.status).toBe(status);expect(calls).toBe(0);
+});
