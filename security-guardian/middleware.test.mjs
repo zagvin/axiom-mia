@@ -15,7 +15,7 @@ test('denies unauthenticated requests', async () => {
 });
 test('allows authenticated physician action', async () => {
   const g = new SecurityGuardian({ audit: () => {} });
-  const mw = guardianMiddleware(g, { getIdentity: () => ({ actorId: 'doc', role: 'physician' }), actionForRequest: () => 'approve_note', resolveResourceOwner: () => null });
+  const mw = guardianMiddleware(g, { getIdentity: () => ({ actorId: 'doc', role: 'physician' }), actionForRequest: () => 'approve_note', resolveResourceOwner: () => 'doc' });
   let called = false;
   await mw({}, response(), () => { called = true; });
   assert.equal(called, true);

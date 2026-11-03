@@ -8,24 +8,29 @@ export function guardianMiddleware(guardian, { getIdentity, resolveResourceOwner
     try {
       const identity = await getIdentity(req);
       if (!identity?.actorId || !identity?.role) {
-        guardian.record('authorization_denied', { outcome: 'unauthenticated' });
+        await guardian.record('authorization_denied', { outcome: 'unauthenticated' });
         res.statusCode = 401;
         return res.end('Unauthorized');
       }
       const action = await actionForRequest(req);
       const owner = await resolveResourceOwner(req);
-      if (!action || !guardian.authorize({
+      if (!action || !(await guardian.authorize({
         actorId: identity.actorId,
         role: identity.role,
         action,
         resourceOwnerId: owner
-      }).allowed) {
+      })).allowed) {
         res.statusCode = 403;
         return res.end('Forbidden');
       }
       return next();
     } catch {
-      guardian.record('authorization_denied', { outcome: 'error' });
+      // Logging failure must never prevent a controlled denial.
+      try {
+        await guardian.record('authorization_denied', { outcome: 'error' });
+      } catch {
+        // The host must monitor sink health separately; do not log raw errors.
+      }
       res.statusCode = 503;
       return res.end('Security check unavailable');
     }
