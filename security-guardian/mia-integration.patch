@@ -1,0 +1,638 @@
+diff --git a/app/api/session/route.ts b/app/api/session/route.ts
+new file mode 100644
+index 0000000..88e2792
+--- /dev/null
++++ b/app/api/session/route.ts
+@@ -0,0 +1,50 @@
++import { NextRequest, NextResponse } from "next/server";
++import { readJson } from "@/lib/request";
++import { SigningError } from "@/lib/visit-store";
++import { integrationEnabled, localRequest, login, logout, sessionIdentity, assignSyntheticVisits,
++  SESSION_COOKIE, SESSION_SECONDS, accessUnavailable } from "@/lib/local-access";
++
++export const dynamic = "force-dynamic";
++export const runtime = "nodejs";
++const reply = (body: object, status = 200) => NextResponse.json(body, {
++  status, headers: { "Cache-Control": "no-store" },
++});
++export async function POST(request: NextRequest) {
++  if (!integrationEnabled()) return reply({ error: "Not enabled." }, 404);
++  if (!localRequest(request, true)) return reply({ error: "Local same-origin request required." }, 403);
++  let value;
++  try { value = await readJson(request, 8192); } catch { return reply({ error: "Invalid request." }, 400); }
++  try {
++    if (value.action === "login") {
++      const token = login(value.pin);
++      const response = reply({ authenticated: true });
++      response.cookies.set(SESSION_COOKIE, token, {
++        httpOnly: true, sameSite: "strict", path: "/", maxAge: SESSION_SECONDS,
++        // This installation binds to loopback HTTP only; never expose it remotely.
++        secure: false,
++      });
++      return response;
++    }
++    if (value.action === "logout") {
++      logout(request);
++      const response = reply({ authenticated: false });
++      response.cookies.set(SESSION_COOKIE, "", { httpOnly: true, sameSite: "strict", path: "/", maxAge: 0 });
++      return response;
++    }
++    if (value.action === "assign-synthetic-visits") {
++      assignSyntheticVisits(request, value.pin, value.visitIds);
++      return reply({ assigned: true });
++    }
++    return reply({ error: "Invalid action." }, 400);
++  } catch (error) {
++    if (error instanceof SigningError) return reply({ error: "Authentication or scope rejected." }, error.status);
++    accessUnavailable();
++    return reply({ error: "Security storage unavailable." }, 503);
++  }
++}
++export async function GET(request: NextRequest) {
++  if (!integrationEnabled()) return reply({ error: "Not enabled." }, 404);
++  if (!localRequest(request)) return reply({ error: "Local request required." }, 403);
++  try { return reply({ authenticated: !!sessionIdentity(request) }); }
++  catch { accessUnavailable(); return reply({ error: "Security storage unavailable." }, 503); }
++}
+diff --git a/app/api/visits/[id]/route.ts b/app/api/visits/[id]/route.ts
+index 8fdb3f2..cabda51 100644
+--- a/app/api/visits/[id]/route.ts
++++ b/app/api/visits/[id]/route.ts
+@@ -2,9 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
+ import { getVisit, tagSpeaker, saveDraft } from "@/lib/visit-store";
+ import { readJson } from "@/lib/request";
+ import { SpeakerRole } from "@/lib/types";
++import { integrationEnabled } from "@/lib/local-access";
++import { guardedVisit } from "@/lib/guarded-visit";
+ export const dynamic = "force-dynamic";
+ 
+ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
++  if (integrationEnabled()) return guardedVisit(_req, { params });
+   const visit = getVisit((await params).id);
+   if (!visit) return NextResponse.json({ error: "Visit not found" }, { status: 404 });
+   return NextResponse.json(visit);
+diff --git a/lib/__tests__/local-access.test.ts b/lib/__tests__/local-access.test.ts
+new file mode 100644
+index 0000000..b443bb2
+--- /dev/null
++++ b/lib/__tests__/local-access.test.ts
+@@ -0,0 +1,144 @@
++import { test, expect, beforeEach, afterEach, vi } from "vitest";
++import { NextRequest } from "next/server";
++import { readFileSync } from "node:fs";
++import { join } from "node:path";
++import * as storage from "../storage";
++import { setupSigning, listVisits, resetSigningPin } from "../visit-store";
++import { POST, GET as sessionStatus } from "@/app/api/session/route";
++import { GET } from "@/app/api/visits/[id]/route";
++import { SESSION_COOKIE, SESSION_SECONDS, sessionIdentity, localRequest } from "../local-access";
++const pin = "739261";
++let recovery: string, id: string;
++function req(body?: object, cookie?: string, headers: Record<string, string> = {}) {
++  return new NextRequest("http://localhost:3030/api/session", {
++    method: body ? "POST" : "GET",
++    headers: { host: "localhost:3030", origin: "http://localhost:3030", ...(cookie ? { cookie } : {}), ...headers },
++    ...(body ? { body: JSON.stringify(body) } : {}),
++  });
++}
++async function login() {
++  const response = await POST(req({ action: "login", pin, actorId: "attacker", role: "service" }));
++  expect(response.status).toBe(200);
++  return response.headers.get("set-cookie")!.split(";")[0];
++}
++const visit = (cookie?: string) => GET(req(undefined, cookie), { params: Promise.resolve({ id }) });
++const assign = (cookie: string, visitIds: unknown = [id]) => POST(req({ action: "assign-synthetic-visits", pin, visitIds }, cookie));
++beforeEach(() => {
++  process.env.MIA_GUARDIAN_ACCEPTANCE = "1";
++  storage.writeState({ version: 1, practice: null, visits: [] });
++  recovery = setupSigning({ physicianName: "Synthetic Physician", practiceName: "Synthetic", language: "Mandarin" }, pin);
++  id = listVisits()[0].id;
++});
++afterEach(() => { vi.restoreAllMocks(); vi.useRealTimers(); delete process.env.MIA_GUARDIAN_ACCEPTANCE; });
++
++test("login creates an opaque HttpOnly Strict cookie; client identity is ignored and secrets are absent from disk", async () => {
++  const response = await POST(req({ action: "login", pin, actorId: "attacker", role: "service" }));
++  const cookie = response.headers.get("set-cookie")!;
++  expect(cookie).toContain("HttpOnly"); expect(cookie).toContain("SameSite=strict");
++  expect(cookie).toContain("Max-Age=1800");
++  const token = cookie.split(";")[0].split("=")[1];
++  expect(token).toMatch(/^[a-f0-9]{64}$/);
++  expect(JSON.stringify(storage.readState())).not.toContain(token);
++  expect(sessionIdentity(req(undefined, cookie.split(";")[0]))).toMatchObject({ role: "physician" });
++  expect(sessionIdentity(req(undefined, cookie.split(";")[0]))!.actorId).not.toBe("attacker");
++  const disk = readFileSync(join(storage.dataDirectory(), "vault.enc"));
++  for (const secret of [pin, token, recovery, "session_created"]) expect(disk.includes(Buffer.from(secret))).toBe(false);
++});
++test("no session denies before reading visits; a login never grants ownership automatically", async () => {
++  expect((await visit()).status).toBe(401);
++  const cookie = await login();
++  expect((await visit(cookie)).status).toBe(403);
++  expect(storage.readState().accessSecurity!.visitOwners).toEqual({});
++});
++test("explicit synthetic assignment permits GET with durable grant and completion events", async () => {
++  const cookie = await login();
++  expect((await assign(cookie)).status).toBe(200);
++  const response = await visit(cookie);
++  expect(response.status).toBe(200); expect((await response.json()).id).toBe(id);
++  expect(response.headers.get("cache-control")).toBe("no-store");
++  expect(storage.readState().accessAudit!.slice(-2).map(e => e.type))
++    .toEqual(["authorization_granted", "visit_read_completed"]);
++});
++test("foreign owner cannot be read or reassigned by a physician", async () => {
++  const cookie = await login();
++  const state = storage.readState(); state.accessSecurity!.visitOwners[id] = "other"; storage.writeState(state);
++  expect((await visit(cookie)).status).toBe(403);
++  expect((await assign(cookie)).status).toBe(403);
++  expect(storage.readState().accessSecurity!.visitOwners[id]).toBe("other");
++});
++test("assignment refuses missing/non-synthetic visits atomically", async () => {
++  const cookie = await login();
++  const state = storage.readState(); state.visits[1].isSynthetic = false; storage.writeState(state);
++  expect((await assign(cookie, [id, state.visits[1].id])).status).toBe(403);
++  expect((await assign(cookie, ["missing"])).status).toBe(403);
++  expect(storage.readState().accessSecurity!.visitOwners).toEqual({});
++});
++test("a previously assigned visit changed to non-synthetic is denied", async () => {
++  const cookie = await login(); await assign(cookie);
++  const state = storage.readState(); state.visits.find(v => v.id === id)!.isSynthetic = false; storage.writeState(state);
++  expect((await visit(cookie)).status).toBe(403);
++});
++test("forged and duplicate cookies deny; headers cannot impersonate a session", async () => {
++  const cookie = await login();
++  for (const bad of [SESSION_COOKIE + "=" + "0".repeat(64), cookie + "; " + cookie, SESSION_COOKIE + "=bad"]) {
++    expect((await visit(bad)).status).toBe(401);
++  }
++  expect(sessionIdentity(req(undefined, undefined, { "x-actor-id": storage.readState().accessSecurity!.actorId }))).toBeNull();
++});
++test("expiry and logout revoke access, including after module reload", async () => {
++  const cookie = await login(); await assign(cookie);
++  vi.resetModules();
++  const reloaded = await import("../local-access");
++  expect(reloaded.sessionIdentity(req(undefined, cookie))).not.toBeNull();
++  expect((await POST(req({ action: "logout" }, cookie))).status).toBe(200);
++  expect(reloaded.sessionIdentity(req(undefined, cookie))).toBeNull();
++  const newCookie = await login(); vi.useFakeTimers(); vi.setSystemTime(Date.now() + SESSION_SECONDS * 1000 + 1);
++  expect(reloaded.sessionIdentity(req(undefined, newCookie))).toBeNull();
++});
++test("PIN recovery revokes all sessions and preserves visit ownership", async () => {
++  const cookie = await login(); await assign(cookie);
++  const owners = storage.readState().accessSecurity!.visitOwners;
++  resetSigningPin(recovery, "482619");
++  expect(sessionIdentity(req(undefined, cookie))).toBeNull();
++  expect(storage.readState().accessSecurity!.visitOwners).toEqual(owners);
++});
++test("login reuses persisted five-failure lockout and rejects correct PIN during lockout", async () => {
++  for (let i = 0; i < 5; i++) await POST(req({ action: "login", pin: "000000" }));
++  expect((await POST(req({ action: "login", pin }))).status).toBe(429);
++  expect(storage.readState().signingSecurity!.lockedUntil).toBeGreaterThan(Date.now());
++  expect(storage.readState().accessSecurity).toBeUndefined();
++});
++test("cross-site and missing-Origin mutations and foreign Hosts are refused", async () => {
++  const cases: Record<string, string>[] = [{ origin: "http://evil.example" }, { origin: "" },
++    { host: "evil.example" }, { "sec-fetch-site": "cross-site" }];
++  for (const headers of cases) {
++    expect((await POST(req({ action: "login", pin }, undefined, headers))).status).toBe(403);
++  }
++});
++test("Next loopback hostname normalization preserves strict Origin and port checks", () => {
++  expect(localRequest(req(undefined, undefined, { host: "127.0.0.1:3030", origin: "http://127.0.0.1:3030" }), true)).toBe(true);
++  expect(localRequest(req(undefined, undefined, { host: "127.0.0.1:4040", origin: "http://127.0.0.1:4040" }), true)).toBe(false);
++  expect(localRequest(req(undefined, undefined, { host: "127.0.0.1:3030", origin: "http://localhost:3030" }), true)).toBe(false);
++});
++test("audit storage outage returns 503 without visit content", async () => {
++  const cookie = await login(); await assign(cookie);
++  vi.spyOn(storage, "writeState").mockImplementation(() => { throw new Error("private path"); });
++  const response = await visit(cookie);
++  expect(response.status).toBe(503);
++  expect(await response.text()).not.toMatch(/patientLabel|private path/);
++});
++test("completion audit failure also withholds the visit", async () => {
++  const cookie = await login(); await assign(cookie);
++  const original = storage.writeState; let writes = 0;
++  vi.spyOn(storage, "writeState").mockImplementation(state => {
++    if (++writes === 2) throw new Error("private path");
++    original(state);
++  });
++  const response = await visit(cookie);
++  expect(response.status).toBe(503); expect(await response.text()).not.toContain("patientLabel");
++});
++test("new endpoints stay disabled unless the isolated integration is opted into", async () => {
++  delete process.env.MIA_GUARDIAN_ACCEPTANCE;
++  expect((await POST(req({ action: "login", pin }))).status).toBe(404);
++  expect((await sessionStatus(req())).status).toBe(404);
++});
+diff --git a/lib/guarded-visit.ts b/lib/guarded-visit.ts
+new file mode 100644
+index 0000000..89f79d2
+--- /dev/null
++++ b/lib/guarded-visit.ts
+@@ -0,0 +1,35 @@
++import { NextRequest, NextResponse } from "next/server";
++import { SecurityGuardian } from "./security-guardian/guardian.mjs";
++import { guardRoute } from "./security-guardian/route-handler.mjs";
++import { sessionIdentity, visitOwner, durableAccessAudit, accessUnavailable } from "./local-access";
++import { readState } from "./storage";
++type Context = { params: Promise<{ id: string }> };
++export async function guardedVisit(request: NextRequest, context: Context): Promise<Response> {
++  let actorId: string | undefined;
++  let id: string;
++  const guardian = new SecurityGuardian({ audit: durableAccessAudit });
++  const wrapped = guardRoute(guardian, {
++    action: "read_patient",
++    getIdentity: () => {
++      const identity = sessionIdentity(request);
++      actorId = identity?.actorId;
++      return identity;
++    },
++    resolveResourceOwner: async () => { id = (await context.params).id; return visitOwner(id); },
++  }, () => {
++    // Recheck after asynchronous authorization; return only the authorized synthetic snapshot.
++    const identity = sessionIdentity(request);
++    if (!identity || identity.actorId !== actorId || visitOwner(id) !== actorId)
++      return NextResponse.json({ error: "Access changed." }, { status: 403, headers: { "Cache-Control": "no-store" } });
++    const visit = readState().visits.find(v => v.id === id && v.isSynthetic === true);
++    if (!visit) return NextResponse.json({ error: "Visit unavailable." }, { status: 403 });
++    durableAccessAudit({ at: new Date().toISOString(), type: "visit_read_completed", actorId,
++      action: "read_patient", outcome: "success" });
++    return NextResponse.json(visit, { headers: { "Cache-Control": "no-store" } });
++  });
++  try { return await wrapped(request, context); }
++  catch {
++    accessUnavailable();
++    return NextResponse.json({ error: "Security storage unavailable." }, { status: 503, headers: { "Cache-Control": "no-store" } });
++  }
++}
+diff --git a/lib/local-access.ts b/lib/local-access.ts
+new file mode 100644
+index 0000000..cc88364
+--- /dev/null
++++ b/lib/local-access.ts
+@@ -0,0 +1,99 @@
++import { createHash, randomBytes, randomUUID } from "node:crypto";
++import { readState, writeState, AccessEvent } from "./storage";
++import { verifySessionPin, SigningError } from "./visit-store";
++
++export const SESSION_COOKIE = "mia_local_session";
++export const SESSION_SECONDS = 30 * 60;
++export const integrationEnabled = () => process.env.MIA_GUARDIAN_ACCEPTANCE === "1";
++const digest = (token: string) => createHash("sha256").update(token).digest("hex");
++const event = (type: string, actorId?: string): AccessEvent => ({
++  at: new Date().toISOString(), type, ...(actorId ? { actorId } : {}),
++});
++export function accessUnavailable(): void {
++  // Never log raw filesystem errors, credentials, request data, or patient data.
++  console.error("MIA local access unavailable; security storage requires attention.");
++}
++export function localRequest(request: Request, mutation = false): boolean {
++  const host = request.headers.get("host") || "";
++  if (!/^(127\.0\.0\.1|localhost|\[::1\])(?::\d{1,5})?$/i.test(host)) return false;
++  if (request.headers.get("sec-fetch-site") === "cross-site") return false;
++  const url = new URL(request.url);
++  // Next may normalize a loopback URL to localhost while preserving the Host header.
++  const hostUrl = new URL("http://" + host);
++  if (url.protocol !== "http:" || !["localhost", "127.0.0.1", "[::1]"].includes(url.hostname) ||
++      url.port !== hostUrl.port) return false;
++  return !mutation || request.headers.get("origin") === hostUrl.origin;
++}
++export function sessionToken(request: Request): string | null {
++  const entries = (request.headers.get("cookie") || "").split(";")
++    .map(v => v.trim()).filter(v => v.startsWith(SESSION_COOKIE + "="));
++  if (entries.length !== 1) return null;
++  const token = entries[0].slice(SESSION_COOKIE.length + 1);
++  return /^[a-f0-9]{64}$/.test(token) ? token : null;
++}
++export function sessionIdentity(request: Request) {
++  if (!localRequest(request)) return null;
++  const token = sessionToken(request);
++  if (!token) return null;
++  const access = readState().accessSecurity;
++  if (!access || !access.sessions.some(s => s.digest === digest(token) && s.expiresAt > Date.now())) return null;
++  return { actorId: access.actorId, role: "physician" };
++}
++export function login(pin: unknown): string {
++  verifySessionPin(pin);
++  const state = readState();
++  const access = state.accessSecurity ||= { actorId: randomUUID(), sessions: [], visitOwners: {} };
++  const token = randomBytes(32).toString("hex");
++  access.sessions = access.sessions.filter(s => s.expiresAt > Date.now()).slice(-4);
++  access.sessions.push({ digest: digest(token), expiresAt: Date.now() + SESSION_SECONDS * 1000 });
++  (state.accessAudit ||= []).push(event("session_created", access.actorId));
++  writeState(state); // Token is returned only after the vault and audit are durably saved.
++  return token;
++}
++export function logout(request: Request): void {
++  const token = sessionToken(request);
++  const state = readState();
++  if (state.accessSecurity && token) {
++    state.accessSecurity.sessions = state.accessSecurity.sessions.filter(s => s.digest !== digest(token));
++    (state.accessAudit ||= []).push(event("session_revoked", state.accessSecurity.actorId));
++    writeState(state);
++  }
++}
++export function assignSyntheticVisits(request: Request, pin: unknown, ids: unknown): void {
++  if (!Array.isArray(ids) || !ids.length || ids.length > 100 ||
++      ids.some(id => typeof id !== "string" || !/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,127}$/.test(id))) {
++    throw new SigningError("Explicit visit IDs required.", 400);
++  }
++  const identity = sessionIdentity(request);
++  if (!identity) throw new SigningError("Login required.", 401);
++  verifySessionPin(pin);
++  const state = readState();
++  const access = state.accessSecurity!;
++  // Never infer ownership for existing data or accept an actor/role from the client.
++  for (const id of ids) {
++    const visit = state.visits.find(v => v.id === id);
++    if (!visit || visit.isSynthetic !== true) throw new SigningError("Synthetic visit required.", 403);
++    if (Object.hasOwn(access.visitOwners, id) && access.visitOwners[id] !== identity.actorId)
++      throw new SigningError("Visit already belongs to another actor.", 403);
++  }
++  for (const id of ids) access.visitOwners[id] = identity.actorId;
++  (state.accessAudit ||= []).push(event("synthetic_scope_assigned", identity.actorId));
++  writeState(state);
++}
++export function visitOwner(id: string): string | null {
++  const state = readState();
++  if (!state.visits.some(v => v.id === id && v.isSynthetic === true)) return null;
++  const owners = state.accessSecurity?.visitOwners;
++  return owners && Object.hasOwn(owners, id) ? owners[id] : null;
++}
++export function durableAccessAudit(value: AccessEvent, signal?: AbortSignal): void {
++  signal?.throwIfAborted();
++  const state = readState();
++  const safe: AccessEvent = { at: value.at, type: value.type };
++  // Callers supply fixed event/action/outcome strings and server-generated actor IDs only.
++  for (const key of ["actorId", "action", "outcome"] as const)
++    if (typeof value[key] === "string") safe[key] = value[key]!.slice(0, 128);
++  (state.accessAudit ||= []).push(safe);
++  signal?.throwIfAborted();
++  try { writeState(state); } catch { accessUnavailable(); throw new Error("Audit unavailable"); }
++}
+diff --git a/lib/security-guardian/guardian.d.mts b/lib/security-guardian/guardian.d.mts
+new file mode 100644
+index 0000000..b550307
+--- /dev/null
++++ b/lib/security-guardian/guardian.d.mts
+@@ -0,0 +1,5 @@
++export class SecurityGuardian {
++  constructor(options: { audit: (event: { at: string; type: string; actorId?: string; action?: string; outcome?: string }) => unknown });
++  record(type: string, metadata?: Record<string, string>): Promise<void>;
++  authorize(input: { actorId: string; role: string; action: string; resourceOwnerId: string | null }): Promise<{ allowed: boolean }>;
++}
+diff --git a/lib/security-guardian/guardian.mjs b/lib/security-guardian/guardian.mjs
+new file mode 100644
+index 0000000..0896867
+--- /dev/null
++++ b/lib/security-guardian/guardian.mjs
+@@ -0,0 +1,68 @@
++import { createHash } from 'node:crypto';
++
++const DEFAULTS = Object.freeze({ windowMs: 60_000, maxAttempts: 5, lockMs: 15 * 60_000 });
++const suspicious = [/ignore (all )?(previous|prior) instructions/i, /reveal (the )?(system prompt|secret|api key)/i, /disable (audit|security|logging)/i];
++
++export class SecurityGuardian {
++  constructor({ audit, now = () => Date.now(), config = {} } = {}) {
++    if (typeof audit !== 'function') throw new TypeError('An audit sink is required');
++    this.audit = audit;
++    this.now = now;
++    this.config = { ...DEFAULTS, ...config };
++    this.attempts = new Map();
++  }
++
++  async record(type, metadata = {}) {
++    const allowed = ['actorId', 'resource', 'action', 'outcome', 'reason'];
++    const safe = Object.fromEntries(allowed.filter(k => typeof metadata[k] === 'string').map(k => [k, metadata[k].slice(0, 128)]));
++    await this.audit({ at: new Date(this.now()).toISOString(), type, ...safe });
++  }
++
++  checkLogin(actorId) {
++    if (!actorId || typeof actorId !== 'string') return { allowed: false, reason: 'invalid_actor' };
++    const state = this.attempts.get(actorId);
++    if (state?.lockedUntil > this.now()) return { allowed: false, reason: 'temporarily_locked' };
++    return { allowed: true };
++  }
++
++  async loginResult(actorId, success) {
++    if (!actorId || typeof actorId !== 'string') throw new TypeError('actorId required');
++    if (!this.checkLogin(actorId).allowed) return { allowed: false, reason: 'temporarily_locked' };
++    if (success) {
++      this.attempts.delete(actorId);
++      await this.record('authentication', { actorId, outcome: 'success' });
++      return { allowed: true };
++    }
++    const t = this.now(), old = this.attempts.get(actorId);
++    const count = old && t - old.started < this.config.windowMs ? old.count + 1 : 1;
++    const started = old && t - old.started < this.config.windowMs ? old.started : t;
++    const lockedUntil = count >= this.config.maxAttempts ? t + this.config.lockMs : 0;
++    this.attempts.set(actorId, { count, started, lockedUntil });
++    await this.record('authentication', { actorId, outcome: 'failure' });
++    return { allowed: false, reason: lockedUntil ? 'temporarily_locked' : 'invalid_credentials' };
++  }
++
++  async authorize({ actorId, role, action, resourceOwnerId }) {
++    const permissions = {
++      physician: ['read_patient', 'write_note', 'approve_note', 'schedule', 'view_audit'],
++      staff: ['read_patient', 'schedule'],
++      billing: ['read_billing', 'prepare_claim'],
++      service: ['route_task']
++    };
++    const allowed = Boolean(typeof actorId === 'string' && actorId.trim().length > 0 && Object.hasOwn(permissions, role) && permissions[role].includes(action) &&
++      (typeof resourceOwnerId === 'string' && resourceOwnerId.trim().length > 0 && actorId === resourceOwnerId));
++    if (!allowed) await this.record('authorization_denied', { actorId: String(actorId || ''), action: String(action || '') });
++    return { allowed };
++  }
++
++  async inspectUntrustedText(value) {
++    if (typeof value !== 'string') return { suspicious: true, reason: 'invalid_input' };
++    const flagged = suspicious.some(pattern => pattern.test(value));
++    if (flagged) await this.record('prompt_injection_signal', { outcome: 'flagged' });
++    return { suspicious: flagged, reason: flagged ? 'instruction_like_content' : null };
++  }
++}
++
++export function hashAuditEvent(event) {
++  return createHash('sha256').update(JSON.stringify(event)).digest('hex');
++}
+diff --git a/lib/security-guardian/route-handler.d.mts b/lib/security-guardian/route-handler.d.mts
+new file mode 100644
+index 0000000..c00a70c
+--- /dev/null
++++ b/lib/security-guardian/route-handler.d.mts
+@@ -0,0 +1,10 @@
++import type { SecurityGuardian } from "./guardian.mjs";
++export function guardRoute<R extends Request, C>(
++  guardian: SecurityGuardian,
++  options: {
++    action: string; timeoutMs?: number;
++    getIdentity: (request: R, context: C, signal: AbortSignal) => unknown;
++    resolveResourceOwner: (request: R, context: C, signal: AbortSignal) => unknown;
++  },
++  handler: (request: R, context: C) => Response | Promise<Response>
++): (request: R, context: C) => Promise<Response>;
+diff --git a/lib/security-guardian/route-handler.mjs b/lib/security-guardian/route-handler.mjs
+new file mode 100644
+index 0000000..b50eb74
+--- /dev/null
++++ b/lib/security-guardian/route-handler.mjs
+@@ -0,0 +1,42 @@
++// Web Request/Response adapter. Use trusted server-side identity and ownership.
++export function guardRoute(guardian, { getIdentity, resolveResourceOwner, action, timeoutMs = 2000 }, handler) {
++  if (!guardian || typeof guardian.authorize !== 'function' || typeof guardian.record !== 'function' ||
++      ![getIdentity, resolveResourceOwner, handler].every(f => typeof f === 'function') ||
++      typeof action !== 'string' || !action.trim() || !Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 30000)
++    throw new TypeError('Guardian, trusted resolvers, fixed action, handler and bounded timeout required');
++  const deny = status => new Response(JSON.stringify({ error: status === 401 ? 'Unauthorized' : status === 403 ? 'Forbidden' : 'Security check unavailable' }), {
++    status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
++  });
++  return async (request, context) => {
++    const controller = new AbortController();
++    let timer;
++    const active = () => { if (controller.signal.aborted) throw new Error('Security deadline expired'); };
++    const check = async () => {
++      const identity = await getIdentity(request, context, controller.signal);
++      active();
++      if (typeof identity?.actorId !== 'string' || !identity.actorId.trim() || typeof identity?.role !== 'string' || !identity.role.trim()) {
++        await guardian.record('authorization_denied', { outcome: 'unauthenticated' });
++        active(); return 401;
++      }
++      const owner = await resolveResourceOwner(request, context, controller.signal);
++      active();
++      const decision = await guardian.authorize({ actorId: identity.actorId, role: identity.role, action, resourceOwnerId: owner });
++      active();
++      if (decision?.allowed !== true) return 403;
++      await guardian.record('authorization_granted', { actorId: identity.actorId, action, outcome: 'allowed' });
++      active(); return 200;
++    };
++    let status;
++    try {
++      status = await Promise.race([check(), new Promise((_, reject) => {
++        timer = setTimeout(() => { controller.abort(); reject(new Error('Security deadline expired')); }, timeoutMs);
++      })]);
++    } catch {
++      // Never retry a failed sink or expose its raw error.
++      return deny(503);
++    } finally { clearTimeout(timer); }
++    if (status !== 200) return deny(status);
++    // Business errors remain the application's responsibility.
++    return handler(request, context);
++  };
++}
+diff --git a/lib/storage.ts b/lib/storage.ts
+index 9bcd2ae..341566f 100644
+--- a/lib/storage.ts
++++ b/lib/storage.ts
+@@ -15,7 +15,15 @@ export interface SigningSecurity {
+   failures:number; lockouts:number; lockedUntil:number;
+   audit:{event:string;at:string}[];
+ }
+-interface State { signingSecurity?: SigningSecurity; version: 1; practice: Practice | null; visits: Visit[]; practiceFacts?: PracticeFact[]; speechLanguage?: "auto" | "English" | "Mandarin" | "Cantonese" }
++export interface AccessSecurity {
++  actorId: string;
++  sessions: { digest: string; expiresAt: number }[];
++  visitOwners: Record<string, string>;
++}
++export interface AccessEvent {
++  at: string; type: string; actorId?: string; action?: string; outcome?: string;
++}
++interface State { accessSecurity?: AccessSecurity; accessAudit?: AccessEvent[]; signingSecurity?: SigningSecurity; version: 1; practice: Practice | null; visits: Visit[]; practiceFacts?: PracticeFact[]; speechLanguage?: "auto" | "English" | "Mandarin" | "Cantonese" }
+ export const dataDirectory = () => process.env.MIA_DATA_DIR || join(homedir(), "Library/Application Support/AXIOM MIA");
+ 
+ function key(): Buffer {
+diff --git a/lib/visit-store.ts b/lib/visit-store.ts
+index 375e3a8..fc65070 100644
+--- a/lib/visit-store.ts
++++ b/lib/visit-store.ts
+@@ -49,9 +49,17 @@ export function resetSigningPin(recoveryCode:unknown,pin:unknown):string {
+   const code=randomBytes(32).toString("hex");
+   state.signingSecurity!.pin=secret(pin);state.signingSecurity!.recovery=secret(code);
+   state.signingSecurity!.audit.push({event:"PIN reset",at:new Date().toISOString()});
++  if (state.accessSecurity) state.accessSecurity.sessions = [];
+   writeState(state);return code;
+ }
+ 
++// Reuse persisted signing lockouts; login cannot bypass or reset the PIN policy.
++export function verifySessionPin(pin: unknown): void {
++  const state = readState();
++  authenticate(state, pin);
++  writeState(state);
++}
++
+ const DRAFT_FOOTER_RE = /Drafted by MIA.*\[date\/time of sign-off\]\.?/i;
+ export function listVisits(): Visit[] {
+   const state = readState();
+diff --git a/scripts/check-local-access.mjs b/scripts/check-local-access.mjs
+new file mode 100644
+index 0000000..82f8b4e
+--- /dev/null
++++ b/scripts/check-local-access.mjs
+@@ -0,0 +1,71 @@
++// Synthetic-only HTTP acceptance probe. Never points at an existing installation.
++import assert from "node:assert/strict";
++import { spawn } from "node:child_process";
++import { mkdtempSync, rmSync, renameSync, mkdirSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { once } from "node:events";
++const directory = mkdtempSync(join(tmpdir(), "mia-access-http-"));
++const port = 3137, base = `http://127.0.0.1:${port}`;
++let server, logs = "";
++const passed = [];
++async function start() {
++  let ready = false;
++  server = spawn(process.execPath, ["node_modules/next/dist/bin/next", "start", "-H", "127.0.0.1", "-p", String(port)], {
++    env: { ...process.env, MIA_DATA_DIR: directory, MIA_GUARDIAN_ACCEPTANCE: "1", NEXT_TELEMETRY_DISABLED: "1" },
++    stdio: ["ignore", "pipe", "pipe"],
++  });
++  server.stdout.on("data", b => { logs += b; if (String(b).includes("Ready in")) ready = true; });
++  server.stderr.on("data", b => { logs += b; });
++  let last = "";
++  for (let i = 0; i < 100; i++) {
++    if (server.exitCode !== null) throw new Error("Probe server exited");
++    if (!ready) { await new Promise(resolve => setTimeout(resolve, 100)); continue; }
++    try { const r = await fetch(base + "/api/session"); if (r.status === 200) return; last = r.status + " " + await r.text(); }
++    catch (error) { last = error.message + " " + (error.cause?.code || ""); }
++    await new Promise(resolve => setTimeout(resolve, 100));
++  }
++  throw new Error("Probe server did not start: " + last);
++}
++async function stop() {
++  if (server && server.exitCode === null) { const exited = once(server, "exit"); server.kill("SIGTERM"); await exited; }
++}
++const post = (path, body, cookie = "", origin = base) => fetch(base + path, {
++  method: "POST", headers: { "Content-Type": "application/json", Origin: origin, Cookie: cookie },
++  body: JSON.stringify(body),
++});
++const get = (id, cookie = "") => fetch(base + "/api/visits/" + id, { headers: { Cookie: cookie } });
++try {
++  await start();
++  assert.equal((await post("/api/setup", {
++    physicianName: "Synthetic HTTP Physician", practiceName: "Synthetic", language: "Mandarin", pin: "739261",
++  })).status, 200);
++  const visits = await (await fetch(base + "/api/visits")).json();
++  const id = (Array.isArray(visits) ? visits : visits.visits)[0].id;
++  assert.equal((await get(id)).status, 401); passed.push("unauthenticated HTTP denial");
++  assert.equal((await post("/api/session", { action: "login", pin: "739261" }, "", "http://evil.example")).status, 403);
++  passed.push("cross-origin login denial");
++  const login = await post("/api/session", { action: "login", pin: "739261" });
++  assert.equal(login.status, 200);
++  const cookie = login.headers.get("set-cookie").split(";")[0];
++  assert.equal((await get(id, cookie)).status, 403); passed.push("unassigned visit denial after real PIN login");
++  assert.equal((await post("/api/session", { action: "assign-synthetic-visits", pin: "739261", visitIds: [id] }, cookie)).status, 200);
++  assert.equal((await get(id, cookie)).status, 200); passed.push("explicit assignment and authorized HTTP read");
++  await stop(); await start();
++  assert.equal((await get(id, cookie)).status, 200); passed.push("session and scope survive actual server restart");
++  const backup = join(directory, "vault.previous.enc");
++  renameSync(backup, backup + ".saved"); mkdirSync(backup);
++  const outage = await get(id, cookie);
++  assert.equal(outage.status, 503); assert.doesNotMatch(await outage.text(), /patientLabel|vault/);
++  passed.push("durable audit write outage withholds visit");
++  rmSync(backup, { recursive: true }); renameSync(backup + ".saved", backup);
++  assert.equal((await get(id, cookie)).status, 200); passed.push("recovery after storage outage");
++  assert.equal((await post("/api/session", { action: "logout" }, cookie)).status, 200);
++  await stop(); await start();
++  assert.equal((await get(id, cookie)).status, 401); passed.push("logout remains revoked after restart");
++  console.log(JSON.stringify({ passed: passed.length, checks: passed }, null, 2));
++} catch (error) {
++  console.error(error.message); console.error(logs); process.exitCode = 1;
++} finally {
++  await stop(); rmSync(directory, { recursive: true, force: true });
++}

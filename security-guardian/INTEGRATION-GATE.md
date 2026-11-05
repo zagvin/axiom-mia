@@ -1,36 +1,55 @@
-# MIA integration gate — November 3, 2026
+# MIA integration gate — November 4, 2026
 
-## Verified source and baseline
-The October 22 MIA-pilot-updated-source.zip contains MIA 0.2.1 Next.js backend routes, Mac packaging scripts, encrypted storage, PIN signing with persisted lockouts, speech/update code, and privacy-gated feedback. It was inspected outside this repository and has not been published here.
-- npm ci --ignore-scripts --no-audit --no-fund: succeeded.
-- Vitest baseline: 23 passed, 1 failed. The speech-upgrade test fails the explicit Apple Silicon Mac platform guard on Linux. It remains an outstanding Mac check, not a passing test.
+## Current integration result
+
+The next API integration step is implemented as mia-integration.patch against
+the recovered October 22 MIA 0.2.1 source. See MIA-INTEGRATION.md for the exact
+source hash, reproduction commands, contract and limitations.
+
+The patched actual visit GET handler now supports opt-in, synthetic-only
+integration through guardRoute with verified local PIN sessions, explicit
+persisted visit ownership and encrypted durable access/completion auditing.
+Logout and PIN recovery revoke sessions. No ownership is inferred from login.
+The full backend and Mac packaging remain outside this repository.
+
+## Verified locally
+
+- Guardian Node tests: 42 passed, 0 failed.
+- Patched MIA Vitest: 38 passed, 1 failed. This includes 15 new security tests.
+  The speech-upgrade test still fails the explicit Apple Silicon Mac platform
+  guard on Linux. It is not a pass.
 - Next.js build, lint and type checks: passed.
+- Eight real HTTP checks passed, including actual server restart, durable-audit
+  write outage, recovery and logout revocation after restart.
 - Deterministic speech lifecycle checks: passed.
-These results do not establish Mac-device or physician acceptance.
+- Fresh-source patch application and byte comparison: passed.
+- Desktop/mobile screenshots: blocked because Chromium download failed.
 
-## Route adapter
-route-handler.mjs exports guardRoute for Node-runtime Next.js App Router Web Request/Response handlers, including promised context.params.
-The host must inject verified server-side identity, real resource ownership, and a fixed action. Client claims are not authentication. Ownership matching remains a restrictive example, not a care-team or tenant policy. Never substitute the current actor as owner merely to pass authorization.
-Security checks have a default two-second deadline (configurable 1–30000 ms). Missing identity returns 401; disallowed access returns 403; callback/audit errors and deadlines return 503. The business handler executes only after authorization and acknowledged access audit. Error responses are no-store and omit raw errors.
-Resolvers receive an AbortSignal. Deadline expiry prevents late continuation but cannot forcibly cancel arbitrary callback side effects. Use read-only resolvers and cancellable durable audit writes. An access audit records permission, not completed business work; operation completion auditing is still required.
-Business-handler exceptions propagate to the application's error handling.
-
-## Verification of this change
-- Guardian Node suite: 42 passed, 0 failed.
-- Syntax checks: passed.
-- Actual MIA /api/visits/[id] GET handler invoked through adapter: 3 checks passed with synthetic identity, ownership, audit collector and isolated synthetic storage (allowed, unauthenticated, foreign owner).
-- This is direct handler integration testing, not HTTP end-to-end testing or real session authentication.
-- No UI or application routes changed; visual regression is not applicable to this isolated adapter addition.
-
-## Reproduce the external MIA probe
-Place security-guardian beside a separate MIA-pilot source directory. Copy bridge.test.ts.example to MIA-pilot/lib/__tests__/guardian-bridge.test.ts. From MIA-pilot run:
-    node node_modules/vitest/vitest.mjs run lib/__tests__/guardian-bridge.test.ts --cache=false
-Use only the synthetic storage setup supplied by that project's tests. The fixture is never an application route. Remove the copied fixture after the test; do not package it.
+These replace the earlier synthetic-identity-only three-probe milestone for the
+new patch. They are local results, not GitHub CI, Mac acceptance, or UI acceptance.
 
 ## Remaining gate
-The adapter is not enabled in MIA. First implement verified local sessions and explicit resource scope in the actual backend, retaining existing PIN signing and vault safeguards. Supply a durable audit contract and monitor failures. Then enable one route and test real login, expiry, logout, denied access, restart, and audit outage.
-The legacy middleware adapter still lacks deadlines/success auditing; use the new route adapter for this planned Next.js integration.
-record(), loginResult(), authorize(), inspectUntrustedText() return promises and must be awaited.
-Metadata filtering is not sensitive-value scrubbing; prompt heuristics do not enforce tool permissions.
-Mac install, actual speech/microphone, full Mandarin workflow, updates/recovery and physician acceptance remain required. Synthetic-only restrictions remain in place.
-PR remains draft and unmerged. Branch-specific Vercel deployment suppression remains configured. Real-patient use, production readiness and compliance claims remain out of scope.
+
+- Integration is disabled by default and limited to one API GET route. The other
+  API routes and server-rendered pages remain outside this authorization boundary.
+- Add a complete login/scope UI and migrate all data access paths before treating
+  the application as access-controlled. Verify the complete Mandarin workflow.
+- Establish supported backend/packaging version control and a reproducible Mac
+  build. The patch is reviewable here; the full application is not published here.
+- Resolve single-process vault limitations, synchronous disk-stall behavior,
+  cancellable audit I/O, failure alerting and audit retention/recovery policy.
+- Run Mac installation, actual speech/microphone, updates/recovery, broader
+  end-to-end and visual checks, and physician acceptance.
+
+The new adapter awaits authorization/access auditing, denies callback/audit
+failures, and has a default two-second asynchronous-check deadline. That timer
+cannot interrupt synchronous filesystem work or cancel arbitrary side effects.
+Use the new route adapter, not the legacy middleware which lacks deadlines and
+success auditing. record(), loginResult(), authorize() and inspectUntrustedText()
+return promises and must be awaited.
+
+Metadata filtering is not sensitive-value scrubbing; prompt heuristics do not
+enforce tool permissions. Preserve PIN signing, lockouts, encrypted vault and
+privacy-gated feedback. Keep PR draft/unmerged, branch deployment suppressed,
+synthetic-only. Real-patient use, production readiness and compliance claims
+remain out of scope.
