@@ -1,0 +1,11 @@
+# Synthetic read coverage — November 13, 2026
+
+Apply `mia-integration.patch` first to the recovered 0.2.1 backend, then `git apply --check /path/to/mia-read-coverage.patch` and apply it. This incremental patch contains all changed files and new tests for this step; it is not a complete app. Default behavior is unchanged outside MIA_GUARDIAN_ACCEPTANCE=1.
+
+In acceptance mode, visit listing requires a valid local session and includes only explicitly assigned synthetic visits. PDF/DOCX export uses the existing read authorization, buffers output, then rechecks session/ownership and durably records completion before releasing bytes. Audit failure returns a generic 503. Responses use no-store. Dashboard rendering returns a fixed development notice before reading practice/visit data until authenticated page rendering exists.
+
+Validation on the combined local candidate: 51 tests passed across 13 files; production build/lint/type checks passed; 13 real local HTTP checks passed, including signed PDF/DOCX output, filtered list, dashboard data withholding, restart, audit outage/recovery and logout. Seven new unit tests cover filtering, unauthenticated and unassigned denial, valid exports, revocation/ownership change during rendering, and audit failure before/after rendering. Renderer functions are mocked in those unit tests; real exporters were exercised by HTTP checks. Reverse patch application check passed.
+
+The 51-test count includes prior local speech-test and download-recovery fixes not included in this incremental patch. An older baseline may retain its known Apple-only test failure. The new targeted suite is lib/__tests__/read-coverage.test.ts. Run npm run build then node scripts/check-local-access.mjs for the revised real-server checks.
+
+Remaining: write/draft/sign/transcription routes, setup/practice/knowledge/settings/update access, full UI authentication, cross-process/audit durability limits, signature-integrity review and Mac acceptance. The HTTP fixture still uses the existing unprotected draft/sign routes to initialize fictional data; those setup calls are NOT security successes. This is not complete security protection or permission for real patient use. No binary release or deployment.
