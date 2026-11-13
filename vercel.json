@@ -1,0 +1,7 @@
+{
+  "git": {
+    "deploymentEnabled": {
+      "codex/mia-developer-beta-prep": false
+    }
+  }
+}

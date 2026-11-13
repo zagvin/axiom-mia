@@ -1,0 +1,51 @@
+name: Synthetic beta bug
+description: Report a reproducible problem using fictional data only.
+title: "[Beta bug] "
+body:
+  - type: markdown
+    attributes:
+      value: "Never include patient information, personal data, credentials, raw logs, recordings, or vault files. No installable beta is currently released."
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy review
+      options:
+        - label: I reviewed this report and included only fictional, nonsensitive information.
+          required: true
+  - type: input
+    id: candidate
+    attributes:
+      label: Exact candidate identifier or commit
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Chip, RAM, macOS version, and language
+      placeholder: "M1 Ultra, 64 GB, macOS version, English"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal fictional reproduction steps
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - Cannot install or start
+        - Cannot recover or retain fictional work
+        - Speech or workflow problem
+        - Cosmetic issue
+        - Suspected privacy issue — details withheld
+    validations:
+      required: true
