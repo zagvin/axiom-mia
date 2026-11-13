@@ -1,0 +1,30 @@
+name: Developer beta interest
+description: Express interest; this is a waitlist, not access to a released app.
+title: "[Beta interest] "
+body:
+  - type: markdown
+    attributes:
+      value: "Recruitment is pending a verified candidate. Do not post your email, phone, employer, patient data, or other personal details."
+  - type: input
+    id: hardware
+    attributes:
+      label: Apple chip, RAM, and macOS version
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language you can test
+      options:
+        - English
+        - Mandarin
+        - Both
+  - type: checkboxes
+    id: agreement
+    attributes:
+      label: Evaluation scope
+      options:
+        - label: I will use only fictional information in a separate test account and will not replace an existing MIA installation.
+          required: true
+        - label: I understand this is experimental developer testing, not clinical or production use.
+          required: true
