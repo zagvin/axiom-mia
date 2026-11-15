@@ -1,0 +1,224 @@
+--- /dev/null
++++ b/lib/guarded-mutation.ts
+@@ -0,0 +1,33 @@
++import { NextRequest, NextResponse } from 'next/server';
++import { SecurityGuardian } from './security-guardian/guardian.mjs';
++import { guardRoute } from './security-guardian/route-handler.mjs';
++import { sessionIdentity, visitOwner, durableAccessAudit, accessUnavailable, localRequest } from './local-access';
++import { SigningError } from './visit-store';
++type Context={params:Promise<{id:string}>};
++type Commit=<T>(write:()=>T)=>T;
++export async function guardedMutation(request:NextRequest,context:Context,action:'write_note'|'approve_note',handler:(commit:Commit)=>Response|Promise<Response>):Promise<Response>{
++ const deny=(message:string,status:number)=>NextResponse.json({error:message},{status,headers:{'Cache-Control':'no-store'}});
++ if(!localRequest(request,true))return deny('Local same-origin request required.',403);
++ let actorId:string|undefined,id:string;
++ const guardian=new SecurityGuardian({audit:durableAccessAudit});
++ const wrapped=guardRoute(guardian,{
++  action,
++  getIdentity:()=>{const who=sessionIdentity(request);actorId=who?.actorId;return who;},
++  resolveResourceOwner:async()=>{id=(await context.params).id;return visitOwner(id);},
++ },async()=>{
++  const check=()=>{const who=sessionIdentity(request);if(!who||who.actorId!==actorId||visitOwner(id)!==actorId)throw new SigningError('Access changed. Nothing was saved by this operation.',403);};
++  check();
++  const commit:Commit=write=>{
++   // Only synchronous store operations belong here. No yield between final
++   // authorization, durable intent and the store write in this single process.
++   check();
++   durableAccessAudit({at:new Date().toISOString(),type:'visit_mutation_authorized',actorId,action,outcome:'authorized'});
++   return write();
++  };
++  const response=await handler(commit);response.headers.set('Cache-Control','no-store');return response;
++ });
++ try{return await wrapped(request,context);}catch(error){
++  if(error instanceof SigningError)return deny(error.message,error.status);
++  accessUnavailable();return deny('Operation unavailable. Check the saved state before retrying.',503);
++ }
++}
+--- a/app/api/visits/[id]/route.ts
++++ b/app/api/visits/[id]/route.ts
+@@ -1,3 +1,4 @@
++import { guardedMutation } from "@/lib/guarded-mutation";
+ import { NextRequest, NextResponse } from "next/server";
+ import { getVisit, tagSpeaker, saveDraft } from "@/lib/visit-store";
+ import { readJson } from "@/lib/request";
+@@ -13,12 +14,17 @@
+   return NextResponse.json(visit);
+ }
+ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
++  if (integrationEnabled()) return guardedMutation(req, { params }, "write_note", commit => mutate(req, { params }, commit));
++  return mutate(req, { params });
++}
++async function mutate(req: NextRequest, { params }: { params: Promise<{ id: string }> }, commit: <T>(write: () => T) => T = write => write()) {
++  const visitId = (await params).id;
+   let value;
+   try { value = await readJson(req); } catch { return NextResponse.json({ error: "Invalid request." }, { status: 400 }); }
+   const roles = ["doctor", "patient", "interpreter", "unknown"];
+   try {
+-    if (typeof value.speakerLabel === "string" && typeof value.role === "string" && roles.includes(value.role)) return NextResponse.json(tagSpeaker((await params).id, value.speakerLabel, value.role as SpeakerRole));
+-    if (typeof value.docId === "string" && typeof value.editedContent === "string" && value.editedContent.length <= 200_000) return NextResponse.json(saveDraft((await params).id, value.docId, value.editedContent));
++    if (typeof value.speakerLabel === "string" && typeof value.role === "string" && roles.includes(value.role)) return NextResponse.json(commit(() => tagSpeaker(visitId, value.speakerLabel as string, value.role as SpeakerRole)));
++    if (typeof value.docId === "string" && typeof value.editedContent === "string" && value.editedContent.length <= 200_000) return NextResponse.json(commit(() => saveDraft(visitId, value.docId as string, value.editedContent as string)));
+     return NextResponse.json({ error: "Invalid changes." }, { status: 400 });
+   } catch { return NextResponse.json({ error: "MIA could not save these changes. Signed documents stay locked." }, { status: 409 }); }
+ }
+--- a/app/api/visits/[id]/sign/route.ts
++++ b/app/api/visits/[id]/sign/route.ts
+@@ -1,8 +1,15 @@
++import { integrationEnabled } from "@/lib/local-access";
++import { guardedMutation } from "@/lib/guarded-mutation";
+ import { NextRequest, NextResponse } from "next/server";
+ import { signDocument, SigningError } from "@/lib/visit-store";
+ import { readJson } from "@/lib/request";
+ 
+ export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
++  if (integrationEnabled()) return guardedMutation(req, { params }, "approve_note", commit => mutate(req, { params }, commit));
++  return mutate(req, { params });
++}
++async function mutate(req: NextRequest, { params }: { params: Promise<{ id: string }> }, commit: <T>(write: () => T) => T = write => write()) {
++  const visitId = (await params).id;
+   let value;
+   try { value = await readJson(req); } catch { return NextResponse.json({ error: "Invalid request." }, { status: 400 }); }
+   const { docId, pin, editedContent } = value;
+@@ -12,7 +19,7 @@
+   }
+ 
+   try {
+-    const doc = signDocument((await params).id, docId, pin, editedContent);
++    const doc = commit(() => signDocument(visitId, docId, pin, editedContent));
+     return NextResponse.json(doc);
+   } catch (error) {
+     if(error instanceof SigningError) return NextResponse.json({error:error.message},{status:error.status});
+--- a/app/api/visits/[id]/documents/route.ts
++++ b/app/api/visits/[id]/documents/route.ts
+@@ -1,3 +1,5 @@
++import { integrationEnabled } from "@/lib/local-access";
++import { guardedMutation } from "@/lib/guarded-mutation";
+ import { NextRequest, NextResponse } from "next/server";
+ import { getVisit, upsertDocument } from "@/lib/visit-store";
+ import { draftDocument, excerptDraft } from "@/lib/drafting";
+@@ -10,7 +12,12 @@
+ export const maxDuration = 150;
+ 
+ export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+-  const visit = getVisit((await params).id);
++  if (integrationEnabled()) return guardedMutation(req, { params }, "write_note", commit => mutate(req, { params }, commit));
++  return mutate(req, { params });
++}
++async function mutate(req: NextRequest, { params }: { params: Promise<{ id: string }> }, commit: <T>(write: () => T) => T = write => write()) {
++  const visitId = (await params).id;
++  const visit = getVisit(visitId);
+   if (!visit) return NextResponse.json({ error: "Visit not found" }, { status: 404 });
+   if (!visit.transcript) return NextResponse.json({ error: "Visit has no transcript yet" }, { status: 400 });
+ 
+@@ -46,7 +53,7 @@
+     source: body.example ? "transcript_excerpts" : "local_ai",
+   };
+ 
+-  try { upsertDocument(visit.id, doc); }
++  try { commit(() => upsertDocument(visit.id, doc)); }
+   catch { return NextResponse.json({ error: "MIA could not save the draft. Contact AXIOM before continuing." }, { status: 503 }); }
+   return NextResponse.json(knowledge ? {...doc,knowledge} : doc);
+ }
+--- /dev/null
++++ b/lib/__tests__/write-coverage.test.ts
+@@ -0,0 +1,44 @@
++import {test,expect,beforeEach,afterEach,vi} from 'vitest';
++import {NextRequest} from 'next/server';
++import * as storage from '../storage';
++import {setupSigning,listVisits} from '../visit-store';
++import {login,logout,assignSyntheticVisits,SESSION_COOKIE} from '../local-access';
++import {PATCH} from '@/app/api/visits/[id]/route';
++import {POST as draft} from '@/app/api/visits/[id]/documents/route';
++import {POST as sign} from '@/app/api/visits/[id]/sign/route';
++const model=vi.hoisted(()=>({during:()=>{}}));
++vi.mock('../drafting',()=>({excerptDraft:()=> 'Fictional worksheet',draftDocument:async()=>{model.during();return 'Fictional generated draft';}}));
++let id:string,cookie:string;const pin='739261';
++const ctx=()=>({params:Promise.resolve({id})});
++function req(body:object,auth=true,origin='http://localhost:3030'){return new NextRequest('http://localhost:3030/api/visits/'+id,{method:'POST',headers:{host:'localhost:3030',origin,...(auth?{cookie}:{})},body:JSON.stringify(body)});}
++beforeEach(()=>{process.env.MIA_GUARDIAN_ACCEPTANCE='1';model.during=()=>{};storage.writeState({version:1,practice:null,visits:[]});setupSigning({physicianName:'Synthetic',practiceName:'Synthetic',language:'English'},pin);id=listVisits()[0].id;cookie=SESSION_COOKIE+'='+login(pin);});
++afterEach(()=>{delete process.env.MIA_GUARDIAN_ACCEPTANCE;vi.restoreAllMocks();});
++const assign=()=>assignSyntheticVisits(req({}),pin,[id]);
++const count=()=>storage.readState().visits.find(v=>v.id===id)!.documents.length;
++test('every mutation denies anonymous, unassigned, foreign-origin requests',async()=>{
++ for(const handler of [PATCH,draft,sign]){
++  expect((await handler(req({},false),ctx())).status).toBe(401);
++  expect((await handler(req({}),ctx())).status).toBe(403);
++  expect((await handler(req({},true,'http://evil.invalid'),ctx())).status).toBe(403);
++ }expect(count()).toBe(0);
++});
++test('assigned physician drafts, edits and signs; signed edits remain blocked',async()=>{
++ assign();const d=await draft(req({type:'soap_note',example:true}),ctx());expect(d.status).toBe(200);const doc=await d.json();
++ expect((await PATCH(req({docId:doc.id,editedContent:'Fictional edited note'}),ctx())).status).toBe(200);
++ expect((await sign(req({docId:doc.id,pin:'111111',editedContent:'Fictional note'}),ctx())).status).toBe(401);
++ expect((await sign(req({docId:doc.id,pin,editedContent:'Fictional signed note'}),ctx())).status).toBe(200);
++ expect((await PATCH(req({docId:doc.id,editedContent:'overwrite'}),ctx())).status).toBe(409);
++});
++test('logout during model generation prevents saving',async()=>{
++ assign();model.during=()=>logout(req({}));const response=await draft(req({type:'soap_note'}),ctx());expect(response.status).toBeGreaterThanOrEqual(400);expect(count()).toBe(0);
++});
++test('ownership change during model generation prevents saving',async()=>{
++ assign();model.during=()=>{const s=storage.readState();s.accessSecurity!.visitOwners[id]='other';storage.writeState(s);};expect((await draft(req({type:'soap_note'}),ctx())).status).toBeGreaterThanOrEqual(400);expect(count()).toBe(0);
++});
++test('storage failure after generation prevents mutation',async()=>{
++ assign();model.during=()=>{vi.spyOn(storage,'writeState').mockImplementation(()=>{throw new Error('private filesystem path');});};const r=await draft(req({type:'soap_note'}),ctx());expect(r.status).toBe(503);expect(await r.text()).not.toContain('private filesystem');expect(count()).toBe(0);
++});
++test('foreign and nonsynthetic visits cannot be changed',async()=>{
++ assign();let s=storage.readState();s.accessSecurity!.visitOwners[id]='other';storage.writeState(s);expect((await draft(req({type:'soap_note',example:true}),ctx())).status).toBe(403);
++ s=storage.readState();s.accessSecurity!.visitOwners[id]=s.accessSecurity!.actorId;s.visits.find(v=>v.id===id)!.isSynthetic=false;storage.writeState(s);expect((await draft(req({type:'soap_note',example:true}),ctx())).status).toBe(403);expect(count()).toBe(0);
++});
+--- a/scripts/check-local-access.mjs
++++ b/scripts/check-local-access.mjs
+@@ -9,10 +9,10 @@
+ const port = 3137, base = `http://127.0.0.1:${port}`;
+ let server, logs = "";
+ const passed = [];
+-async function start() {
++async function start(enabled = true) {
+   let ready = false;
+   server = spawn(process.execPath, ["node_modules/next/dist/bin/next", "start", "-H", "127.0.0.1", "-p", String(port)], {
+-    env: { ...process.env, MIA_DATA_DIR: directory, MIA_GUARDIAN_ACCEPTANCE: "1", NEXT_TELEMETRY_DISABLED: "1" },
++    env: { ...process.env, MIA_DATA_DIR: directory, MIA_GUARDIAN_ACCEPTANCE: enabled ? "1" : "0", NEXT_TELEMETRY_DISABLED: "1" },
+     stdio: ["ignore", "pipe", "pipe"],
+   });
+   server.stdout.on("data", b => { logs += b; if (String(b).includes("Ready in")) ready = true; });
+@@ -21,7 +21,7 @@
+   for (let i = 0; i < 100; i++) {
+     if (server.exitCode !== null) throw new Error("Probe server exited");
+     if (!ready) { await new Promise(resolve => setTimeout(resolve, 100)); continue; }
+-    try { const r = await fetch(base + "/api/session"); if (r.status === 200) return; last = r.status + " " + await r.text(); }
++    try { const r = await fetch(base + "/api/session"); if (r.status === (enabled ? 200 : 404)) return; last = r.status + " " + await r.text(); }
+     catch (error) { last = error.message + " " + (error.cause?.code || ""); }
+     await new Promise(resolve => setTimeout(resolve, 100));
+   }
+@@ -36,7 +36,7 @@
+ });
+ const get = (id, cookie = "") => fetch(base + "/api/visits/" + id, { headers: { Cookie: cookie } });
+ try {
+-  await start();
++  await start(false);
+   assert.equal((await post("/api/setup", {
+     physicianName: "Synthetic HTTP Physician", practiceName: "Synthetic", language: "Mandarin", pin: "739261",
+   })).status, 200);
+@@ -46,6 +46,10 @@
+   const fixture = await post(`/api/visits/${id}/documents`, {type:"soap_note",example:true});
+   assert.equal(fixture.status,200); const doc = await fixture.json();
+   assert.equal((await post(`/api/visits/${id}/sign`, {docId:doc.id,pin:"739261",editedContent:"Fictional security export fixture."})).status,200);
++  // Seed only this disposable fixture with acceptance mode off, then restart
++  // with protection enabled before exercising any security assertions.
++  await stop(); await start();
++  assert.equal((await post(`/api/visits/${id}/documents`,{type:"soap_note",example:true})).status,401);passed.push("anonymous draft denied");
+   assert.equal((await fetch(base+"/api/visits")).status,401); passed.push("anonymous visit list denied");
+   assert.equal((await fetch(base+`/api/visits/${id}/export?docId=${doc.id}`)).status,401); passed.push("anonymous export denied");
+   const home=await (await fetch(base+"/")).text();
+@@ -59,6 +63,11 @@
+   assert.equal((await get(id, cookie)).status, 403); passed.push("unassigned visit denial after real PIN login");
+   assert.equal((await post("/api/session", { action: "assign-synthetic-visits", pin: "739261", visitIds: [id] }, cookie)).status, 200);
+   assert.equal((await get(id, cookie)).status, 200); passed.push("explicit assignment and authorized HTTP read");
++  const newDraft=await post(`/api/visits/${id}/documents`,{type:"soap_note",example:true},cookie);
++  assert.equal(newDraft.status,200);const editable=await newDraft.json();
++  const edit=await fetch(base+`/api/visits/${id}`,{method:"PATCH",headers:{Cookie:cookie,Origin:base,"Content-Type":"application/json"},body:JSON.stringify({docId:editable.id,editedContent:"Fictional edited content"})});
++  assert.equal(edit.status,200);passed.push("authorized draft and edit");
++  assert.equal((await post(`/api/visits/${id}/sign`,{docId:editable.id,pin:"739261",editedContent:"Fictional signed content"},cookie)).status,200);passed.push("authorized signing with PIN");
+   const listed=await fetch(base+"/api/visits",{headers:{Cookie:cookie}});
+   assert.deepEqual((await listed.json()).map(v=>v.id),[id]);passed.push("list includes only explicitly assigned visit");
+   for(const format of ["pdf","docx"]){

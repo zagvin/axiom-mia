@@ -2,7 +2,8 @@
   "git": {
     "deploymentEnabled": {
       "feature/security-guardian": false,
-      "codex/mia-read-coverage": false
+      "codex/mia-read-coverage": false,
+      "codex/mia-write-coverage": false
     }
   }
 }
